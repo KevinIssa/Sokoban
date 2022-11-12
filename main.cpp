@@ -11,11 +11,52 @@
 // levels : https://github.com/deepmind/boxoban-levels
 
 using namespace std;
+const int windowWidth = 500;
+const int windowHeight = 500;
+const double refreshPerSecond = 60;
 
-constexpr NORTH = 0;
-constexpr EAST = 1;
-constexpr SOUTH = 2;
-constexpr WEST = 3;
+#define NORTH = 0;
+#define EAST = 1;
+#define SOUTH = 2;
+#define WEST = 3;
+
+struct tupe
+    {
+        int x;
+        int y;
+    };
+
+class Rectangle {
+  tupe center;
+  int w, h;
+  Fl_Color fillColor, frameColor;
+
+ public:
+  Rectangle(tupe center);
+  void draw();
+  void setFillColor(Fl_Color newFillColor);
+  Fl_Color getFillColor() {
+    return fillColor;
+  }
+  void setFrameColor(Fl_Color newFrameColor);
+  Fl_Color getFrameColor() {
+    return frameColor;
+  }
+  int getWidth() {
+    return w;
+  }
+  int getHeight() {
+    return h;
+  }
+};
+
+Rectangle::Rectangle(tupe center):
+  center{center}{}
+
+void Rectangle::draw() {
+  fl_draw_box(FL_FLAT_BOX, center.x-10/2, center.y-10/2, 10, 10, fillColor);
+  fl_draw_box(FL_BORDER_FRAME, center.x-10/2, center.y-10/2, 10, 10, frameColor);
+}
 
 class Sokoban
 {
@@ -47,17 +88,10 @@ public :
         "# .     #          #"
         "####################";
 
-
-    struct tuple
-    {
-        int x;
-        int y;
-    };
-
-    tuple level_size = tuple(20,10);
-    tuple block_size = tuple(10,10);
-    tuple player_position;
-    vector<tuple> goals;
+    tupe level_size{20,10};
+    tupe block_size{10,10};
+    tupe player_position;
+    vector<tupe> goals;
 
 
     // struct levelSize
@@ -87,13 +121,13 @@ public :
      */
     struct block 
     {
-        block() // default constructro
+        Rectangle r;
+        block(tupe center, int w, int h) // default constructro
         {
-            
+            r{center};
         }
         virtual void DrawSelf() // drw with fltk
         {
-            
         }
         virtual bool push(const int from) // if the block can be push default yes
         {
@@ -116,7 +150,8 @@ public :
     {
         void DrawSelf() override
         {
-            
+        r.setFillColor(FL_RED);
+        r.draw()
         }
         bool push (const int from) override
         {
@@ -129,7 +164,8 @@ public :
     {
         void DrawSelf() override
         {
-            
+        r.setFillColor(FL_BLUE);
+        r.draw()
         }
         bool push (const int from) override
         {
@@ -143,7 +179,8 @@ public :
     {
         void DrawSelf() override
         {
-            
+        r.setFillColor(FL_YELLOW);
+        r.draw() 
         }
         // faut trouver la solution ici doit retourner vrai ssi sa prochaine case est nullptr
         bool push (const int from) override 
@@ -166,7 +203,8 @@ public :
     {
         void DrawSelf() override
         {
-            
+        r.setFillColor(FL_WHITE);
+        r.draw()
         }
         bool push (const int from) override
         {
@@ -240,13 +278,13 @@ public :
                  switch (sLevel[y * level_size.x + x])
                  {
                     case '#':
-                        level_vector.emplace_back(make_unique < Wall>());
+                        level_vector.emplace_back(make_unique < Wall>(tuple(x,y),block_size.x,block_size.y));
                         break;
                     case '$':
-                        level_vector.emplace_back(make_unique < Light_block>());
+                        level_vector.emplace_back(make_unique < Light_block>(tuple(x,y),block_size.x,block_size.y));
                         break;
                     case '@':
-                        level_vector.emplace_back(make_unique < Player>());
+                        level_vector.emplace_back(make_unique < Player>(tuple(x,y),block_size.x,block_size.y));
                         player_position.x = x; player_position.y = y;
                         break;
                     case '-':
@@ -266,7 +304,7 @@ public :
                         goals.push_back((x, y));
                         break;
                     case '+':
-                        level_vector.emplace_back(make_unique < Heavy_block>());
+                        level_vector.emplace_back(make_unique < Heavy_block>(tuple(x,y),block_size.x,block_size.y));
                         break;
                     
                     default:
@@ -280,6 +318,7 @@ public :
     void create()
     {
         load_level();
+
     };
 
     void update()
@@ -396,7 +435,33 @@ public :
     };
 };
 
+class Canvas(){
+    Sokoban soko;
+    initialise();
+    void draw();
+
+}
+
+void Canvas::initalise(){
+    soko.create();
+}
+
+void Canvas::draw(){
+    for (int x=0; y < soko.levelSize.x; x++)
+        {
+            for (int y=0; x < soko.levelSize.y; y++)
+            {
+                auto &b=soko.level_vector[id(x,y)];
+                if (b)
+                {
+                    b->DrawSelf(); //draw tout les block
+                }
+            }   
+        }
+}
+
 class MainWindow : public Fl_Window {
+    Canvas canvas;
 
  public:
   MainWindow() : Fl_Window(500, 500, windowWidth, windowHeight, "SOKOBAN") {
@@ -405,6 +470,7 @@ class MainWindow : public Fl_Window {
   }
   void draw() override {
     Fl_Window::draw();
+    canvas.draw();
   }
   int handle(int event) override {
     switch (event) {
@@ -429,18 +495,7 @@ class MainWindow : public Fl_Window {
   }
 };
 
-
-/*--------------------------------------------------
-
-main
-
-Do not edit!!!!
-
---------------------------------------------------*/
-
-
 int main(int argc, char *argv[]) {
-  srand(static_cast<unsigned>(time(nullptr)));
   MainWindow window;
   window.show(argc, argv);
   return Fl::run();
