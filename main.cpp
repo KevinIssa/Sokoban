@@ -2,7 +2,12 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include <windows.h> // for the GetKey function, have to find an alternative with fltk
+#include <FL/Fl.H>
+#include <FL/fl_draw.H>
+#include <FL/Fl_Double_Window.H>
+#include <FL/Fl_Box.H>
+
+ // for the GetKey function, have to find an alternative with fltk
 // levels : https://github.com/deepmind/boxoban-levels
 
 using namespace std;
@@ -391,10 +396,56 @@ public :
     };
 };
 
-int main 
-{
+class MainWindow : public Fl_Window {
+
+ public:
+  MainWindow() : Fl_Window(500, 500, windowWidth, windowHeight, "SOKOBAN") {
+    Fl::add_timeout(1.0/refreshPerSecond, Timer_CB, this);
+    resizable(this);
+  }
+  void draw() override {
+    Fl_Window::draw();
+  }
+  int handle(int event) override {
+    switch (event) {
+      case FL_MOVE:
+        canvas.mouseMove(Point{Fl::event_x(), Fl::event_y()});
+        return 1;
+      case FL_PUSH:
+        canvas.mouseClick(Point{Fl::event_x(), Fl::event_y()});
+        return 1;
+      case FL_KEYDOWN:
+        canvas.keyPressed(Fl::event_key());
+        return 1;
+      default:
+        return 0;
+    }
     return 0;
+  }
+  static void Timer_CB(void *userdata) {
+    MainWindow *o = static_cast<MainWindow*>(userdata);
+    o->redraw();
+    Fl::repeat_timeout(1.0/refreshPerSecond, Timer_CB, userdata);
+  }
+};
+
+
+/*--------------------------------------------------
+
+main
+
+Do not edit!!!!
+
+--------------------------------------------------*/
+
+
+int main(int argc, char *argv[]) {
+  srand(static_cast<unsigned>(time(nullptr)));
+  MainWindow window;
+  window.show(argc, argv);
+  return Fl::run();
 }
+
 
 
 
