@@ -133,7 +133,8 @@ public :
 
     };
 
-    struct Heavy_block : public block 
+    struct Heavy_block : public block // give command and resolve inside your simulation
+                                      // modify your valid move check to see if the place location + 1 is block and location + 2 is empty
     {
         void DrawSelf() override
         {
@@ -327,6 +328,7 @@ public :
                             case EAST: current_block.x++; break;
                             case WEST: current_block.x--; break;
                         }
+                        // if (current_block == Heavy_block && current_block + 1 is_empty)
                     }
                     else
                         test = false;
