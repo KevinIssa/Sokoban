@@ -1,6 +1,20 @@
 #include "board.h"
 
+vector_2D Board::get_level_size(){
+    return level_size;
+}
 
+vector_2D Board::get_block_size(){
+    return block_size;
+}
+
+vector_2D Board:: get_player_position(){
+    return player_position;
+}
+
+void Board::set_player_position(int x, int y){
+    player_position={x,y};
+}
 int Board::id(int x, int y){
     return y * get_level_size().x + x; 
 }

@@ -40,22 +40,20 @@ class Board{
     vector<vector_2D>objectives_list;
     vector <unique_ptr<int>> level_vector;// changer int en type du block
 
-    virtual vector_2D get_level_size(){
-        return level_size;
-    }
+    virtual vector_2D get_level_size();
 
-    virtual vector_2D get_block_size(){
-        return block_size;
-    }
+    virtual vector_2D get_block_size();
 
-    virtual vector_2D get_player_position(){
-        return player_position;
-    }
+    virtual vector_2D get_player_position();
 
-    virtual void set_player_position(int x, int y){
-        player_position={x,y};
-    }
+    virtual void set_player_position(int x, int y);
 
+    virtual int id (int x, int y); 
+    /**
+     * @brief : attribute an id to every objects in the vector to simulate a matrix
+     */
+    
+    
     virtual void load_level();
     /**
      * @brief: Browse the board and add to a vector the object mapped with the symbol in the board
@@ -74,11 +72,6 @@ class Board{
      * @return: true if the player won false if the game is not finished
      */
 
-    virtual int id (int x, int y); 
-    /**
-     * @brief : attribute an id to every objects in the vector to simulate a matrix
-     */
-    
     virtual void play_move(vector_2D actual_position, vector_2D final_position,string box_type);
     /**
      * @brief: play the move on the board 
