@@ -1,66 +1,9 @@
-#include <string>
-#include <iostream>
-#include <vector>
-#include <memory>
-using std::string;
-using std::vector;
-using std::unique_ptr;
-using namespace std;
-
-struct vector_2D
-{
-    int x,y;
-};
+#include "board.h"
 
 
-class Board{
-    private:
-    vector_2D level_size={20,10};
-    vector_2D block_size={10,10};
-    vector_2D player_position;
-
-    public:
-    string board_level = 
-        "####################"
-        "#                  #"
-        "#  $         $     #"
-        "#      .           #"
-        "#                  #"
-        "#       @     $    #"
-        "#                  #"  
-        "#      #     .     #"
-        "# .     #          #"
-        "####################";
-    
-    vector<vector_2D>objectives_list;
-    vector <unique_ptr<block>> level_vector;
-
-    vector_2D get_level_size(){
-        return level_size;
-    }
-
-    vector_2D get_block_size(){
-        return block_size;
-    }
-
-    vector_2D get_player_position(){
-        return player_position;
-    }
-
-    void set_player_position(int x, int y){
-        player_position={x,y};
-    }
-
-    void load_level();
-    bool check_moves(vector_2D actual_player_position, int push_direction);
-    bool win_condition();
-    int id (int x, int y) { 
-        return y * get_level_size().x + x; 
-    }
-    void play_move(vector_2D actual_position, vector_2D final_position);
-
-};
-
+int Board::id(int x, int y){
+    return y * get_level_size().x + x; 
+}
 void Board::load_level(){
     objectives_list.clear();
     level_vector.clear();
@@ -133,17 +76,22 @@ bool Board::check_moves(vector_2D actual_player_position, int push_direction){
 }
 
 bool Board::win_condition(){
-    int goals_win=0;
+    int objectives_win=0;
     for (auto& position_index: objectives_list)
     {
         if (level_vector[id(position_index.x,position_index.y)] 
         && level_vector[id(position_index.x,position_index.y)].isbox())
-        goals_win++;
+        objectives_win++;
     }
 
-    return goals_win == objectives_list.size();
+    return objectives_win == objectives_list.size();
 }
 
-void Board:: play_move(vector_2D actual_position, vector_2D final_position){
-    
+void Board:: play_move(vector_2D actual_position, vector_2D final_position,string box_type){
+    if(box_type=="Box"){
+        swap(level_vector [id(actual_position.x,actual_position.y)],level_vector [id(final_position.x,final_position.y)]);
+    }
+    else{
+    }
+
 }
