@@ -9,17 +9,14 @@ using namespace std;
 
 int main()
 {   
-
     const int NORTH = 0;
     const int EAST = 1;
     const int SOUTH = 2;
     const int WEST = 3;
 
-
     struct tup{
         int x,y;
     };
-
 
     string level_t = 
         "####################"
@@ -73,7 +70,6 @@ int main()
     bool win = true;
     char ch;
     cin >> ch;
-    
 
     while(ch != 'p')
     {   
@@ -148,7 +144,6 @@ int main()
                 swap(level_s[id(source.x, source.y)], level_s[id(current_pos.x, current_pos.y)]);
                 current_pos.x = source.x;
                 current_pos.y = source.y;
-
             }
             switch (push_dir)
                 {
@@ -164,8 +159,7 @@ int main()
         if (count == goals_v.size()){break;}
         cin >> ch;
     }
-    
+
     printf("YOU WIN !!\n"); 
     return 0;
-    
 }
