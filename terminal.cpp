@@ -19,16 +19,16 @@ int main()
     };
 
     string level_t = 
-        "####################"
-        "#                  #"
-        "#  $         $     #"
-        "#      .           #"
-        "#          #       #"
-        "#       @  #  $    #"
-        "#                  #"  
-        "#      #     .     #"
-        "# .     #          #"
-        "####################";struct tup size_level_t= {20,10};
+        "##########"
+        "#        #"
+        "#  $     #"
+        "#      . #"
+        "#  * $ $ #"
+        "#    @   #"
+        "#   +    #"  
+        "#  ++    #"
+        "# .      #"
+        "##########";struct tup size_level_t= {10,10};
 
     string level =
         "##########"
@@ -41,9 +41,44 @@ int main()
         "##### $$.#"
         "### @    #"
         "##########";struct tup size_level = {10,10};
+
+    string level2 = 
+        "##########"
+        "#       ##"
+        "# $    ###"
+        "#. ## . ##"
+        "# ####  ##"
+        "#   #   ##"
+        "#$$ #. ###"
+        "# # # $@##"
+        "# .    ###"
+        "##########";
+
+
+    string level3 = 
+        "##########"
+        "#.########"
+        "#  #######"
+        "# $  $@###"
+        "# . . ####"
+        "# # $$ . #"
+        "# #    ###"
+        "# ##### ##"
+        "#        #"
+        "##########";
+
+    vector<string> data_level;
+    data_level.push_back(level_t);
+    data_level.push_back(level);
+    data_level.push_back(level2);
+    data_level.push_back(level3);
+    int niveau =0 ;
+
     
 
-    string level_s = level;
+    string level_s = data_level[niveau];
+    size_level = size_level;
+
     struct tup pos_player;
     vector <tup> goals_v;
     auto id = [&](int x, int y) { return y * size_level.x + x; }; // fct type id
@@ -65,9 +100,9 @@ int main()
             }
         }
     }
-    printf("\n");printf("SOKOBAN - GAME \n");for (auto &g:goals_v){if (level_s[id(g.x, g.y)]==' '){level_s[id(g.x, g.y)]='.';}}int i=0;string print_lvl="";for (auto &c:level_s){print_lvl+=c;i++;if (i==size_level.x ){print_lvl+="\n";i=0;}}cout <<print_lvl;for (auto &g:goals_v){if (level_s[id(g.x, g.y)]=='.' ){level_s[id(g.x, g.y)]=' ';}}int count =0;for (auto &g:goals_v){if (level_s[id(g.x, g.y)]=='$'){count++;}}printf("%d / %lu\n", count, goals_v.size());
-    tup original_pos=pos_player;
+    printf("\n");printf("SOKOBAN - GAME - level %d\n",niveau+1);for (auto &g:goals_v){if (level_s[id(g.x, g.y)]==' '){level_s[id(g.x, g.y)]='.';}}int i=0;string print_lvl="";for (auto &c:level_s){print_lvl+=c;i++;if (i==size_level.x ){print_lvl+="\n";i=0;}}cout <<print_lvl;for (auto &g:goals_v){if (level_s[id(g.x, g.y)]=='.' ){level_s[id(g.x, g.y)]=' ';}}int count =0;for (auto &g:goals_v){if (level_s[id(g.x, g.y)]=='$'){count++;}}printf("%d / %lu\n", count, goals_v.size());
     bool win = true;
+    tup original_pos = pos_player;
     char ch;
     cin >> ch;
 
@@ -81,22 +116,26 @@ int main()
         {
             case 'z':
                 push_dir = NORTH;
+                current_pos.y--;
                 test = true;
                 break;
             case 's':
                 push_dir = SOUTH;
+                current_pos.y++;
                 test = true;
                 break;
             case 'q':
                 push_dir = WEST;
+                current_pos.x--;
                 test = true;
                 break;
             case 'd':
                 push_dir = EAST;
+                current_pos.x++;
                 test = true;
                 break;  
             case 'r':
-                level_s = level;
+                level_s = data_level[niveau];
                 pos_player.x=original_pos.x;
                 pos_player.y=original_pos.y;
                 break;
@@ -108,7 +147,7 @@ int main()
         {
             if (level_s[id(current_pos.x, current_pos.y)] != '#')
             {
-                if (level_s[id(current_pos.x, current_pos.y)] != ' ' )
+                if (level_s[id(current_pos.x, current_pos.y)] != ' ' &&  (level_s[id(current_pos.x, current_pos.y)] != '$'))
                 {   
                     switch (push_dir)
                     {
@@ -116,6 +155,26 @@ int main()
                         case SOUTH: current_pos.y++; break;
                         case EAST: current_pos.x++; break;
                         case WEST: current_pos.x--; break;
+                    }
+                }
+                else if (level_s[id(current_pos.x, current_pos.y)] == '$')
+                {  
+                    switch(push_dir)
+                    {
+                        case NORTH: current_pos.y--; break;
+                        case SOUTH: current_pos.y++; break;
+                        case EAST: current_pos.x++; break;
+                        case WEST: current_pos.x--; break;
+                    }
+                    if (level_s[id(current_pos.x, current_pos.y)] == ' ')
+                    {
+                        test = false;
+                        allow_pushing = true;
+                    }
+                    else
+                    {
+                        test = false;
+                        allow_pushing = false;
                     }
                 }
                 else
@@ -154,9 +213,35 @@ int main()
                 }
         }
         // line for print 
-        printf("\n");printf("\n");printf("SOKOBAN - GAME \n");for (auto &g:goals_v){if (level_s[id(g.x, g.y)]==' '){level_s[id(g.x, g.y)]='.';}}int i=0;string print_lvl="";for (auto &c:level_s){print_lvl+=c;i++;if (i==size_level.x ){print_lvl+="\n";i=0;}}cout <<print_lvl;for (auto &g:goals_v){if (level_s[id(g.x, g.y)]=='.' ){level_s[id(g.x, g.y)]=' ';}}int count =0;for (auto &g:goals_v){if (level_s[id(g.x, g.y)]=='$'){count++;}}printf("%d / %lu\n", count, goals_v.size());
+        printf("\n");printf("\n");printf("SOKOBAN - GAME - level %d\n",niveau+1);for (auto &g:goals_v){if (level_s[id(g.x, g.y)]==' '){level_s[id(g.x, g.y)]='.';}}int i=0;string print_lvl="";for (auto &c:level_s){print_lvl+=c;i++;if (i==size_level.x ){print_lvl+="\n";i=0;}}cout <<print_lvl;for (auto &g:goals_v){if (level_s[id(g.x, g.y)]=='.' ){level_s[id(g.x, g.y)]=' ';}}int count =0;for (auto &g:goals_v){if (level_s[id(g.x, g.y)]=='$' || level_s[id(g.x, g.y)]=='+'){count++;}}printf("%d / %lu\n", count, goals_v.size());
         
-        if (count == goals_v.size()){break;}
+        if (count == goals_v.size())
+        {
+            niveau++;
+            level_s = data_level[niveau];
+            goals_v.clear();
+            // count=0;
+            for (int y=0;y<size_level.y;y++)
+            {
+                for (int x =0; x< size_level.x; x++)
+                {
+                    switch (level_s[y * size_level.x + x])
+                    {
+                        case '@':
+                            pos_player.x = x; 
+                            pos_player.y = y;
+                            original_pos=pos_player;
+                            break;
+                        case '.':
+                            goals_v.push_back(tup{x,y});
+                            level_s[id(x,y)]=' ';
+                            break;
+                    }
+                }
+            }
+    printf("\n");printf("SOKOBAN - GAME - level %d\n",niveau+1);for (auto &g:goals_v){if (level_s[id(g.x, g.y)]==' '){level_s[id(g.x, g.y)]='.';}}int i=0;string print_lvl="";for (auto &c:level_s){print_lvl+=c;i++;if (i==size_level.x ){print_lvl+="\n";i=0;}}cout <<print_lvl;for (auto &g:goals_v){if (level_s[id(g.x, g.y)]=='.' ){level_s[id(g.x, g.y)]=' ';}}int count =0;for (auto &g:goals_v){if (level_s[id(g.x, g.y)]=='$'){count++;}}printf("%d / %lu\n", count, goals_v.size());
+
+        }
         cin >> ch;
     }
 
