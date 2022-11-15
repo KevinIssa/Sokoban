@@ -143,6 +143,12 @@ int main()
                 printf("YOU LOOSE !!\n");
                 return 1;
         }
+    return test;
+}
+
+bool check_move(bool& test, string &level_s, tup &current_pos, int push_dir)
+{   
+    bool allow_pushing=false;
         while(test)
         {
             if (level_s[id(current_pos.x, current_pos.y)] != '#')
