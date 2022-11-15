@@ -1,17 +1,5 @@
 #include "board.h"
 
-vector_2D Board::get_level_size(){
-    return level_size;
-}
-
-vector_2D Board::get_block_size(){
-    return block_size;
-}
-
-vector_2D Board:: get_player_position(){
-    return player_position;
-}
-
 void Board::set_player_position(int x, int y){
     player_position={x,y};
 }
@@ -101,11 +89,29 @@ bool Board::win_condition(){
     return objectives_win == objectives_list.size();
 }
 
-void Board:: play_move(vector_2D actual_position, vector_2D final_position,string box_type){
-    if(box_type=="Box"){
-        swap(level_vector [id(actual_position.x,actual_position.y)],level_vector [id(final_position.x,final_position.y)]);
+void Board:: play_move(vector_2D &current_block, int push_direction){
+    while(current_block.x != player_position.x && current_block.y !=player_position.y){
+        vector_2D source = current_block;
+        switch (push_direction)
+        {
+            case NORTH: source.y++; break;
+            case SOUTH: source.y--; break;
+            case EAST: source.x--; break;
+            case WEST: source.x++; break;
+        }
+        if (level_vector[id(source.x,source.y)] =! nullptr){
+            level_vector[id(source.x,source.y)]->move();
+        }
+
+        swap(level_vector[id(source.x,source.y)], level_vector[id(current_block.x,current_block.y)]);
+        current_block = source;     
     }
-    else{
+    switch (push_direction)
+    {
+        case NORTH: player_position.y--; break;
+        case SOUTH: player_position.y++; break;
+        case EAST: player_position.x++; break;
+        case WEST: player_position.x--; break;
     }
 
 }
