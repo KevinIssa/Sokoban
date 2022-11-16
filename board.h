@@ -78,7 +78,7 @@ class Board{
      * @return: true if the player won false if the game is not finished
      */
 
-    virtual void play_move(vector_2D &current_block, int push_direction);
+    virtual void play_move(vector_2D &current_block, vector_2D &player_position, int push_direction);
     /**
      * @brief: play the move on the board 
      */

@@ -12,33 +12,33 @@ void Board::load_level(){
 
     for (int x = 0; x < level_size.x; x++){
 
-            for (int y=0; y< level_size.y; y++){
+        for (int y=0; y< level_size.y; y++){
 
-                switch (board_level[y * level_size.x + x]){
-                    case '#':
-                        level_vector.emplace_back(make_unique < Wall>(vector_2D{x,y},block_size.x,block_size.y));
-                        break;
-                    case '$':
-                        level_vector.emplace_back(make_unique < Light_box>(vector_2D{x,y},block_size.x,block_size.y));
-                        break;
-                    case '@':
-                        level_vector.emplace_back(make_unique < Player>(vector_2D{x,y},block_size.x,block_size.y));
-                        player_position.x = x; player_position.y = y;
-                        break;
-                    case '+':
-                        level_vector.emplace_back(make_unique < Box>(vector_2D(x,y),block_size.x,block_size.y));
-                        break;
+            switch (board_level[y * level_size.x + x]){
+                case '#':
+                    level_vector.emplace_back(make_unique < Wall>(vector_2D{x,y},block_size.x,block_size.y));
+                    break;
+                case '$':
+                    level_vector.emplace_back(make_unique < Light_box>(vector_2D{x,y},block_size.x,block_size.y));
+                    break;
+                case '@':
+                    level_vector.emplace_back(make_unique < Player>(vector_2D{x,y},block_size.x,block_size.y));
+                    player_position.x = x; player_position.y = y;
+                    break;
+                case '+':
+                    level_vector.emplace_back(make_unique < Box>(vector_2D(x,y),block_size.x,block_size.y));
+                    break;
 
-                    case '.':
-                        level_vector.emplace_back(nullptr);
-                        objectives_list.push_back({x, y});
-                        break;
-                    
-                    default:
-                        level_vector.emplace_back(nullptr);
+                case '.':
+                    level_vector.emplace_back(nullptr);
+                    objectives_list.push_back({x, y});
+                    break;
+                
+                default:
+                    level_vector.emplace_back(nullptr);
 
-                }
             }
+        }
     }
 };
 
@@ -78,18 +78,18 @@ bool Board::check_moves(vector_2D actual_player_position, int push_direction){
 }
 
 bool Board::win_condition(){
-    int objectives_win=0;
+    int objectives_count=0;
     for (auto& position_index: objectives_list)
     {
         if (level_vector[id(position_index.x,position_index.y)] 
         && level_vector[id(position_index.x,position_index.y)].isbox())
-        objectives_win++;
+        objectives_count++;
     }
 
-    return objectives_win == objectives_list.size();
+    return objectives_count == objectives_list.size();
 }
 
-void Board:: play_move(vector_2D &current_block, int push_direction){
+void Board:: play_move(vector_2D &current_block, vector_2D &player_position,int push_direction){
     while(current_block.x != player_position.x && current_block.y !=player_position.y){
         vector_2D source = current_block;
         switch (push_direction)
