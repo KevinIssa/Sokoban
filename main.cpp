@@ -2,15 +2,61 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include <windows.h> // for the GetKey function, have to find an alternative with fltk
+#include <FL/Fl.H>
+#include <FL/fl_draw.H>
+#include <FL/Fl_Double_Window.H>
+#include <FL/Fl_Box.H>
+
+ // for the GetKey function, have to find an alternative with fltk
 // levels : https://github.com/deepmind/boxoban-levels
 
 using namespace std;
+const int windowWidth = 500;
+const int windowHeight = 500;
+const double refreshPerSecond = 60;
 
-constexpr NORTH = 0;
-constexpr EAST = 1;
-constexpr SOUTH = 2;
-constexpr WEST = 3;
+#define NORTH = 0;
+#define EAST = 1;
+#define SOUTH = 2;
+#define WEST = 3;
+
+struct tupe
+    {
+        int x;
+        int y;
+    };
+
+class Rectangle {
+  tupe center;
+  int w, h;
+  Fl_Color fillColor, frameColor;
+
+ public:
+  Rectangle(tupe center);
+  void draw();
+  void setFillColor(Fl_Color newFillColor);
+  Fl_Color getFillColor() {
+    return fillColor;
+  }
+  void setFrameColor(Fl_Color newFrameColor);
+  Fl_Color getFrameColor() {
+    return frameColor;
+  }
+  int getWidth() {
+    return w;
+  }
+  int getHeight() {
+    return h;
+  }
+};
+
+Rectangle::Rectangle(tupe center):
+  center{center}{}
+
+void Rectangle::draw() {
+  fl_draw_box(FL_FLAT_BOX, center.x-10/2, center.y-10/2, 10, 10, fillColor);
+  fl_draw_box(FL_BORDER_FRAME, center.x-10/2, center.y-10/2, 10, 10, frameColor);
+}
 
 class Sokoban
 {
@@ -42,17 +88,10 @@ public :
         "# .     #          #"
         "####################";
 
-
-    struct tuple
-    {
-        int x;
-        int y;
-    };
-
-    tuple level_size = tuple(20,10);
-    tuple block_size = tuple(10,10);
-    tuple player_position;
-    vector<tuple> goals;
+    tupe level_size{20,10};
+    tupe block_size{10,10};
+    tupe player_position;
+    vector<tupe> goals;
 
 
     // struct levelSize
@@ -82,13 +121,13 @@ public :
      */
     struct block 
     {
-        block() // default constructro
+        Rectangle r;
+        block(tupe center, int w, int h) // default constructro
         {
-            
+            r{center};
         }
         virtual void DrawSelf() // drw with fltk
         {
-            
         }
         virtual bool push(const int from) // if the block can be push default yes
         {
@@ -111,7 +150,8 @@ public :
     {
         void DrawSelf() override
         {
-            
+        r.setFillColor(FL_RED);
+        r.draw()
         }
         bool push (const int from) override
         {
@@ -124,7 +164,8 @@ public :
     {
         void DrawSelf() override
         {
-            
+        r.setFillColor(FL_BLUE);
+        r.draw()
         }
         bool push (const int from) override
         {
@@ -133,11 +174,13 @@ public :
 
     };
 
-    struct Heavy_block : public block 
+    struct Heavy_block : public block // give command and resolve inside your simulation
+                                      // modify your valid move check to see if the place location + 1 is block and location + 2 is empty
     {
         void DrawSelf() override
         {
-            
+        r.setFillColor(FL_YELLOW);
+        r.draw() 
         }
         // faut trouver la solution ici doit retourner vrai ssi sa prochaine case est nullptr
         bool push (const int from) override 
@@ -160,7 +203,8 @@ public :
     {
         void DrawSelf() override
         {
-            
+        r.setFillColor(FL_WHITE);
+        r.draw()
         }
         bool push (const int from) override
         {
@@ -234,13 +278,13 @@ public :
                  switch (sLevel[y * level_size.x + x])
                  {
                     case '#':
-                        level_vector.emplace_back(make_unique < Wall>());
+                        level_vector.emplace_back(make_unique < Wall>(tuple(x,y),block_size.x,block_size.y));
                         break;
                     case '$':
-                        level_vector.emplace_back(make_unique < Light_block>());
+                        level_vector.emplace_back(make_unique < Light_block>(tuple(x,y),block_size.x,block_size.y));
                         break;
                     case '@':
-                        level_vector.emplace_back(make_unique < Player>());
+                        level_vector.emplace_back(make_unique < Player>(tuple(x,y),block_size.x,block_size.y));
                         player_position.x = x; player_position.y = y;
                         break;
                     case '-':
@@ -260,7 +304,7 @@ public :
                         goals.push_back((x, y));
                         break;
                     case '+':
-                        level_vector.emplace_back(make_unique < Heavy_block>());
+                        level_vector.emplace_back(make_unique < Heavy_block>(tuple(x,y),block_size.x,block_size.y));
                         break;
                     
                     default:
@@ -274,6 +318,7 @@ public :
     void create()
     {
         load_level();
+
     };
 
     void update()
@@ -327,6 +372,7 @@ public :
                             case EAST: current_block.x++; break;
                             case WEST: current_block.x--; break;
                         }
+                        // if (current_block == Heavy_block && current_block + 1 is_empty)
                     }
                     else
                         test = false;
@@ -389,10 +435,72 @@ public :
     };
 };
 
-int main 
-{
-    return 0;
+class Canvas(){
+    Sokoban soko;
+    initialise();
+    void draw();
+
 }
+
+void Canvas::initalise(){
+    soko.create();
+}
+
+void Canvas::draw(){
+    for (int x=0; y < soko.levelSize.x; x++)
+        {
+            for (int y=0; x < soko.levelSize.y; y++)
+            {
+                auto &b=soko.level_vector[id(x,y)];
+                if (b)
+                {
+                    b->DrawSelf(); //draw tout les block
+                }
+            }   
+        }
+}
+
+class MainWindow : public Fl_Window {
+    Canvas canvas;
+
+ public:
+  MainWindow() : Fl_Window(500, 500, windowWidth, windowHeight, "SOKOBAN") {
+    Fl::add_timeout(1.0/refreshPerSecond, Timer_CB, this);
+    resizable(this);
+  }
+  void draw() override {
+    Fl_Window::draw();
+    canvas.draw();
+  }
+  int handle(int event) override {
+    switch (event) {
+      case FL_MOVE:
+        canvas.mouseMove(Point{Fl::event_x(), Fl::event_y()});
+        return 1;
+      case FL_PUSH:
+        canvas.mouseClick(Point{Fl::event_x(), Fl::event_y()});
+        return 1;
+      case FL_KEYDOWN:
+        canvas.keyPressed(Fl::event_key());
+        return 1;
+      default:
+        return 0;
+    }
+    return 0;
+  }
+  static void Timer_CB(void *userdata) {
+    MainWindow *o = static_cast<MainWindow*>(userdata);
+    o->redraw();
+    Fl::repeat_timeout(1.0/refreshPerSecond, Timer_CB, userdata);
+  }
+};
+
+int main(int argc, char *argv[]) {
+  MainWindow window;
+  window.show(argc, argv);
+  return Fl::run();
+}
+
 
 
 
