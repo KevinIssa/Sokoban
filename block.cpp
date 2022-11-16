@@ -1,33 +1,18 @@
-#include "rectangle.cpp"
-#include<tuple>
-
-struct vector_2D {
-  int x, y;
-};
-
+#include "Block.h"
 //abstract class of a block (Wall, Player, ...)
-class Block {
-  Rectangle r;
 
- public:
-  // Constructor
-  virtual Block(vector_2D center, int w, int h);
-
-  // Methods that draw 
-  void draw();
-  virtual bool push(const int from);
-  virtual void move();
-};
-
-// Block::Block(vector_2D center, int w, int h):
-//   r(center, w, h, FL_BLACK, FL_WHITE),
+virtual Block::Block(vector_2D center ,int width, int height):
+  center{center}, width{width}, height{height} {}
 
 void Block::draw() {
-    r.draw();
+  r.draw();
 
 }
 
-virtual bool push(const int from) // if the block can be push default yes
-        {
-            return true;
-        }
+virtual bool Block::push(const int from){ // if the block can be push default yes
+  return true;
+}
+
+virtual void Block::move(){
+
+}

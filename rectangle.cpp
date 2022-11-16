@@ -1,68 +1,34 @@
-#include<tuple>
-#include <FL/Fl.H>
-#include <FL/fl_draw.H>
-#include <FL/Fl_Double_Window.H>
-#include <FL/Fl_Box.H>
+#include "Rectangle.h"
 
 
+void Rectangle::setFillColor(Fl_Color newFillColor){
+  fillColor=newFillColor;
+}
 
-struct vector_2D {
-  int x, y;
+void Rectangle::setFrameColor(Fl_Color newFrameColor){
+  frameColor=newFrame
 };
 
-class Rectangle {
-  vector_2D center;
-  int w=10, h=10;
-  // int w, h;
+void Rectangle::setWidth(int new_width) {
+  width = new_width;
+}
 
-  Fl_Color fillColor, frameColor;
+void Rectangle::setHeight(int new_height) {
+  height = new_height;
+}
 
- public:
-  Rectangle(vector_2D center, int w, int h,
-            Fl_Color frameColor,
-            Fl_Color fillColor);
 
-  void draw();
-
-  void setFillColor(Fl_Color newFillColor);
-
-  Fl_Color getFillColor() {
-    return fillColor;
-  }
-
-  void setFrameColor(Fl_Color newFrameColor);
-  Fl_Color getFrameColor() {
-    return frameColor;
-  }
-
-  void setWidth(int neww) {
-    w = neww;
-  }
-
-  void setHeight(int newh) {
-    h = newh;
-  }
-
-  int getWidth() {
-    return w;
-  }
-
-  int getHeight() {
-    return h;
-  }
-
-  bool contains(Point p);
-
-  vector_2D getCenter() {
-    return center;
-  }
-};
+bool Rectangle::contains(Point dot){
+  return p.x >= center.x-width/2 &&
+         p.x < center.x+width/2 &&
+         p.y >= center.y-height/2 &&
+         p.y < center.y+height/2;
+}
 
 Rectangle::Rectangle(vector_2D center,
                      Fl_Color frameColor,
                      Fl_Color fillColor):
   center{center},fillColor{fillColor}, frameColor{frameColor} {}
-  // center{center}, w{10}, h{10}, fillColor{fillColor}, frameColor{frameColor} {}
 
 void Rectangle::draw() {
   fl_draw_box(FL_FLAT_BOX, center.x-w/2, center.y-h/2, w, h, fillColor);
