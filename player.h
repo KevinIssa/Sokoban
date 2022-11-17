@@ -1,6 +1,6 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
-#include "Block.h"
+#include "block.h"
 
 class player:public Block
 {

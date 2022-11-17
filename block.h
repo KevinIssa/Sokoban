@@ -8,7 +8,7 @@ private:
    Rectangle r;
 
 public:
-    virtual Block(vector_2D center, int width, int height);
+    Block(vector_2D center, int width, int height);
 
     // Methods that draw 
     void draw();

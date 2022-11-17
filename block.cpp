@@ -1,7 +1,7 @@
-#include "Block.h"
+#include "block.h"
 //abstract class of a block (Wall, Player, ...)
 
-virtual Block::Block(vector_2D center ,int width, int height):
+Block::Block(vector_2D center ,int width, int height):
   center{center}, width{width}, height{height} {}
 
 void Block::draw() {
@@ -9,10 +9,10 @@ void Block::draw() {
 
 }
 
-virtual bool Block::push(const int from){ // if the block can be push default yes
+bool Block::push(const int from){ // if the block can be push default yes
   return true;
 }
 
-virtual void Block::move(){
+void Block::move(){
 
 }
