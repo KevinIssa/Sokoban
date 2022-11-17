@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include "block.h"
+#include "player.h"
 
 using std::string;
 using std::vector;

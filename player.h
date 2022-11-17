@@ -5,10 +5,18 @@
 class player:public Block
 {
 private:
-    /* data */
+    #define NORTH = 0;
+    #define EAST = 1;
+    #define SOUTH = 2;
+    #define WEST = 3;
+    int push_direction = 0;
+
 public:
     Player(vector_2D center, int width, int height);
     ~player()=default;
+
+    int player_input(int &push_direction);
+    
 };
 
 #endif
