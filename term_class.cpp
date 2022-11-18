@@ -426,7 +426,7 @@ void play(vector<string> data_level, tup size_level)
         // for (auto &g:goals_v){if (level_c[id(g.x, g.y)].get_repr()=='.'){level_c[id(g.x, g.y)].set_repr(' ');}}
         int count = print_game(level_c, goals_v,size_level);
 
-        if (count == goals_v.size())
+        if (count == (goals_v.size()))
         {   
             niveau++;
             printf("\nNice, you've succeeded lvl %d\n",niveau+1);
