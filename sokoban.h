@@ -32,11 +32,11 @@ class Sokoban
         vector<string> data_level;
         bool test = false;
         bool allow_pushing=false;
-        void load_game();
         void init();
-        void play_move(tup &current_pos, int push_dir);
-        bool check_move(tup &current_pos, int push_dir);
+        void load_game();
         bool listen_key(tup &current_pos, int &push_dir);
+        bool check_move(tup &current_pos, int push_dir);
+        void play_move(tup &current_pos, int push_dir);
         int print_game();
 
     public:
