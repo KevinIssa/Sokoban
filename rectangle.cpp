@@ -6,7 +6,7 @@ void Rectangle::setFillColor(Fl_Color newFillColor){
 }
 
 void Rectangle::setFrameColor(Fl_Color newFrameColor){
-  frameColor=newFrame
+  frameColor=newFrameColor;
 };
 
 void Rectangle::setWidth(int new_width) {
@@ -18,11 +18,11 @@ void Rectangle::setHeight(int new_height) {
 }
 
 
-bool Rectangle::contains(Point dot){
-  return p.x >= center.x-width/2 &&
-         p.x < center.x+width/2 &&
-         p.y >= center.y-height/2 &&
-         p.y < center.y+height/2;
+bool Rectangle::contains(vector_2D dot){
+  return dot.x >= center.x-width/2 &&
+         dot.x < center.x+width/2 &&
+         dot.y >= center.y-height/2 &&
+         dot.y < center.y+height/2;
 }
 
 Rectangle::Rectangle(vector_2D center,

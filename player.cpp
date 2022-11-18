@@ -10,19 +10,19 @@ void Player::player_input(&push_direction){
         {
             push_direction = NORTH;
         }
-        if (GetKey("s").bpressed)
+        else if (GetKey("s").bpressed)
         {
             push_direction = SOUTH;
         }
-        if (GetKey("q").bpressed)
+        else if (GetKey("q").bpressed)
         {
             push_direction = WEST;
         }
-        if (GetKey("d").bpressed)
+        else if (GetKey("d").bpressed)
         {
             push_direction = EAST;
         }
-        if (GetKey("r").bpressed)
+        else if (GetKey("r").bpressed)
         {
             load_level();
         }
