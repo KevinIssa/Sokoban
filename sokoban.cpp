@@ -85,9 +85,13 @@ void Sokoban::play()
         tup current_pos = pos_player;
         int push_dir;
         bool test = listen_key(current_pos, push_dir);
-        printf("\nbefore check: pos_player =(%d,%d)\n",pos_player.x,pos_player.y);
+        // if (listen_key(current_pos, push_dir))
+        // {
+        //     if (check_move(test, current_pos, push_dir))
+        //     play_move(current_pos, push_dir);
+        // }
 
-        if (check_move(test, current_pos, push_dir))
+        if (check_move(current_pos, push_dir))
             play_move(current_pos, push_dir);
             // play_move(current_pos, pos_player, push_dir, level_s, level_c);
 
@@ -209,7 +213,7 @@ void Sokoban::play_move(tup &current_pos, int push_dir)
 int Sokoban::print_game()
 {
     printf("\n");printf("SOKOBAN - GAME - level %d\n",niveau+1);
-    for (auto &g:goals_v){if (level_c[id(g.x, g.y)].get_repr()==' '){printf("yoyy");level_c[id(g.x, g.y)].set_repr('.');}}
+    for (auto &g:goals_v){if (level_c[id(g.x, g.y)].get_repr()==' '){level_c[id(g.x, g.y)].set_repr('.');}}
     int i=0;string print_lvl="";for (auto &c:level_c){print_lvl+=c.draw();i++;if (i==size_level.x ){print_lvl+="\n";i=0;}}cout <<print_lvl;
     for (auto &g:goals_v){if (level_c[id(g.x, g.y)].get_repr()=='.'){level_c[id(g.x, g.y)].set_repr(' ');}}
     int count=0;for (auto &g:goals_v){if (level_c[id(g.x, g.y)].get_repr()=='$'|| level_c[id(g.x, g.y)].get_repr()=='+'){count++;}}printf("%d / %lu\n", count, goals_v.size());
@@ -218,8 +222,8 @@ int Sokoban::print_game()
 
 bool Sokoban::listen_key(tup &current_pos, int &push_dir)
 {
-    bool test = false;
-    bool allow_pushing=false;
+    test = false;
+    allow_pushing=false;
     switch (ch)
     {
     case 'z':
@@ -261,10 +265,10 @@ bool Sokoban::listen_key(tup &current_pos, int &push_dir)
     return test;
 }
 
-bool Sokoban::check_move(bool& test,tup &current_pos, int push_dir)
+bool Sokoban::check_move(tup &current_pos, int push_dir)
 {   
     int verif=0;
-    bool allow_pushing=false;
+    allow_pushing=false;
     while(test)
     {
         switch (level_c[id(current_pos.x, current_pos.y)].get_value())

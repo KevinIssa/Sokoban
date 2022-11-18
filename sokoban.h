@@ -30,10 +30,12 @@ class Sokoban
         string level_s;
         vector <tup> goals_v;
         vector<string> data_level;
+        bool test = false;
+        bool allow_pushing=false;
         void load_game();
         void init();
         void play_move(tup &current_pos, int push_dir);
-        bool check_move(bool& test, tup &current_pos, int push_dir);
+        bool check_move(tup &current_pos, int push_dir);
         bool listen_key(tup &current_pos, int &push_dir);
         int print_game();
 
