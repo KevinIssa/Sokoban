@@ -8,12 +8,15 @@ private:
    Rectangle r;
 
 public:
-    Block(vector_2D center, int width, int height);
+    Block(vector_2D center, int width, int height):center{center},width{width},height{height}{}
+    ~Block()=default
 
     // Methods that draw 
     void draw();
 
-    virtual bool push(const int from);
+    virtual bool push(const int from){
+        return true;
+    }
 
     virtual void move();
 };

@@ -12,10 +12,14 @@ private:
     int push_direction = 0;
 
 public:
-    Player(vector_2D center, int width, int height);
+    Player(vector_2D center, int width, int height): center{center},width{width},height{height}{}
     ~player()=default;
 
-    int player_input(int &push_direction);
+    bool push (const int from) override{
+    return true;
+  } 
+
+    void player_input(int keycode, int &push_direction);
     
 };
 

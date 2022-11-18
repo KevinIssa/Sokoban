@@ -1,31 +1,28 @@
 #include "player.h"
 
+void Player::player_input(int keycode, int &push_direction){
+    switch (keycode)
+    {
+    case 'z':
+        push_direction = NORTH;
+        break;
+    
+    case 's':
+        push_direction = SOUTH;
+        break;
+    
+    case 'q':
+        push_direction = WEST;
+        break;
 
-Player::Player (vector_2D center, int width, int height):
-    r(center, width, height, FL_WHITE, FL_WHITE){}
-
-void Player::player_input(&push_direction){
-
-        if (GetKey("z").bpressed)
-        {
-            push_direction = NORTH;
-        }
-        else if (GetKey("s").bpressed)
-        {
-            push_direction = SOUTH;
-        }
-        else if (GetKey("q").bpressed)
-        {
-            push_direction = WEST;
-        }
-        else if (GetKey("d").bpressed)
-        {
-            push_direction = EAST;
-        }
-        else if (GetKey("r").bpressed)
-        {
-            load_level();
-        }
+    case 'd':
+        push_direction = EAST;
+        break;
+    
+    case ' '
+        load_level();
+        break;
+    }
 
 }
 

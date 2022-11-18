@@ -7,7 +7,6 @@
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Box.H>
 
-
 typedef struct vector_2D {
     int x, y;
 };
@@ -20,11 +19,10 @@ private:
 
     Fl_Color fillColor, frameColor;
 public:
-    Rectangle(vector_2D center, int w, int h,
-            Fl_Color frameColor,
-            Fl_Color fillColor);
+    Rectangle(vector_2D center, Fl_Color frameColor,Fl_Color fillColor):
+    center{center},fillColor{fillColor}, frameColor{frameColor} {}
     
-     ~Rectangle()=default;
+    ~Rectangle()=default;
 
 
     void setFillColor(Fl_Color newFillColor);
