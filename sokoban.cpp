@@ -331,8 +331,8 @@ void Sokoban::draw()
     int i=0;
     for (auto &c:level_c)
     {
-        fl_draw_box(FL_FLAT_BOX, reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size(), c.get_color());
-        // c.get_image()->draw(reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size());
+        if (c.get_value()!='#') fl_draw_box(FL_FLAT_BOX, reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size(), c.get_color());
+        if (c.get_value()!=' ' ){c.get_image()->draw(reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size());}
         
         
         // fl_draw_image(c.get_image(),reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size()+1);
