@@ -1,16 +1,14 @@
+// g++ -std=c++11 main.cpp sokoban.cpp -o term -lfltk && ./term  
 #include "main_window.h"
+
+
+
 
 
 int main()
 {   
     MainWindow window;
-    // Fl::visual(FL_RGB);
     window.show();
     return Fl::run();
 }
-// g++ -std=c++11 main.cpp sokoban.cpp -o term -lfltk && ./term  
 
-
-    // Fl::run();
-    // soko.play();
-    // Sokoban soko;
