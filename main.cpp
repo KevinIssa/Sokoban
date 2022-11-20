@@ -1,10 +1,15 @@
 
-#include "sokoban.h"
+// #include "sokoban.h"
+#include "main_window.h"
 
 int main()
 {   
-    Sokoban soko;
-    soko.play();
+    MainWindow window;
+    // Sokoban soko;
+    window.show();
+    // soko.play();
+    // Fl::run();
 
-    return 0;
+
+    return Fl::run();
 }

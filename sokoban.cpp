@@ -1,23 +1,30 @@
-#include "sokoban.h"
+// #include "sokoban.h"
+// #include "case.h"
+#include "main_window.h"
 
 int id(int x, int y) //faire une fct lambda
 {
     return y * 10 + x;
 }
+tup reverse_id(int x)
+{
+    return tup{x%10, x/10};
+}
 
 Sokoban::Sokoban()
         {   
-            init();
+            // init();
+            // MainWindow window;
         }
 void Sokoban::init()
 {
     string level_t = 
         "##########"
-        "#        #"
+        "#   # #  #"
         "#  $     #"
-        "#    + . #"
-        "#  * $ $ #"
-        "#  ++@+  #"
+        "#      . #"
+        "#    #   #"
+        "#    @   #"
         "#   +    #"  
         "#  ++    #"
         "# .$     #"
@@ -64,6 +71,7 @@ void Sokoban::init()
     data_level.push_back(level2);
     data_level.push_back(level3);
     size_level = size_level_n;
+    load_game();
     
 }
 
@@ -71,29 +79,29 @@ void Sokoban::play()
 {   
     // level_s = data_level[niveau];
     // int niveau =0 ;
-    load_game();
+    // MainWindow window;
+    // load_game();
     // load_game();
 
     // for (auto &g:goals_v){printf("\ngooooiX:%d,gogcgfgY:%d\n",g.x,g.y);}
-    for (auto&c:level_c){original_level.push_back(c);}
+    // for (auto&c:level_c){original_level.push_back(c);}
     // printf("\n");printf("SOKOBAN - GAME - level %d\n",niveau+1);
-    print_game();
+    // print_game();
+    // window.show();
+    // bool allow_pushing=false;
+    // bool test = false;
+    // char ch;
     
-    cin >> ch;
-    while(ch!='`')
-    {   
-        tup current_pos = pos_player;
-        int push_dir;
-        bool test = listen_key(current_pos, push_dir);
-        // if (listen_key(current_pos, push_dir))
-        // {
-        //     if (check_move(test, current_pos, push_dir))
+    // cin >> ch;
+    // while(ch!='`')
+    // {   
+        // tup current_pos = pos_player;
+        // int push_dir;
+       
+        // if(listen_key(current_pos, push_dir, ch) && check_move(current_pos, push_dir))
         //     play_move(current_pos, push_dir);
-        // }
 
-        if (check_move(current_pos, push_dir))
-            play_move(current_pos, push_dir);
-            // play_move(current_pos, pos_player, push_dir, level_s, level_c);
+
 
         int count = print_game();
 
@@ -107,25 +115,16 @@ void Sokoban::play()
 
             original_level.clear();
             for (auto &c:level_c){original_level.push_back(c);}
-            print_game();
-            // level_s = data_level[niveau];
-            // load_game( size_level, level_s, goals_v, original_pos, level_c);
-            // load_game();
-
-        
+            // print_game();
+         
         }
 
-
-        cin >> ch;
-        if (feof(stdin) || ch == 'p')
-        {   
-            printf("GAME OVER !!!\n"); 
-            exit(1);
-        }
-    }
-
+    // }
+        // cin >> ch;
+       
+// return Fl::run();
 }
-
+// class Player;
 void Sokoban::load_game()
     {
     goals_v.clear();
@@ -135,11 +134,12 @@ void Sokoban::load_game()
     {
         for (int x =0; x< size_level.x; x++)
         {
+            tup current ={x,y};
             switch (level_s[y * size_level.x + x])
             {
                 case '@':
                 {
-                    Player player{"Player",level_s[y * size_level.x + x]};
+                    Player player{"Player",level_s[y * size_level.x + x], current, FL_GREEN};
                     
                     level_c.push_back(player);
                     pos_player = {x,y}; 
@@ -148,41 +148,45 @@ void Sokoban::load_game()
                 }
                 case '.':
                 {   
-                    Case obj{"Objective",' ',level_s[y * size_level.x + x]};
+                    Case obj{"Objective",' ',level_s[y * size_level.x + x], current, FL_WHITE};
                     level_c.push_back(obj);
                     goals_v.push_back(tup{x,y});
                     break;
                 }
                 case '$':
                 {
-                    Case box_h{"Heavy Box",level_s[y * size_level.x + x]};
+                    Case box_h{"Heavy Box",level_s[y * size_level.x + x], current, FL_RED};
                     level_c.push_back(box_h);
                     break;
                 }
                 case '#':
                 {
-                    Case wall{"Wall",level_s[y * size_level.x + x]};
+                    Case wall{"Wall",level_s[y * size_level.x + x], current, FL_BLACK};
                     level_c.push_back(wall);
                     break;
                 }
                 case '+':
                 {
-                    Case light_case{"Light Box",level_s[y * size_level.x + x]};
+                    Case light_case{"Light Box",level_s[y * size_level.x + x], current, FL_CYAN};
                     level_c.push_back(light_case);
                     break;
                 }
                 default:
                 {
-                    Case free_case{"free",' '};
+                    Case free_case{"free",' ', current, FL_WHITE};
                     level_c.push_back(free_case);
                 }   
             }
         }   
     }
+for (auto&c:level_c){original_level.push_back(c);}
+
 }
 
 void Sokoban::play_move(tup &current_pos, int push_dir)
-{
+{   cout<<"play"<<endl;
+cout<<level_c[id(current_pos.x, current_pos.y)].get_repr()<<endl;    
+
     while (current_pos.x != pos_player.x || current_pos.y != pos_player.y)
     {
         tup source = current_pos;
@@ -193,7 +197,11 @@ void Sokoban::play_move(tup &current_pos, int push_dir)
             case EAST: source.x--; break;
             case WEST: source.x++; break;
         }
+        // tup tmp = source;
+        // level_c[id(source.x, source.y)].set_pos(current_pos.x, current_pos.y);
+        // level_c[id(current_pos.x, current_pos.y)].set_pos(source.x, source.y);
         swap(level_c[id(source.x, source.y)], level_c[id(current_pos.x, current_pos.y)]);
+        // print_game();
         // swap(level_c[0], level_c[26]);
             // iter_swap(level_c.begin() + id(source.x, source.y), level_c.begin() + id(current_pos.x, current_pos.y));
 
@@ -217,13 +225,54 @@ int Sokoban::print_game()
     int i=0;string print_lvl="";for (auto &c:level_c){print_lvl+=c.draw();i++;if (i==size_level.x ){print_lvl+="\n";i=0;}}cout <<print_lvl;
     for (auto &g:goals_v){if (level_c[id(g.x, g.y)].get_repr()=='.'){level_c[id(g.x, g.y)].set_repr(' ');}}
     int count=0;for (auto &g:goals_v){if (level_c[id(g.x, g.y)].get_repr()=='$'|| level_c[id(g.x, g.y)].get_repr()=='+'){count++;}}printf("%d / %lu\n", count, goals_v.size());
+    
+
+    fl_draw_box(FL_FLAT_BOX, 0, 0, 500, 500, FL_GRAY);
+    for (auto &c:level_c)
+    {
+        fl_draw_box(FL_FLAT_BOX, c.get_pos().x*c.get_size(), c.get_pos().y*c.get_size(), c.get_size(), c.get_size(), c.get_color());
+
+    }
+    
+    
     return count;
 }  
 
-bool Sokoban::listen_key(tup &current_pos, int &push_dir)
+int Sokoban::get_score()
 {
-    test = false;
-    allow_pushing=false;
+    int count=0;
+    for (auto &g:goals_v)
+    {
+        if (level_c[id(g.x, g.y)].get_repr()=='$'|| level_c[id(g.x, g.y)].get_repr()=='+')
+        {
+            count++;
+        }
+    }
+    return count;
+    // printf("%d / %lu\n", count, goals_v.size());
+}
+
+void Sokoban::listen_game()
+{
+    if (get_score() == goals_v.size())
+        {   
+            printf("\nNice, you've succeeded lvl %d\n",niveau+1);
+            niveau++;
+            if (niveau==data_level.size()){printf("YOU WIN !!!\n"); exit(1);}
+            printf("--> go to lvl %d\n",niveau+1);
+            load_game();
+
+            original_level.clear();
+            for (auto &c:level_c){original_level.push_back(c);}
+            // print_game();
+        }
+}
+
+bool Sokoban::listen_key(tup &current_pos, int &push_dir, char ch)
+{   
+    // bool allow_pushing;
+    bool test = false;
+    // allow_pushing=false;
     switch (ch)
     {
     case 'z':
@@ -248,6 +297,7 @@ bool Sokoban::listen_key(tup &current_pos, int &push_dir)
         break;  
     case 'r':
         // level_s = data_level[niveau];
+        printf("RESET LVL ...");
         level_c.clear();
         for (auto&c:original_level)
         {
@@ -256,7 +306,6 @@ bool Sokoban::listen_key(tup &current_pos, int &push_dir)
         // level_c = original_level;
         pos_player.x=original_pos.x;
         pos_player.y=original_pos.y;
-        printf("RESET LVL ...");
         break;
     case 'p':
         printf("GAME OVER !!!\n");
@@ -266,9 +315,11 @@ bool Sokoban::listen_key(tup &current_pos, int &push_dir)
 }
 
 bool Sokoban::check_move(tup &current_pos, int push_dir)
-{   
-    int verif=0;
-    allow_pushing=false;
+{   cout<<"check"<<endl;
+cout<<level_c[id(current_pos.x, current_pos.y)].get_value()<<endl;    
+int verif=0;
+    bool allow_pushing=false;
+    bool test=true;
     while(test)
     {
         switch (level_c[id(current_pos.x, current_pos.y)].get_value())
@@ -318,3 +369,41 @@ bool Sokoban::check_move(tup &current_pos, int push_dir)
     return allow_pushing;
 }
 
+void Sokoban::draw()
+{   
+    fl_draw_box(FL_FLAT_BOX, 0, 0, 500, 500, FL_WHITE);
+    int i=0;
+    for (auto &c:level_c)
+    {
+        fl_draw_box(FL_FLAT_BOX, reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size(), c.get_color());
+        // fl_draw_image(c.get_image(),reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size()+1);
+        
+        i++;
+    // cout<<"draw"<<endl;
+
+    }
+    // cout<<"t"<<endl;
+    for (auto &g:goals_v)
+    {   
+        // cout<<g.x<<" , "<<g.y<< level_c[id(g.x, g.y)].get_repr()<<endl;
+        if (level_c[id(g.x, g.y)].get_repr()=='.'||level_c[id(g.x, g.y)].get_repr()==' ')
+        { 
+            // level_c[id(g.x, g.y)].set_repr('.');
+            fl_draw_box(FL_FLAT_BOX, g.x*50, g.y*50,50, 50, FL_YELLOW) ;
+            // fl_draw_image(const uchar *buf,reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size(),int D,int L)
+
+        }
+    }
+    
+}
+
+void Sokoban::reset_level()
+{
+    level_c.clear();
+    for (auto&c:original_level)
+    {
+        level_c.push_back(c);
+    }
+    pos_player.x=original_pos.x;
+    pos_player.y=original_pos.y;
+}
