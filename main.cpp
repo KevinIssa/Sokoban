@@ -4,6 +4,7 @@
 int main()
 {   
     MainWindow window;
+    // Fl::visual(FL_RGB);
     window.show();
     return Fl::run();
 }

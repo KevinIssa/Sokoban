@@ -1,6 +1,7 @@
 #include "sokoban.h"
 
 // class Sokoban;
+const int FREQ=120;
 class MainWindow : public Fl_Window 
 {     Sokoban soko;
     public:
@@ -12,7 +13,7 @@ class MainWindow : public Fl_Window
             // soko.play();
             soko.draw();
             // cout << "salu"<<endl;
-            Fl::add_timeout(1.0/60, Timer_CB, this);
+            Fl::add_timeout(1.0/FREQ, Timer_CB, this);
             resizable(this);
         }   
         void draw() override 
@@ -74,6 +75,6 @@ class MainWindow : public Fl_Window
         {
             MainWindow *o = static_cast<MainWindow*>(userdata);
             o->redraw();
-            Fl::repeat_timeout(1.0/60, Timer_CB, userdata);
+            Fl::repeat_timeout(1.0/FREQ, Timer_CB, userdata);
         }
 };
