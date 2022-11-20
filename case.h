@@ -10,7 +10,6 @@
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Box.H>
 
-// #include "sokoban.h"
 using namespace std;
 
 struct tup
@@ -27,8 +26,8 @@ class Case
         char value; // for the algoritme
         Fl_Color color;
         int size=50;
-        const uchar * image = (const unsigned  char *)("Pok1.png") ;
         // Fl_JPEG_Image image ((const unsigned  char *)("Pok1.png"));
+        const uchar * image = (const unsigned  char *)("Pok1.png") ;
 
     public:
     // Case(string name, const char repr);

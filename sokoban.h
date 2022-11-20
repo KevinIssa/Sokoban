@@ -5,7 +5,6 @@
 #include <unistd.h>
 #include "case.h"
 #include "player.h"
-// #include "main_window.h"
 
 using namespace std;
 
@@ -14,11 +13,6 @@ const int EAST = 1;
 const int SOUTH = 2;
 const int WEST = 3;
 
-// struct tup
-// {
-//     int x,y;
-// };
-// class Case;
 class Sokoban 
 {   private:
         int niveau =0 ;
@@ -27,12 +21,6 @@ class Sokoban
         vector<Case> original_level,level_c;
         vector <tup> goals_v;
         vector<string> data_level;
-        // MainWindow window;
-        // bool test = false;
-        // bool allow_pushing=false;
-        // char ch;
-        // tup size_level;
-        // vector<Case> level_c;
 
         void load_game();
         bool listen_key(tup &current_pos, int &push_dir, char ch);

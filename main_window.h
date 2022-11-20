@@ -1,7 +1,7 @@
 #include "sokoban.h"
 
-// class Sokoban;
 const int FREQ=120;
+
 class MainWindow : public Fl_Window 
 {     Sokoban soko;
     public:
@@ -16,7 +16,7 @@ class MainWindow : public Fl_Window
             Fl::add_timeout(1.0/FREQ, Timer_CB, this);
             resizable(this);
         }   
-        void draw() override 
+        void draw() override //call FREQ/sec
         {   
             Fl_Window::draw();
             soko.listen_game();
@@ -52,22 +52,9 @@ class MainWindow : public Fl_Window
                         case 'r':
                             soko.reset_level();
                             break;
-                            // printf("RESET LVL ...");
-                            // soko.get_level_c().clear();
-                            // for (auto&c:original_level)
-                            // {
-                            //     level_c.push_back(c);
-                            // }
-                            // level_c = original_level;
-
-                            // pos_player.x=original_pos.x;
-                            // pos_player.y=original_pos.y;
                         case 'p':
-                            printf("GAME OVER !!!\n");break;
+                            printf("GAME OVER !!!\n");exit(0);
                 }
-                // return 1;
-            // default:
-                // return 0;
             }
             return 0;
         }

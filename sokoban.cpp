@@ -14,7 +14,6 @@ tup reverse_id(int x)
 Sokoban::Sokoban()
         {   
             // init();
-            // MainWindow window;
         }
 void Sokoban::init()
 {
@@ -75,56 +74,7 @@ void Sokoban::init()
     
 }
 
-void Sokoban::play()
-{   
-    // level_s = data_level[niveau];
-    // int niveau =0 ;
-    // MainWindow window;
-    // load_game();
-    // load_game();
 
-    // for (auto &g:goals_v){printf("\ngooooiX:%d,gogcgfgY:%d\n",g.x,g.y);}
-    // for (auto&c:level_c){original_level.push_back(c);}
-    // printf("\n");printf("SOKOBAN - GAME - level %d\n",niveau+1);
-    // print_game();
-    // window.show();
-    // bool allow_pushing=false;
-    // bool test = false;
-    // char ch;
-    
-    // cin >> ch;
-    // while(ch!='`')
-    // {   
-        // tup current_pos = pos_player;
-        // int push_dir;
-       
-        // if(listen_key(current_pos, push_dir, ch) && check_move(current_pos, push_dir))
-        //     play_move(current_pos, push_dir);
-
-
-
-        int count = print_game();
-
-        if (count == goals_v.size())
-        {   
-            printf("\nNice, you've succeeded lvl %d\n",niveau+1);
-            niveau++;
-            if (niveau==data_level.size()){printf("YOU WIN !!!\n"); exit(1);}
-            printf("--> go to lvl %d\n",niveau+1);
-            load_game();
-
-            original_level.clear();
-            for (auto &c:level_c){original_level.push_back(c);}
-            // print_game();
-         
-        }
-
-    // }
-        // cin >> ch;
-       
-// return Fl::run();
-}
-// class Player;
 void Sokoban::load_game()
     {
     goals_v.clear();
@@ -184,8 +134,8 @@ for (auto&c:level_c){original_level.push_back(c);}
 }
 
 void Sokoban::play_move(tup &current_pos, int push_dir)
-{   cout<<"play"<<endl;
-cout<<level_c[id(current_pos.x, current_pos.y)].get_repr()<<endl;    
+{  
+// cout<<level_c[id(current_pos.x, current_pos.y)].get_repr()<<endl;    
 
     while (current_pos.x != pos_player.x || current_pos.y != pos_player.y)
     {
@@ -261,63 +211,61 @@ void Sokoban::listen_game()
             if (niveau==data_level.size()){printf("YOU WIN !!!\n"); exit(1);}
             printf("--> go to lvl %d\n",niveau+1);
             load_game();
-
             original_level.clear();
             for (auto &c:level_c){original_level.push_back(c);}
             // print_game();
         }
 }
 
-bool Sokoban::listen_key(tup &current_pos, int &push_dir, char ch)
-{   
-    // bool allow_pushing;
-    bool test = false;
-    // allow_pushing=false;
-    switch (ch)
-    {
-    case 'z':
-        push_dir = NORTH;
-        current_pos.y--;
-        test = true;
-        break;
-    case 's':
-        push_dir = SOUTH;
-        current_pos.y++;
-        test = true;
-        break;
-    case 'q':
-        push_dir = WEST;
-        current_pos.x--;
-        test = true;
-        break;
-    case 'd':
-        push_dir = EAST;
-        current_pos.x++;
-        test = true;
-        break;  
-    case 'r':
-        // level_s = data_level[niveau];
-        printf("RESET LVL ...");
-        level_c.clear();
-        for (auto&c:original_level)
-        {
-            level_c.push_back(c);
-        }
-        // level_c = original_level;
-        pos_player.x=original_pos.x;
-        pos_player.y=original_pos.y;
-        break;
-    case 'p':
-        printf("GAME OVER !!!\n");
-        exit(1);
-    }
-    return test;
-}
+// bool Sokoban::listen_key(tup &current_pos, int &push_dir, char ch)
+// {   
+//     // bool allow_pushing;
+//     bool test = false;
+//     // allow_pushing=false;
+//     switch (ch)
+//     {
+//     case 'z':
+//         push_dir = NORTH;
+//         current_pos.y--;
+//         test = true;
+//         break;
+//     case 's':
+//         push_dir = SOUTH;
+//         current_pos.y++;
+//         test = true;
+//         break;
+//     case 'q':
+//         push_dir = WEST;
+//         current_pos.x--;
+//         test = true;
+//         break;
+//     case 'd':
+//         push_dir = EAST;
+//         current_pos.x++;
+//         test = true;
+//         break;  
+//     case 'r':
+//         // level_s = data_level[niveau];
+//         printf("RESET LVL ...");
+//         level_c.clear();
+//         for (auto&c:original_level)
+//         {
+//             level_c.push_back(c);
+//         }
+//         // level_c = original_level;
+//         pos_player.x=original_pos.x;
+//         pos_player.y=original_pos.y;
+//         break;
+//     case 'p':
+//         printf("GAME OVER !!!\n");
+//         exit(1);
+//     }
+//     return test;
+// }
 
 bool Sokoban::check_move(tup &current_pos, int push_dir)
-{   cout<<"check"<<endl;
-cout<<level_c[id(current_pos.x, current_pos.y)].get_value()<<endl;    
-int verif=0;
+{   
+    int verif=0;
     bool allow_pushing=false;
     bool test=true;
     while(test)
@@ -342,7 +290,6 @@ int verif=0;
                     test = level_c[id(current_pos.x--, current_pos.y)].get_value() == ' ' ;
                     break;
             }
-
             allow_pushing = level_c[id(current_pos.x, current_pos.y)].get_value() == ' ';
             test=false;
             break;
@@ -363,7 +310,6 @@ int verif=0;
             allow_pushing = true;
             test=false;
             break;
-
         }
     }
     return allow_pushing;
