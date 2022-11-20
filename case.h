@@ -37,10 +37,10 @@ class Case
 
     public:
     // Case(string name, const char repr);
-        Case(string name, char value,tup pos, Fl_Color col, Fl_image *im): name{name},value{value},repr{value}, position{pos}, color{col}, image{im}{}
+        Case(string name, char value,tup pos, Fl_Color col, Fl_Image *im): name{name},value{value},repr{value}, position{pos}, color{col}, image{im}{}
         // Case(string name, char value, char repr, tup pos, Fl_Color col,const char* im): name{name},value{value},repr{repr}, position{pos}, color{col}, image{im}{}
         Case(string name, char value,tup pos, Fl_Color col): name{name},value{value},repr{value}, position{pos}, color{col}{}
-        Case(string name, char value, char repr, tup pos, Fl_Color col): name{name},value{value},repr{repr}, position{pos}, color{col}{}
+        Case(string name, char value, char repr, tup pos, Fl_Color col, Fl_Image *im): name{name},value{value},repr{repr}, position{pos}, color{col},image{im}{}
         // Case(const Case &o)
         // {
         //     name =o.name;
@@ -63,6 +63,6 @@ class Case
         Fl_Color get_color(){return color;}
         int get_size(){return size;}
         // const uchar * get_image(){return image;}
-        Fl_Image * get_image(){return im;}
+        Fl_Image * get_image(){return image;}
 
 };

@@ -90,7 +90,7 @@ void Sokoban::load_game()
                 case '@':
                 {
                     // Player player{"Player",level_s[y * size_level.x + x], current, FL_GREEN};
-                    Fl_Image *im =Fl_PNG_Image {"pika.png"} .copy(size,size)
+                    Fl_Image *im =Fl_PNG_Image {"pika.png"} .copy(50,50);
                     Case player{"Player",level_s[y * size_level.x + x], current, FL_GREEN, im};
                     level_c.push_back(player);
                     pos_player = {x,y}; 
@@ -99,36 +99,45 @@ void Sokoban::load_game()
                 }
                 case '.':
                 {   
-                    Case obj{"Objective",' ',level_s[y * size_level.x + x], current, FL_WHITE};
+                    Fl_Image *im =Fl_PNG_Image {"wall.png"} .copy(50,50);
+
+                    Case obj{"Objective",' ',level_s[y * size_level.x + x], current, FL_WHITE, im};
                     level_c.push_back(obj);
                     goals_v.push_back(tup{x,y});
                     break;
                 }
                 case '$':
-                {
-                    Case box_h{"Heavy Box",level_s[y * size_level.x + x], current, FL_RED, "Pok1.png"};
+                {   
+                    Fl_Image *im =Fl_PNG_Image {"Pok1.png"} .copy(50,50);
+
+                    Case box_h{"Heavy Box",level_s[y * size_level.x + x], current, FL_RED, im};
                     level_c.push_back(box_h);
                     break;
                 }
                 case '#':
-                {
-                    Case wall{"Wall",level_s[y * size_level.x + x], current, FL_BLACK,"wall.png"};
+                {   
+                    Fl_Image *im =Fl_PNG_Image {"wall.png"} .copy(50,50);
+
+                    Case wall{"Wall",level_s[y * size_level.x + x], current, FL_BLACK,im};
                     level_c.push_back(wall);
                     break;
                 }
                 case '+':
-                {
-                    Case light_case{"Light Box",level_s[y * size_level.x + x], current, FL_CYAN};
+                {   
+                    Fl_Image *im =Fl_PNG_Image {"wall.png"} .copy(50,50);
+
+                    Case light_case{"Light Box",level_s[y * size_level.x + x], current, FL_CYAN,im};
                     level_c.push_back(light_case);
                     break;
                 }
                 default:
                 {
-                    Case free_case{"free",' ', current, FL_WHITE};
+                    Fl_Image *im =Fl_PNG_Image {"wall"} .copy(50,50);
+                    Case free_case{"free",' ', current, FL_WHITE,im};
                     level_c.push_back(free_case);
                 }   
             }
-        }   
+        }       
     }
 for (auto&c:level_c){original_level.push_back(c);}
 
@@ -323,7 +332,7 @@ void Sokoban::draw()
     for (auto &c:level_c)
     {
         fl_draw_box(FL_FLAT_BOX, reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size(), c.get_color());
-        c.get_image()->draw(reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size());
+        // c.get_image()->draw(reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size());
         
         
         // fl_draw_image(c.get_image(),reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size()+1);
