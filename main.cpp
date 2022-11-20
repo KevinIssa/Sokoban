@@ -1,15 +1,15 @@
-
-// #include "sokoban.h"
 #include "main_window.h"
+
 
 int main()
 {   
     MainWindow window;
-    // Sokoban soko;
     window.show();
-    // soko.play();
-    // Fl::run();
-
-
     return Fl::run();
 }
+// g++ -std=c++11 main.cpp sokoban.cpp -o term -lfltk && ./term  
+
+
+    // Fl::run();
+    // soko.play();
+    // Sokoban soko;
