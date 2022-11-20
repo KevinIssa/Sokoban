@@ -5,16 +5,16 @@ const int FREQ=120;
 class MainWindow : public Fl_Window 
 {     Sokoban soko;
     public:
-        MainWindow() : Fl_Window (100,100,500,500,"SOKOBAN") 
+        MainWindow() : Fl_Window (100,100,650,550,"SOKOBAN MKovel + Idragus") 
         {
             // Sokoban soko;
             // soko.init();
             soko.init();
             // soko.play();
-            soko.draw();
+            // soko.draw();
             // cout << "salu"<<endl;
             Fl::add_timeout(1.0/FREQ, Timer_CB, this);
-            resizable(this);
+            // resizable(this);
         }   
         void draw() override //call FREQ/sec
         {   
