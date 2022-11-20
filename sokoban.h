@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include "case.h"
 #include "player.h"
+#include "level.h"
 
 using namespace std;
 
