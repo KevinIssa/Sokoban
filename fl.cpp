@@ -1,10 +1,20 @@
 // g++ -std=c++11 fl.cpp -o fl -lfltk && ./fl 
-#include <FL/Fl.H>
-#include <FL/fl_draw.H>
-#include <FL/Fl_Double_Window.H>
-#include <FL/Fl_Box.H>
+// #include <FL.H>
+// #include <fL_draw.H>
+// #include <FL_Double_Window.H>
+// #include <FL_Box.H>
+// #include <FL_PNG_Image.H>
+
+
+// #include <FL/Fl.H>
+// #include <FL/fl_draw.H>
+// #include <FL/Fl_Double_Window.H>
+// #include <FL/Fl_Box.H>
+// #include <FL/Fl_PNG_Image.H>
+
+
+
 #include <vector>
-#include <FL/Fl_PNG_Image.H>
 // #include <opencv2/core/mat.hpp>
 using namespace std;
 
