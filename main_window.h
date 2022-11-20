@@ -1,6 +1,6 @@
 #include "sokoban.h"
 
-const int FREQ=120;
+const int FREQ=60;
 
 class MainWindow : public Fl_Window 
 {     Sokoban soko;

@@ -15,6 +15,7 @@ Sokoban::Sokoban()
         {   
             // init();
         }
+
 void Sokoban::init()
 {
     string level_t = 
@@ -24,8 +25,8 @@ void Sokoban::init()
         "#      . #"
         "#    #   #"
         "#    @   #"
-        "#   +    #"  
-        "#  ++    #"
+        "#        #"  
+        "#        #"
         "# .$     #"
         "##########";struct tup size_level_t= {10,10};
 
@@ -74,7 +75,6 @@ void Sokoban::init()
     
 }
 
-
 void Sokoban::load_game()
     {
     goals_v.clear();
@@ -89,8 +89,9 @@ void Sokoban::load_game()
             {
                 case '@':
                 {
-                    Player player{"Player",level_s[y * size_level.x + x], current, FL_GREEN};
-                    
+                    // Player player{"Player",level_s[y * size_level.x + x], current, FL_GREEN};
+                    Fl_Image *im =Fl_PNG_Image {"pika.png"} .copy(size,size)
+                    Case player{"Player",level_s[y * size_level.x + x], current, FL_GREEN, im};
                     level_c.push_back(player);
                     pos_player = {x,y}; 
                     original_pos = pos_player;
@@ -105,13 +106,13 @@ void Sokoban::load_game()
                 }
                 case '$':
                 {
-                    Case box_h{"Heavy Box",level_s[y * size_level.x + x], current, FL_RED};
+                    Case box_h{"Heavy Box",level_s[y * size_level.x + x], current, FL_RED, "Pok1.png"};
                     level_c.push_back(box_h);
                     break;
                 }
                 case '#':
                 {
-                    Case wall{"Wall",level_s[y * size_level.x + x], current, FL_BLACK};
+                    Case wall{"Wall",level_s[y * size_level.x + x], current, FL_BLACK,"wall.png"};
                     level_c.push_back(wall);
                     break;
                 }
@@ -322,6 +323,9 @@ void Sokoban::draw()
     for (auto &c:level_c)
     {
         fl_draw_box(FL_FLAT_BOX, reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size(), c.get_color());
+        c.get_image()->draw(reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size());
+        
+        
         // fl_draw_image(c.get_image(),reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size()+1);
         
         i++;
