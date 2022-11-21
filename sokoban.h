@@ -1,3 +1,7 @@
+#ifndef _SOKOBAN_H
+#define _SOKOBAN_H
+
+
 #include<string>
 #include <iostream>
 #include <vector>
@@ -9,10 +13,13 @@
 
 using namespace std;
 
-const int NORTH = 0;
-const int EAST = 1;
-const int SOUTH = 2;
-const int WEST = 3;
+// const int NORTH = 0;
+// const int EAST = 1;
+// const int SOUTH = 2;
+// const int WEST = 3;
+
+enum card {NORTH, EAST, SOUTH, WEST};
+
 
 class Sokoban 
 {   private:
@@ -40,8 +47,11 @@ class Sokoban
         vector<Case> get_original_level_c(){return level_c;};
         int get_score();
         void listen_game();
+        vector <tup> get_goals_v(){return goals_v;};
         // void set_original_level(tup level){level_c = level}
 
 
 
 };
+
+#endif;

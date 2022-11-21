@@ -1,3 +1,7 @@
+#ifndef _CASE_H
+#define _CASE_H
+
+
 #include<string>
 #include <iostream>
 #include <vector>
@@ -32,14 +36,14 @@ class Case
 {
     private:
         string name;
-        tup position;
-        char repr; //to draw
         char value; // for the algoritme
+        char repr; //to draw
+        tup position;
         Fl_Color color;
+        Fl_Image *image;
         int size=50;
         // Fl_PNG_Image im {"Pok1.png"};
         // Fl_Image *im= Fl_PNG_Image {"Pok1.png"} .copy(size,size);
-        Fl_Image *image;
         
         // Fl_JPEG_Image image ((const unsigned  char *)("Pok1.png"));
         // const uchar * image = (const unsigned  char *)("Pok1.png") ;
@@ -75,3 +79,5 @@ class Case
         Fl_Image * get_image(){return image;}
 
 };
+
+#endif

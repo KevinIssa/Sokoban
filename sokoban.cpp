@@ -1,6 +1,6 @@
-// #include "sokoban.h"
+#include "sokoban.h"
 // #include "case.h"
-#include "main_window.h"
+// #include "main_window.h"
 
 int id(int x, int y) //faire une fct lambda
 {
@@ -28,7 +28,8 @@ void Sokoban::init()
         "#        #"  
         "#        #"
         "# .$     #"
-        "##########";struct tup size_level_t= {10,10};
+        "##########";
+        // struct tup size_level_t= {10,10};
 
     string level =
         "##########"
@@ -90,7 +91,7 @@ void Sokoban::load_game()
                 case '@':
                 {
                     // Player player{"Player",level_s[y * size_level.x + x], current, FL_GREEN};
-                    Fl_Image *im =Fl_PNG_Image {"pika.png"} .copy(50,50);
+                    Fl_Image *im =Fl_PNG_Image {"cap.png"} .copy(50,50);
                     Case player{"Player",level_s[y * size_level.x + x], current, FL_GREEN, im};
                     level_c.push_back(player);
                     pos_player = {x,y}; 
@@ -99,7 +100,7 @@ void Sokoban::load_game()
                 }
                 case '.':
                 {   
-                    Fl_Image *im =Fl_PNG_Image {"wall.png"} .copy(50,50);
+                    Fl_Image *im =Fl_PNG_Image {"pika.png"} .copy(50,50);
 
                     Case obj{"Objective",' ',level_s[y * size_level.x + x], current, FL_WHITE, im};
                     level_c.push_back(obj);
@@ -132,7 +133,7 @@ void Sokoban::load_game()
                 }
                 default:
                 {
-                    Fl_Image *im =Fl_PNG_Image {"wall"} .copy(50,50);
+                    Fl_Image *im =Fl_PNG_Image {"wall.png"} .copy(50,50);
                     Case free_case{"free",' ', current, FL_WHITE,im};
                     level_c.push_back(free_case);
                 }   
@@ -331,7 +332,7 @@ void Sokoban::draw()
     int i=0;
     for (auto &c:level_c)
     {
-        if (c.get_value()!='#') fl_draw_box(FL_FLAT_BOX, reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size(), c.get_color());
+        // if (c.get_value()!='#') fl_draw_box(FL_FLAT_BOX, reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size(), c.get_color());
         if (c.get_value()!=' ' ){c.get_image()->draw(reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size());}
         
         
@@ -346,9 +347,15 @@ void Sokoban::draw()
     {   
         // cout<<g.x<<" , "<<g.y<< level_c[id(g.x, g.y)].get_repr()<<endl;
         if (level_c[id(g.x, g.y)].get_repr()=='.'||level_c[id(g.x, g.y)].get_repr()==' ')
-        { 
+        {  
+            // cout<<"condition"<<endl;
             // level_c[id(g.x, g.y)].set_repr('.');
-            fl_draw_box(FL_FLAT_BOX, g.x*50, g.y*50,50, 50, FL_YELLOW) ;
+            // fl_draw_box(FL_FLAT_BOX, g.x*50, g.y*50,50, 50, FL_YELLOW) ;
+            
+            Fl_Image *im =Fl_PNG_Image {"pika.png"} .copy(50,50);
+
+            im->draw(g.x*50, g.y*50);
+            
             // fl_draw_image(const uchar *buf,reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size(),int D,int L)
 
         }
@@ -366,3 +373,8 @@ void Sokoban::reset_level()
     pos_player.x=original_pos.x;
     pos_player.y=original_pos.y;
 }
+
+// void Sokoban::process(int event)
+// {
+
+// }

@@ -1,3 +1,7 @@
+#ifndef _PLAYER_H
+#define _PLAYER_H
+
+
 
 // #include "sokoban.h"
 // #include "case.h"
@@ -17,3 +21,5 @@ class Player : public Case
         // Player(string name, char value,tup pos, Fl_Color col, Fl_Image *im): name{name},value{value},repr{value}, position{pos}, color{col}, image{im}{}
         
 };
+
+#endif

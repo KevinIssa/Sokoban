@@ -1,4 +1,5 @@
-
+#ifndef _LEVEL_H
+#define _LEVEL_H
 
 class Level
 {   string level_s;
@@ -8,3 +9,5 @@ class Level
         string get_level_s(){return level_s;}
         tup get_size(){return size;}
 };
+
+#endif
