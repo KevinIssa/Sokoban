@@ -7,9 +7,9 @@
 #include <vector>
 #include<time.h>
 #include <unistd.h>
-#include "case.h"
-#include "player.h"
-#include "level.h"
+#include "case.hpp"
+#include "player.hpp"
+#include "level.hpp"
 
 using namespace std;
 

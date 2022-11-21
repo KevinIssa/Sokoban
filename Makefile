@@ -9,10 +9,10 @@ main: main.cpp sokoban.o controller.o
 run:
 	make main && ./soko
 
-sokoban.o: sokoban.cpp sokoban.h controller.o
+sokoban.o: sokoban.cpp sokoban.hpp controller.o
 	${COMPILER} -c sokoban.cpp ${FLAGS} ${LDFLAGS}
 
-controller.o: controller.cpp controller.h
+controller.o: controller.cpp controller.hpp
 	${COMPILER} -c controller.cpp ${FLAGS} ${LDFLAGS}
 
 .PHONY: clean

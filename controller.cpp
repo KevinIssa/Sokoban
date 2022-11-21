@@ -3,7 +3,7 @@
 #include <vector>
 #include<time.h>
 #include <unistd.h>
-#include "controller.h"
+#include "controller.hpp"
 
 
 int Controller::process_key(int event)

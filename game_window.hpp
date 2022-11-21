@@ -2,9 +2,9 @@
 #define _MAIN_WINDOW_H
 
 
-#include "sokoban.h"
-#include "controller.h"
-#include "displayer.h"
+#include "sokoban.hpp"
+#include "controller.hpp"
+#include "displayer.hpp"
 
 
 class Game_window : public Fl_Window 

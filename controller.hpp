@@ -2,7 +2,7 @@
 #ifndef _CONTROLLER_H
 #define _CONTROLLER_H
 
-#include "sokoban.h"
+#include "sokoban.hpp"
 class Controller
 {   
     Sokoban *soko;
