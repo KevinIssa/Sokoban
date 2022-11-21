@@ -1,5 +1,5 @@
 
-#include "main_window.h"
+#include "game_window.h"
 
 
 int Sokoban::id(int x, int y) //faire une fct lambda
