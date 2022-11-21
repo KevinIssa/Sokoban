@@ -1,0 +1,54 @@
+#ifndef _CASE_H
+#define _CASE_H
+
+#include<string>
+#include <iostream>
+#include <vector>
+#include<time.h>
+#include <unistd.h>
+
+#include <FL/Fl.H>
+#include <FL/fl_draw.H>
+#include <FL/Fl_Double_Window.H>
+#include <FL/Fl_Box.H>
+#include <FL/Fl_PNG_Image.H>
+
+
+using namespace std;
+
+struct tup
+{
+    int x,y;
+};
+
+class Case
+{
+    private:
+        string name;
+        char value; // for the algoritme
+        char repr; //to draw
+        tup position;
+        Fl_Color color;
+        Fl_Image *image;
+        int size=50;
+
+    public:
+        Case(string name, char value,tup pos, Fl_Color col, Fl_Image *im): name{name},value{value},repr{value}, position{pos}, color{col}, image{im}{}
+        Case(string name, char value, char repr, tup pos, Fl_Color col, Fl_Image *im): name{name},value{value},repr{repr}, position{pos}, color{col},image{im}{}
+
+        string get_name(){return name;}
+        const char get_value(){return value;}
+        const char get_repr(){return repr;}
+        tup get_pos(){return position;}
+        Fl_Color get_color(){return color;}
+        Fl_Image * get_image(){return image;}
+        int get_size(){return size;}
+
+        void set_value(char r){value=r;}
+        void set_repr(char r){repr=r;}
+        void set_pos(int y,int x){position = tup {x,y};}
+        
+        // const char draw(){return repr;}
+};
+
+#endif
