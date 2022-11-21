@@ -13,13 +13,10 @@
 
 using namespace std;
 
-// const int NORTH = 0;
-// const int EAST = 1;
-// const int SOUTH = 2;
-// const int WEST = 3;
-
-enum card {NORTH, EAST, SOUTH, WEST};
-
+const int NORTH = 0;
+const int EAST = 1;
+const int SOUTH = 2;
+const int WEST = 3;
 
 class Sokoban 
 {   private:
@@ -48,10 +45,17 @@ class Sokoban
         int get_score();
         void listen_game();
         vector <tup> get_goals_v(){return goals_v;};
+        int id(int x, int y);
+        tup reverse_id(int x);
+        int get_level(){return niveau;}
+        void set_level(int x){niveau = x;}
+        vector<string> get_data_level(){return data_level;}
+        void next_level();
+
         // void set_original_level(tup level){level_c = level}
 
 
 
 };
 
-#endif;
+#endif

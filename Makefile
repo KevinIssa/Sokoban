@@ -1,10 +1,21 @@
+FLAGS=-std=c++20 -Wall -lfltk -lfltk_images
+COMPILER=g++
+
+main: main.cpp sokoban.o controller.o 
+	${COMPILER} -o soko main.cpp sokoban.o controller.o ${FLAGS}
+
+run:
+	make main && ./soko
+
+sokoban.o: sokoban.cpp sokoban.h controller.o
+	${COMPILER} -c sokoban.cpp ${FLAGS}
+
+controller.o: controller.cpp controller.h
+	${COMPILER} -c controller.cpp ${FLAGS}
+
+clean:
+	rm *.o
 
 
-main:main.cpp sokoban.cpp
-	g++ -std=c++20 main.cpp -o soko -lfltk -lfltk_images && ./soko
-
-
-	# g++ -std=c++20 main.cpp sokoban.cpp -o soko -lfltk -lfltk_images && ./soko
-	# g++ -std=c++20 -Wall -Wpedantic -Werror main.cpp sokoban.cpp -o soko -lfltk -lfltk_images && ./soko
 
 

@@ -1,12 +1,12 @@
-#include "sokoban.h"
+// #include "sokoban.h"
 // #include "case.h"
-// #include "main_window.h"
+#include "main_window.h"
 
-int id(int x, int y) //faire une fct lambda
+int Sokoban::id(int x, int y) //faire une fct lambda
 {
     return y * 10 + x;
 }
-tup reverse_id(int x)
+tup Sokoban::reverse_id(int x)
 {
     return tup{x%10, x/10};
 }
@@ -332,7 +332,7 @@ void Sokoban::draw()
     int i=0;
     for (auto &c:level_c)
     {
-        // if (c.get_value()!='#') fl_draw_box(FL_FLAT_BOX, reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size(), c.get_color());
+        //if (c.get_value()!='#') fl_draw_box(FL_FLAT_BOX, reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size(), c.get_color());
         if (c.get_value()!=' ' ){c.get_image()->draw(reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size());}
         
         
@@ -347,15 +347,14 @@ void Sokoban::draw()
     {   
         // cout<<g.x<<" , "<<g.y<< level_c[id(g.x, g.y)].get_repr()<<endl;
         if (level_c[id(g.x, g.y)].get_repr()=='.'||level_c[id(g.x, g.y)].get_repr()==' ')
-        {  
-            // cout<<"condition"<<endl;
+        { 
             // level_c[id(g.x, g.y)].set_repr('.');
-            // fl_draw_box(FL_FLAT_BOX, g.x*50, g.y*50,50, 50, FL_YELLOW) ;
-            
-            Fl_Image *im =Fl_PNG_Image {"pika.png"} .copy(50,50);
+           Fl_Image *im = Fl_PNG_Image{"pika.png"}.copy(40,40);
+		   im->draw(g.x*50,g.y*50);
 
-            im->draw(g.x*50, g.y*50);
-            
+
+
+			//fl_draw_box(FL_FLAT_BOX, g.x*50, g.y*50,50, 50, FL_YELLOW) ;
             // fl_draw_image(const uchar *buf,reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size(), c.get_size(), c.get_size(),int D,int L)
 
         }
@@ -374,7 +373,10 @@ void Sokoban::reset_level()
     pos_player.y=original_pos.y;
 }
 
-// void Sokoban::process(int event)
-// {
+void Sokoban::next_level()
+{   niveau++;
+    load_game();
+    original_level.clear();
+    for (auto &c:level_c){original_level.push_back(c);}
 
-// }
+}

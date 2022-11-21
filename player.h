@@ -1,8 +1,6 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-
-
 // #include "sokoban.h"
 // #include "case.h"
 #include<string>
