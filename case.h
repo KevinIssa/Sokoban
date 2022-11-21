@@ -34,20 +34,21 @@ class Case
 
     public:
         Case(string name, char value,tup pos, Fl_Color col, Fl_Image *im): name{name},value{value},repr{value}, position{pos}, color{col}, image{im}{}
-        // Case(string name, char value,tup pos, Fl_Color col): name{name},value{value},repr{value}, position{pos}, color{col}{}
         Case(string name, char value, char repr, tup pos, Fl_Color col, Fl_Image *im): name{name},value{value},repr{repr}, position{pos}, color{col},image{im}{}
+
         string get_name(){return name;}
-        const char get_repr(){return repr;}
         const char get_value(){return value;}
-        const char draw(){return repr;}
-        void set_repr(char r){repr=r;}
-        void set_value(char r){value=r;}
+        const char get_repr(){return repr;}
         tup get_pos(){return position;}
-        void set_pos(tup pos){position=pos;}
-        void set_pos(int y,int x){position = tup {x,y};}
         Fl_Color get_color(){return color;}
-        int get_size(){return size;}
         Fl_Image * get_image(){return image;}
+        int get_size(){return size;}
+
+        void set_value(char r){value=r;}
+        void set_repr(char r){repr=r;}
+        void set_pos(int y,int x){position = tup {x,y};}
+        
+        // const char draw(){return repr;}
 };
 
 #endif

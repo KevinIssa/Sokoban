@@ -28,29 +28,30 @@ class Sokoban
         vector<string> data_level;
 
         void load_game();
-        bool listen_key(tup &current_pos, int &push_dir, char ch);
         int print_game();
 
     public:
-        void init();
         Sokoban();
+        void init();
         tup get_pos_player(){return pos_player;}
-        void play();
-        void play_move(tup &current_pos, int push_dir);
-        bool check_move(tup &current_pos, int push_dir);
-        void draw();
-        void reset_level();
         vector<Case> get_level_c(){return level_c;};
         vector<Case> get_original_level_c(){return level_c;};
-        int get_score();
-        void listen_game();
         vector <tup> get_goals_v(){return goals_v;};
+        int get_score();
+        int get_level(){return niveau;}
+        vector<string> get_data_level(){return data_level;}
+
         int id(int x, int y);
         tup reverse_id(int x);
-        int get_level(){return niveau;}
-        void set_level(int x){niveau = x;}
-        vector<string> get_data_level(){return data_level;}
+        
+        bool check_move(tup &current_pos, int push_dir);
+        void play_move(tup &current_pos, int push_dir);
+        void reset_level();
+        void listen_game();
         void next_level();
+
+        void draw();
+        
 };
 
 #endif

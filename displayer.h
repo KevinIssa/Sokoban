@@ -1,16 +1,16 @@
-#ifndef _DISPLAY_GAME_
-#define _DISPLAY_GAME_
+#ifndef _DISPLAYER_
+#define _DISPLAYER_
 
 const int FREQ=60;
 
-class Display_game 
+class Displayer 
 {   
     private:
         Sokoban *soko;
-        int id(int x, int y){return y * 10 + x;}
-        tup reverse_id(int x){return tup{x%10, x/10};}
+        // int id(int x, int y){return y * 10 + x;}
+        // tup reverse_id(int x){return tup{x%10, x/10};}
     public:
-        Display_game(Sokoban *soko) : soko{soko}{}
+        Displayer(Sokoban *soko) : soko{soko}{}
         
         void draw() // cal FREQ/seq
         {   
@@ -18,12 +18,12 @@ class Display_game
             int i=0;
             for (auto &c:soko->get_level_c())
             {
-                if (c.get_value()!=' ' ){c.get_image()->draw(reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size());}
+                if (c.get_value()!=' ' ){c.get_image()->draw(soko->reverse_id(i).x*c.get_size(), soko->reverse_id(i).y*c.get_size());}
                 i++;
             }
             for (auto &g:soko->get_goals_v())
             {   
-                if (soko->get_level_c()[id(g.x, g.y)].get_repr()=='.'||soko->get_level_c()[id(g.x, g.y)].get_repr()==' ')
+                if (soko->get_level_c()[soko->id(g.x, g.y)].get_repr()=='.'||soko->get_level_c()[soko->id(g.x, g.y)].get_repr()==' ')
                 {  
                     Fl_Image *im =Fl_PNG_Image {"pika.png"} .copy(50,50);
                     im->draw(g.x*50, g.y*50);

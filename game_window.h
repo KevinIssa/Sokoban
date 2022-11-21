@@ -4,23 +4,23 @@
 
 #include "sokoban.h"
 #include "controller.h"
-#include "display_game.h"
+#include "displayer.h"
 
 
-class MainWindow : public Fl_Window 
+class Game_window : public Fl_Window 
 {   
     Controller controller;
-    Display_game display;
+    Displayer displayer;
 
     public:
-        MainWindow(Sokoban *soko) : Fl_Window (100,100,650,550,"SOKOBAN MKovel + Idragus"), controller{Controller(soko)}, display{Display_game{soko}} 
+        Game_window(Sokoban *soko) : Fl_Window (100,100,650,550,"SOKOBAN MKovel + Idragus"), controller{Controller(soko)}, displayer{Displayer{soko}} 
         {
             Fl::add_timeout(1.0/FREQ, Timer_CB, this);
         }   
         void draw() override //call FREQ/sec
         {   
             Fl_Window::draw();
-            display.draw();
+            displayer.draw();
             controller.listen_game();
         }
 
@@ -37,7 +37,7 @@ class MainWindow : public Fl_Window
         }
         static void Timer_CB(void *userdata) 
         {
-            MainWindow *o = static_cast<MainWindow*>(userdata);
+            Game_window *o = static_cast<Game_window*>(userdata);
             o->redraw();
             Fl::repeat_timeout(1.0/FREQ, Timer_CB, userdata);
         }

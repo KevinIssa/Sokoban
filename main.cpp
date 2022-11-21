@@ -1,12 +1,11 @@
-#include "main_window.h"
+#include "game_window.h"
 
 int main()
 {   
     Sokoban soko;
     soko.init();
-    MainWindow window{&soko};
-    window.show();
+    Game_window soko_w{&soko};
+    soko_w.show();
     return Fl::run();
-    return 0;
 }
 
