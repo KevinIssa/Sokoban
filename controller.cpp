@@ -57,17 +57,9 @@ void Controller::listen_game()
     if (soko->get_score() == soko->get_goals_v().size())
         {   
             printf("\nNice, you've succeeded lvl %d\n",soko->get_level()+1);
-            // niveau++;
-            // soko->set_level(soko->get_level()+1);
             if (soko->get_level() + 1 ==soko->get_data_level().size()){printf("YOU WIN !!!\n"); exit(1);}
             printf("--> go to lvl %d\n",soko->get_level()+1);
             soko->next_level();
-
-
-            // soko->load_game();
-            // original_level.clear();
-            // for (auto &c:level_c){original_level.push_back(c);}
-            // print_game();
         }
 }
 

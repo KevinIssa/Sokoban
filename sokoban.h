@@ -51,11 +51,6 @@ class Sokoban
         void set_level(int x){niveau = x;}
         vector<string> get_data_level(){return data_level;}
         void next_level();
-
-        // void set_original_level(tup level){level_c = level}
-
-
-
 };
 
 #endif
