@@ -15,8 +15,10 @@ sokoban.o: sokoban.cpp sokoban.h controller.o
 controller.o: controller.cpp controller.h
 	${COMPILER} -c controller.cpp ${FLAGS} ${LDFLAGS}
 
+.PHONY: clean
 clean:
-	rm *.o
+	-rm *.o
+
 
 
 
