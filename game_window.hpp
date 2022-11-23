@@ -22,6 +22,7 @@ class Game_window : public Fl_Window
             Fl_Window::draw();
             displayer.draw();
             controller.listen_game();
+            //button.draw();
         }
 
         int handle(int event) override 

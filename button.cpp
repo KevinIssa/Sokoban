@@ -8,11 +8,6 @@
 #include <iostream>
 using namespace std;
 
-struct tup
-{
-  int x,y;
-};
-
 void test(){
   cout<<"ca marche"<<endl;
 }
@@ -95,51 +90,3 @@ class Button{
 Button::Button(tup center, int w, int h):
   rec(center, w, h, FL_BLACK, FL_WHITE),
   text("this is a button",center,h/2){}
-
-class Canvas{
-  Button button;
-  public:
-  Canvas();
-  void draw(){
-    button.draw();
-  }
-  void mouseClick(tup mouseLoc){
-    button.mouseClick(mouseLoc);
-  }
-};
-
-class Game_window : public Fl_Window {
-  Canvas canvas;
-  public:
-      Game_window() : Fl_Window (500, 500, 500, 500, "button"){
-        Fl::add_timeout(1.0/60, Timer_CB, this);
-        resizable(this);
-      }   
-      void draw() override //call FREQ/sec
-      {   
-        Fl_Window::draw();
-        canvas.draw();
-      }
-
-      int handle(int event) override {
-          switch (event) 
-          {
-            case FL_PUSH:
-              canvas.mouseClick(tup{Fl::event_x(), Fl::event_y()});
-              return 1;
-          }
-          return 0;
-      }
-      static void Timer_CB(void *userdata) 
-      {
-          Game_window *o = static_cast<Game_window*>(userdata);
-          o->redraw();
-          Fl::repeat_timeout(1.0/60, Timer_CB, userdata);
-      }
-};
-
-int main(int argc, char *argv[]) {
-  Game_window window;
-  window.show(argc, argv);
-  return Fl::run();
-}
