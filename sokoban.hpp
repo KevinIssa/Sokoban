@@ -20,7 +20,10 @@ const int WEST = 3;
 
 class Sokoban 
 {   private:
-        int niveau =0 ;
+        unsigned int niveau =0 ;
+        unsigned int limited_step;
+        unsigned int used_step=0;
+        unsigned int best_step_score;
         struct Vector2D pos_player,original_pos,size_level;
         string level_s;
         vector<Case> original_level,level_c;
@@ -38,8 +41,25 @@ class Sokoban
         vector<Case> get_level_c(){return level_c;};
         vector<Case> get_original_level_c(){return level_c;};
         vector <Vector2D> get_goals_v(){return goals_v;};
+
         int get_goals_count();
-        int get_level(){return niveau;}
+
+        unsigned int get_level(){return niveau;}
+
+        int get_limited_step(){
+            return limited_step;
+        }
+        int get_used_step(){
+            return used_step;
+        }
+        int get_best_step_score(){
+            return best_step_score;
+        }
+
+        void set_limited_step(unsigned int step){
+            limited_step=step;
+        }
+
         vector<string> get_data_level(){return data_level;}
 
         int id(int x, int y);

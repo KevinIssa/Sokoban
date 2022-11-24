@@ -142,8 +142,7 @@ for (auto&c:level_c){original_level.push_back(c);}
 
 void Sokoban::play_move(Vector2D &current_pos, int push_dir)
 {  
-    while (current_pos.x != pos_player.x || current_pos.y != pos_player.y)
-    {
+    while (current_pos.x != pos_player.x || current_pos.y != pos_player.y){
         Vector2D source = current_pos;
         switch (push_dir)
         {
@@ -156,13 +155,15 @@ void Sokoban::play_move(Vector2D &current_pos, int push_dir)
         current_pos.x = source.x;
         current_pos.y = source.y;
     }
-    switch (push_dir)
-    {
+
+    switch (push_dir){
         case NORTH: pos_player.y--; break;
         case SOUTH: pos_player.y++; break;
         case EAST: pos_player.x++; break;
         case WEST: pos_player.x--; break;
-}
+    }
+    used_step++;
+    cout<<used_step<<endl;
 }
 
 int Sokoban::get_goals_count()
@@ -177,7 +178,6 @@ int Sokoban::get_goals_count()
     }
     return count;
 }
-
 void Sokoban::listen_game()
 {
     if (get_goals_count() == goals_v.size())
@@ -273,10 +273,12 @@ void Sokoban::reset_level()
     }
     pos_player.x=original_pos.x;
     pos_player.y=original_pos.y;
+    used_step=0;
 }
 
 void Sokoban::next_level()
 {   niveau++;
+    used_step=0;
     load_game();
     original_level.clear();
     for (auto &c:level_c){original_level.push_back(c);}
