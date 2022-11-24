@@ -12,54 +12,54 @@ void test(){
   cout<<"ca marche"<<endl;
 }
 class Text{
-  string s;
-  tup center;
+  string str;
+  Vector2D center;
   int fontSize;
   Fl_Color color;
 
   public:
-  Text(string s, tup center, int fontSize = 10, Fl_Color color = FL_BLACK):
-    s{s}, center{center}, fontSize{fontSize}, color{color} {}
+  Text(string str, Vector2D center, int fontSize = 10, Fl_Color color = FL_BLACK):
+    str{str}, center{center}, fontSize{fontSize}, color{color} {}
 
   void setString(const string &newString) {
-    s = newString;
+    str = newString;
   }
 
   void draw() {
     fl_color(color);
     fl_font(FL_HELVETICA, fontSize);
     int width, height;
-    fl_measure(s.c_str(), width, height, false);
-    fl_draw(s.c_str(), center.x-width/2, center.y-fl_descent()+height/2);
+    fl_measure(str.c_str(), width, height, false);
+    fl_draw(str.c_str(), center.x-width/2, center.y-fl_descent()+height/2);
   }
 };
 
 class Rectangle {
-  tup center;
-  int w, h;
+  Vector2D center;
+  int width, height;
   Fl_Color fillColor;
  public:
-  Rectangle(tup center, int w, int h,
+  Rectangle(Vector2D center, int width, int height,
             Fl_Color frameColor = FL_BLACK,
             Fl_Color fillColor = FL_WHITE);
   void draw();
-  bool contains(tup p);
+  bool contains(Vector2D dot);
 };
 
-Rectangle::Rectangle(tup center, int w, int h,
+Rectangle::Rectangle(Vector2D center, int width, int height,
                      Fl_Color frameColor,
                      Fl_Color fillColor):
-  center{center}, w{w}, h{h}, fillColor{fillColor}{}
+  center{center}, width{width}, height{height}, fillColor{fillColor}{}
 
 void Rectangle::draw(){
-  fl_draw_box(FL_FLAT_BOX, center.x-w/2, center.y-h/2, w, h, fillColor);
+  fl_draw_box(FL_FLAT_BOX, center.x-width/2, center.y-width/2, width, height, fillColor);
 }
 
-bool Rectangle::contains(tup p) {
-  return p.x >= center.x-w/2 &&
-         p.x < center.x+w/2 &&
-         p.y >= center.y-h/2 &&
-         p.y < center.y+h/2;
+bool Rectangle::contains(Vector2D dot) {
+  return dot.x >= center.x-width/2 &&
+         dot.x < center.x+width/2 &&
+         dot.y >= center.y-height/2 &&
+         dot.y < center.y+height/2;
 };
 
 class Button{
@@ -67,13 +67,14 @@ class Button{
   Text text;
   bool on= false;
   public:
-  Button(tup center, int w, int h);
+  Button(Vector2D center, int w, int h, string text);
 
   void draw(){
     rec.draw();
+    text.draw();
   }
 
-  void mouseClick(tup mouseLoc) {
+  void mouseClick(Vector2D mouseLoc) {
    if (rec.contains(mouseLoc)) {
     on = !on;
     if (on){
@@ -87,6 +88,6 @@ class Button{
   }
 };
 
-Button::Button(tup center, int w, int h):
-  rec(center, w, h, FL_BLACK, FL_WHITE),
-  text("this is a button",center,h/2){}
+Button::Button(Vector2D center, int width, int height, string text):
+  rec(center, width, height, FL_BLACK, FL_WHITE),
+  text(text, center, h/2) {}

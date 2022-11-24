@@ -6,14 +6,15 @@
 #include "controller.hpp"
 #include "displayer.hpp"
 
-
 class Game_window : public Fl_Window 
 {   
     Controller controller;
     Displayer displayer;
 
     public:
-        Game_window(Sokoban *soko) : Fl_Window (100,100,650,550,"SOKOBAN MKovel + Idragus"), controller{Controller(soko)}, displayer{Displayer{soko}} 
+        Game_window(Sokoban *soko) : Fl_Window (100,100,650,550,"SOKOBAN MKovel + Idragus"), 
+        controller{Controller(soko)}, 
+        displayer{Displayer{soko}}
         {
             Fl::add_timeout(1.0/FREQ, Timer_CB, this);
         }   
@@ -22,17 +23,23 @@ class Game_window : public Fl_Window
             Fl_Window::draw();
             displayer.draw();
             controller.listen_game();
-            //button.draw();
         }
 
         int handle(int event) override 
         {
-            switch (event) 
-            {
+            switch (event){
+
                 case FL_KEYDOWN:
                     int event = Fl::event_key();
                     controller.process_key(event);
                     break;
+                
+                /*
+                case FL_PUSH:
+                    button.mouseClick(tup{Fl::event_x(), Fl::event_y()});
+                    break; 
+                */
+                
             }
             return 0;
         }

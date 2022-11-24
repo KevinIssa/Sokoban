@@ -8,7 +8,7 @@
 
 int Controller::process_key(int event)
 {
-    tup position = soko->get_pos_player();
+    Vector2D position = soko->get_pos_player();
 
     switch(event) //fleches actives
     {
@@ -54,7 +54,7 @@ return 0;
 }
 void Controller::listen_game()
 {
-    if (soko->get_score() == soko->get_goals_v().size())
+    if (soko->get_goals_count() == soko->get_goals_v().size())
         {   
             printf("\nNice, you've succeeded lvl %d\n",soko->get_level()+1);
             if (soko->get_level() + 1 ==soko->get_data_level().size()){printf("YOU WIN !!!\n"); exit(1);}

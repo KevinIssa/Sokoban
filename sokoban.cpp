@@ -1,15 +1,15 @@
 
 #include "game_window.hpp"
-
+#include "sokoban.hpp"
 
 int Sokoban::id(int x, int y) //faire une fct lambda
 {
     return y * 10 + x;
 }
 
-tup Sokoban::reverse_id(int x)
+Vector2D Sokoban::reverse_id(int x)
 {
-    return tup{x%10, x/10};
+    return Vector2D{x%10, x/10};
 }
 
 Sokoban::Sokoban()
@@ -42,7 +42,7 @@ void Sokoban::init()
         "#        #"
         "##### $$.#"
         "### @    #"
-        "##########";struct tup size_level_n = {10,10};
+        "##########";struct Vector2D size_level_n = {10,10};
 
     string level2 = 
         "##########"
@@ -86,7 +86,7 @@ void Sokoban::load_game()
     {
         for (int x =0; x< size_level.x; x++)
         {
-            tup current ={x,y};
+            Vector2D current ={x,y};
             switch (level_s[y * size_level.x + x])
             {
                 case '@':
@@ -103,7 +103,7 @@ void Sokoban::load_game()
                     Fl_Image *im =Fl_PNG_Image {"pika.png"} .copy(50,50);
                     Case obj{"Objective",' ',level_s[y * size_level.x + x], current, FL_WHITE, im};
                     level_c.push_back(obj);
-                    goals_v.push_back(tup{x,y});
+                    goals_v.push_back(Vector2D{x,y});
                     break;
                 }
                 case '$':
@@ -140,11 +140,11 @@ for (auto&c:level_c){original_level.push_back(c);}
 
 }
 
-void Sokoban::play_move(tup &current_pos, int push_dir)
+void Sokoban::play_move(Vector2D &current_pos, int push_dir)
 {  
     while (current_pos.x != pos_player.x || current_pos.y != pos_player.y)
     {
-        tup source = current_pos;
+        Vector2D source = current_pos;
         switch (push_dir)
         {
             case NORTH: source.y++; break;
@@ -165,12 +165,12 @@ void Sokoban::play_move(tup &current_pos, int push_dir)
 }
 }
 
-int Sokoban::get_score()
+int Sokoban::get_goals_count()
 {
     int count=0;
-    for (auto &g:goals_v)
+    for (auto &goals:goals_v)
     {
-        if (level_c[id(g.x, g.y)].get_repr()=='$'|| level_c[id(g.x, g.y)].get_repr()=='+')
+        if (level_c[id(goals.x, goals.y)].get_repr()=='$'|| level_c[id(goals.x, goals.y)].get_repr()=='+')
         {
             count++;
         }
@@ -180,7 +180,7 @@ int Sokoban::get_score()
 
 void Sokoban::listen_game()
 {
-    if (get_score() == goals_v.size())
+    if (get_goals_count() == goals_v.size())
         {   
             printf("\nNice, you've succeeded lvl %d\n",niveau+1);
             niveau++;
@@ -192,7 +192,7 @@ void Sokoban::listen_game()
         }
 }
 
-bool Sokoban::check_move(tup &current_pos, int push_dir)
+bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
 {   
     int verif=0;
     bool allow_pushing=false;
@@ -253,12 +253,12 @@ void Sokoban::draw()
         if (c.get_value()!=' ' ){c.get_image()->draw(reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size());}
         i++;
     }
-    for (auto &g:goals_v)
+    for (auto &goals:goals_v)
     {   
-        if (level_c[id(g.x, g.y)].get_repr()=='.'||level_c[id(g.x, g.y)].get_repr()==' ')
+        if (level_c[id(goals.x, goals.y)].get_repr()=='.'||level_c[id(goals.x, goals.y)].get_repr()==' ')
         { 
            Fl_Image *im = Fl_PNG_Image{"pika.png"}.copy(40,40);
-		   im->draw(g.x*50,g.y*50);
+		   im->draw(goals.x*50,goals.y*50);
         }
     }
     

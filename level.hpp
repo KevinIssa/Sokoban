@@ -4,11 +4,11 @@
 
 class Level
 {   string level_s;
-    tup size;
+    Vector2D size;
     public :
-        Level(string lvl, tup si):level_s{lvl},size{si}{}
+        Level(string lvl, Vector2D size):level_s{lvl},size{size}{}
         string get_level_s(){return level_s;}
-        tup get_size(){return size;}
+        Vector2D get_size(){return size;}
 };
 
 #endif

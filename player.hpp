@@ -12,7 +12,7 @@ using namespace std;
 class Player : public Case
 {
     public:
-        Player(string name, char value, tup pos, Fl_Color col, Fl_Image *im): Case(name,value, pos, col, im){}
+        Player(string name, char value, Vector2D pos, Fl_Color col, Fl_Image *im): Case(name,value, pos, col, im){}
         
 };
 
