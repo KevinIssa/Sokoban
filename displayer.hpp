@@ -11,6 +11,7 @@ class Displayer
         // tup reverse_id(int x){return tup{x%10, x/10};}
     public:
         Displayer(Sokoban *soko) : soko{soko}{}
+        ~Displayer()=default;
         void draw(); // cal FREQ/seq
 
 };

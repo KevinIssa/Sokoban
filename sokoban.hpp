@@ -32,6 +32,7 @@ class Sokoban
 
     public:
         Sokoban();
+        ~Sokoban()=default;
         void init();
         Vector2D get_pos_player(){return pos_player;}
         vector<Case> get_level_c(){return level_c;};

@@ -7,6 +7,7 @@ class Level
     Vector2D size;
     public :
         Level(string lvl, Vector2D size):level_s{lvl},size{size}{}
+        ~Level()=default;
         string get_level_s(){return level_s;}
         Vector2D get_size(){return size;}
 };
