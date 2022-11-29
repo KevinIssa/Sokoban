@@ -1,4 +1,3 @@
-
 #include "game_window.hpp"
 #include "sokoban.hpp"
 

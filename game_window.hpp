@@ -5,14 +5,15 @@
 #include "sokoban.hpp"
 #include "controller.hpp"
 #include "displayer.hpp"
+#include <FL/Fl_Double_Window.H>
 
-class Game_window : public Fl_Window 
+class Game_window : public Fl_Double_Window 
 {   
     Controller controller;
     Displayer displayer;
 
     public:
-        Game_window(Sokoban *soko) : Fl_Window (100,100,650,550,"SOKOBAN MKovel + Idragus"), 
+        Game_window(Sokoban *soko) : Fl_Double_Window (100,100,650,550,"SOKOBAN MKovel + Idragus"), 
         controller{Controller(soko)}, 
         displayer{Displayer{soko}}
         {
