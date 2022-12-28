@@ -9,12 +9,8 @@ void Displayer::draw(){
         i++;
     }
 
-    /* cout<<"salut"<<endl; */
-    /* cout<<soko->get_goals_v().size()<<endl; */
-
     for (auto &goals:soko->get_goals_v())
     {   
-        /* cout<<soko->get_level_c()[soko->id(goals.x, goals.y)].get_repr()<<endl; */
         if (soko->get_level_c()[soko->id(goals.x, goals.y)].get_repr()=='.'
         ||soko->get_level_c()[soko->id(goals.x, goals.y)].get_repr()==' ')
         {  
@@ -22,5 +18,4 @@ void Displayer::draw(){
             im->draw(goals.x*50, goals.y*50);
         }
     }
-    /* cout<<"pas de bug"<<endl;//BUG DANS DISPLAYER */   
 }

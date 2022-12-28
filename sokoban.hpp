@@ -45,9 +45,7 @@ public:
     Vector2D get_pos_player(){return pos_player;}
     vector<Case> get_level_c(){return level_c;};
     vector<Case> get_original_level_c(){return level_c;};
-    vector <Vector2D> get_goals_v(){
-        return goals_v;
-    }
+    vector <Vector2D> get_goals_v(){return goals_v;}
 
     int get_goals_count();
 

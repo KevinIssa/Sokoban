@@ -88,7 +88,6 @@ void Sokoban::read_data(ifstream& file , int& data){
     }
 
     data = stoi(buffer);
-   //cout<<"data: "<<data<<endl;
 }
 
 void Sokoban::read_data_level(ifstream& file , string& data){
