@@ -11,10 +11,9 @@ Vector2D Sokoban::reverse_id(int x)
     return Vector2D{x%10, x/10};
 }
 
-Sokoban::Sokoban()
-        {   
-            // init();
-        }
+Sokoban::Sokoban(){   
+    // init();
+}
 
 void Sokoban::init()
 {
