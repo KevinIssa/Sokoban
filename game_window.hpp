@@ -13,7 +13,7 @@ class Game_window : public Fl_Double_Window
     Displayer displayer;
 
     public:
-        Game_window(Sokoban *soko) : Fl_Double_Window (100,100,650,550,"SOKOBAN MKovel + Idragus"), 
+        Game_window(Sokoban *soko) : Fl_Double_Window (100,100,650,550,"SOKOBAN MKovel + Kevin"), 
         controller{Controller(soko)}, 
         displayer{Displayer{soko}}
         {

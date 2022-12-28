@@ -8,8 +8,13 @@ void Displayer::draw(){
         if (c.get_value()!=' ' ){c.get_image()->draw(soko->reverse_id(i).x*c.get_size(), soko->reverse_id(i).y*c.get_size());}
         i++;
     }
+
+    cout<<"salut"<<endl;
+    cout<<soko->get_goals_v().size()<<endl;
+
     for (auto &goals:soko->get_goals_v())
     {   
+        cout<<soko->get_level_c()[soko->id(goals.x, goals.y)].get_repr()<<endl;
         if (soko->get_level_c()[soko->id(goals.x, goals.y)].get_repr()=='.'
         ||soko->get_level_c()[soko->id(goals.x, goals.y)].get_repr()==' ')
         {  
@@ -17,4 +22,5 @@ void Displayer::draw(){
             im->draw(goals.x*50, goals.y*50);
         }
     }
+    cout<<"pas de bug"<<endl;//BUG DANS DISPLAYER   
 }

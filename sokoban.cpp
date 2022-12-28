@@ -16,7 +16,7 @@ Sokoban::Sokoban(){
 }
 
 void Sokoban::init()
-{
+{   
     string level_t = 
         "##########"
         "#   # #  #"
@@ -66,20 +66,66 @@ void Sokoban::init()
         "#        #"
         "##########";
 
+    /*
     data_level.push_back(level_t);
     data_level.push_back(level);
     data_level.push_back(level2);
     data_level.push_back(level3);
     size_level = size_level_n;
+    */
     load_game();
     
+}
+
+void Sokoban::read_data(ifstream& file , int& data){
+    string str_line;
+    getline(file , str_line);
+    string buffer = "";
+    int lenght = str_line.size();
+
+    for(int i = lenght-3; i < lenght; i++){
+        buffer += str_line[i];
+    }
+
+    data = stoi(buffer);
+   //cout<<"data: "<<data<<endl;
+}
+
+void Sokoban::read_data_level(ifstream& file , string& data){
+
+    unsigned int offset = level_data[3];
+    string void_line, str_line;
+
+    getline(file , void_line);
+    for (int i = 0 ; i<offset; i++){
+        getline(file, str_line);
+        level_s += str_line;
+    }
+
+}
+
+void Sokoban::read_level_file(int level_number){
+
+    ifstream level_file("levels.txt");
+
+    for(int i = 0; i<level_data.size(); i++){
+        read_data(level_file , level_data[i]);
+        line++;
+    }
+
+    read_data_level(level_file, level_s);
+    
+    level_file.close();
 }
 
 void Sokoban::load_game()
     {
     goals_v.clear();
     level_c.clear();
-    level_s = data_level[niveau];
+    //level_s = data_level[level];
+    read_level_file(level);
+    size_level={level_data[3] , level_data[4]};
+
     for (int y=0;y<size_level.y;y++)
     {
         for (int x =0; x< size_level.x; x++)
@@ -134,6 +180,7 @@ void Sokoban::load_game()
             }
         }       
     }
+
 for (auto&c:level_c){original_level.push_back(c);}
 
 }
@@ -180,10 +227,10 @@ void Sokoban::listen_game()
 {
     if (get_goals_count() == goals_v.size())
         {   
-            printf("\nNice, you've succeeded lvl %d\n",niveau+1);
-            niveau++;
-            if (niveau==data_level.size()){printf("YOU WIN !!!\n"); exit(1);}
-            printf("--> go to lvl %d\n",niveau+1);
+            printf("\nNice, you've succeeded lvl %d\n",level);
+            level++;
+            if (level==data_level.size()){printf("YOU WIN !!!\n"); exit(1);}
+            printf("--> go to lvl %d\n",level);
             load_game();
             original_level.clear();
             for (auto &c:level_c){original_level.push_back(c);}
@@ -275,7 +322,7 @@ void Sokoban::reset_level()
 }
 
 void Sokoban::next_level()
-{   niveau++;
+{   level++;
     used_step=0;
     load_game();
     original_level.clear();

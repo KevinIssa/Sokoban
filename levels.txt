@@ -1,7 +1,8 @@
-level = 1
-best score = 0
+level = 001
+best_score = 101
 limited_step = 100
-dimension = 10,10
+dimensionx = 010
+dimensiony = 010
 
 ##########
 #   # #  #
@@ -15,10 +16,12 @@ dimension = 10,10
 ##########
 
 
-level = 2
-best score = 0
+level = 002
+best score = 101
 limited_step = 100
-dimension = 10,10
+dimensionx = 010
+dimensiony = 010
+
 
 ##########
 ##########
@@ -32,10 +35,12 @@ dimension = 10,10
 ##########
 
 
-level = 3
-best score = 0
+level = 003
+best score = 101
 limited_step = 100
-dimension = 10,10
+dimensionx = 010
+dimensiony = 010
+
 
 ##########
 #       ##
@@ -49,10 +54,12 @@ dimension = 10,10
 ##########
 
 
-level = 4
-best score = 0
+level = 004
+best score = 101
 limited_step = 100
-dimension = 10,10
+dimensionx = 010
+dimensiony = 010
+
 
 ##########
 #.########

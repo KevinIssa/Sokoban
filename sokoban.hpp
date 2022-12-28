@@ -2,14 +2,15 @@
 #define _SOKOBAN_H
 
 
-#include<string>
+#include <string>
 #include <iostream>
 #include <vector>
-#include<time.h>
+#include <time.h>
 #include <unistd.h>
 #include "case.hpp"
 #include "player.hpp"
 #include "level.hpp"
+#include <fstream>
 
 using namespace std;
 
@@ -21,12 +22,12 @@ const int WEST = 3;
 class Sokoban { 
       
 private:
+    int line = 1;
+    int level = 1 ;
+    int used_step = 0;
+    int best_score, dimension_x , dimension_y , limited_step;
 
-    unsigned int niveau =0 ;
-    unsigned int limited_step;
-    unsigned int used_step=0;
-    unsigned int best_score;
-
+    vector<int> level_data={level, best_score, limited_step, dimension_x , dimension_y};
     struct Vector2D pos_player,original_pos,size_level;
     string level_s;
     vector<Case> original_level,level_c;
@@ -40,14 +41,17 @@ public:
     Sokoban();
     ~Sokoban()=default;
     void init();
+    
     Vector2D get_pos_player(){return pos_player;}
     vector<Case> get_level_c(){return level_c;};
     vector<Case> get_original_level_c(){return level_c;};
-    vector <Vector2D> get_goals_v(){return goals_v;};
+    vector <Vector2D> get_goals_v(){
+        return goals_v;
+    }
 
     int get_goals_count();
 
-    unsigned int get_level(){return niveau;}
+    int get_level(){return level;}
 
     int get_limited_step(){
         return limited_step;
@@ -61,10 +65,15 @@ public:
         return best_score;
     }
 
-    void set_limited_step(unsigned int step){
+    void set_limited_step(int step){
         limited_step=step;
     }
 
+    void read_level_file(int level_number);
+
+    void read_data(ifstream& file ,  int& data);
+    void read_data_level(ifstream& file , string& data);
+    
     vector<string> get_data_level(){return data_level;}
 
     int id(int x, int y);
