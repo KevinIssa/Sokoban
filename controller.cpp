@@ -52,12 +52,12 @@ int Controller::process_key(int event)
     }
 return 0;
 }
+
 void Controller::listen_game()
 {
-    if (soko->get_goals_count() == soko->get_goals_v().size())
-        {   
+    if (soko->get_goals_count() == soko->get_goals_cell().size()){   
             printf("\nNice, you've succeeded lvl %d\n",soko->get_level());
-            if (soko->get_level() ==soko->get_data_level().size()){printf("YOU WIN !!!\n"); exit(1);}
+            if (soko->get_level() == soko->get_data_level().size()){printf("YOU WIN !!!\n"); exit(1);}
             printf("--> go to lvl %d\n",soko->get_level()+1);
             
             try{
@@ -67,8 +67,13 @@ void Controller::listen_game()
             cout<<"YOU WIN !!!"<<endl;
             exit(1);
         }
+    }
 
-        }
+    /*
+    else if(soko->get_lost_flag() == true){
+        cout<<"You lost!"<<endl;
+    }
+    */ 
 }
 
 

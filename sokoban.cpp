@@ -24,64 +24,8 @@ Sokoban::Sokoban(){
     // init();
 }
 
-void Sokoban::init()
-{   
-    string level_t = 
-        "##########"
-        "#   # #  #"
-        "#  $     #"
-        "#      . #"
-        "#    #   #"
-        "#    @   #"
-        "#        #"  
-        "#        #"
-        "# .$     #"
-        "##########";
-        // struct tup size_level_t= {10,10};
-
-    string level =
-        "##########"
-        "##########"
-        "#######  #"
-        "###      #"
-        "#     .  #"
-        "# #  $ $ #"
-        "#        #"
-        "##### $$.#"
-        "### @    #"
-        "##########";struct Vector2D size_level_n = {10,10};
-
-    string level2 = 
-        "##########"
-        "#       ##"
-        "# $    ###"
-        "#. ## . ##"
-        "# ####  ##"
-        "#   #   ##"
-        "#$$ #. ###"
-        "# # # $@##"
-        "# .    ###"
-        "##########";
-
-    string level3 = 
-        "##########"
-        "#.########"
-        "#  #######"
-        "# $  $@###"
-        "# . . ####"
-        "# # $$ . #"
-        "# #    ###"
-        "# ##### ##"
-        "#        #"
-        "##########";
-
-    /*
-    data_level.push_back(level_t);
-    data_level.push_back(level);
-    data_level.push_back(level2);
-    data_level.push_back(level3);
-    size_level = size_level_n;
-    */
+void Sokoban::init(){   
+    
     load_game();
     
 }
@@ -90,13 +34,7 @@ void Sokoban::read_data(ifstream& file , int& data){
     string str_line;
     getline(file , str_line);
     string buffer;
-    /* string buffer = ""; */
-        /* cout<<"ici= "<<str_line<<endl; */
-    /* int lenght = str_line.size(); */
-
-    /* for(int i = lenght-3; i < lenght; i++){ */
-    /*     buffer += str_line[i]; */
-    /* } */
+    
     buffer=str_line.substr(str_line.size() - 3);
     /* cout<<"buffer= "<<buffer<<endl; */
     data = stoi(buffer);
@@ -112,39 +50,59 @@ void Sokoban::read_data_level(ifstream& file , string& data){
     for (int i = 0 ; i<offset; i++){
         getline(file, str_line);
         level_s += str_line;
-/* cout<<str_line<<endl; */
     }
 }
 void Sokoban::read_level_file(int level_number){
 
     ifstream level_file("levels.txt");
     string void_line;
-    /* cout<<"line= "<<line<<endl; */
-    for (int i=1;i<=line;i++)
-    /* for (int i=1;i<5;i++) */
-        {
-            /* cout<<"test"<<endl; */
-            getline(level_file, void_line);
-            /* cout<<"v="<<void_line<<endl; */
-        }
-    /* level_fil.close(); */
-    /* ifstream level_file("levels.txt"); */
+    
+    for (int i=1;i<=saved_line;i++){
+
+        getline(level_file, void_line);
+    }
+   
     for(int i = 0; i<level_data.size(); i++){
+
         read_data(level_file , level_data[i]);
-        /* cout<<level_data[i]; */
-        line++;
+        saved_line++;
     }
 
     read_data_level(level_file, level_s);
-    line+=level_data[4];
-    line+=3;
+    saved_line += level_data[4];
+    saved_line += 3;
     level_file.close();
+}
+
+void Sokoban::update_file(int new_best_score){
+
+    string line;
+    ofstream out("tmp.txt");
+    ifstream in("levels.txt");
+    
+    char new_line [100];
+    snprintf(new_line, sizeof("best_score = %03d\n"), "best_score = %03d\n", new_best_score);
+    int current_line=0;
+
+    while(getline(in, line)){
+        current_line++;
+        if (line[0]=='b' && current_line < saved_line && current_line > saved_line - (8+level_data[4]) ){
+            out<<new_line;
+        }
+        else{
+            out<<line<<endl;
+        }
+    }
+
+    in.close();out.close();
+    rename("tmp.txt","levels.txt");
+    remove("tmp.txt");
 }
 
 void Sokoban::load_game()
     {
-    goals_v.clear();
-    level_c.clear();
+    goals_cell.clear();
+    level_cell.clear();
     //level_s = data_level[level];
     read_level_file(level);
     size_level={level_data[3] , level_data[4]};
@@ -160,7 +118,7 @@ void Sokoban::load_game()
                 {
                     Fl_Image *im =Fl_PNG_Image {"cap.png"} .copy(50,50);
                     Case player{"Player",level_s[y * size_level.x + x], current, FL_GREEN, im};
-                    level_c.push_back(player);
+                    level_cell.push_back(player);
                     pos_player = {x,y}; 
                     original_pos = pos_player;
                     break;
@@ -169,42 +127,44 @@ void Sokoban::load_game()
                 {   
                     Fl_Image *im =Fl_PNG_Image {"pika.png"} .copy(50,50);
                     Case obj{"Objective",' ',level_s[y * size_level.x + x], current, FL_WHITE, im};
-                    level_c.push_back(obj);
-                    goals_v.push_back(Vector2D{x,y});
+                    level_cell.push_back(obj);
+                    goals_cell.push_back(Vector2D{x,y});
                     break;
                 }
                 case '$':
                 {   
                     Fl_Image *im =Fl_PNG_Image {"Pok1.png"} .copy(50,50);
                     Case box_h{"Heavy Box",level_s[y * size_level.x + x], current, FL_RED, im};
-                    level_c.push_back(box_h);
+                    level_cell.push_back(box_h);
+                    box_list.push_back(Vector2D{x,y});
                     break;
                 }
                 case '#':
                 {   
                     Fl_Image *im =Fl_PNG_Image {"wall.png"} .copy(50,50);
                     Case wall{"Wall",level_s[y * size_level.x + x], current, FL_BLACK,im};
-                    level_c.push_back(wall);
+                    level_cell.push_back(wall);
                     break;
                 }
                 case '+':
                 {   
                     Fl_Image *im =Fl_PNG_Image {"wall.png"} .copy(50,50);
                     Case light_case{"Light Box",level_s[y * size_level.x + x], current, FL_CYAN,im};
-                    level_c.push_back(light_case);
+                    level_cell.push_back(light_case);
+                    box_list.push_back(Vector2D{x,y});
                     break;
                 }
                 default:
                 {
                     Fl_Image *im =Fl_PNG_Image {"wall.png"} .copy(50,50);
                     Case free_case{"free",' ', current, FL_WHITE,im};
-                    level_c.push_back(free_case);
+                    level_cell.push_back(free_case);
                 }   
             }
         }       
     }
 
-for (auto&c:level_c){original_level.push_back(c);}
+for (auto&c:level_cell){original_level.push_back(c);}
 
 }
 
@@ -219,7 +179,7 @@ void Sokoban::play_move(Vector2D &current_pos, int push_dir)
             case EAST: source.x--; break;
             case WEST: source.x++; break;
         }
-        swap(level_c[id(source.x, source.y)], level_c[id(current_pos.x, current_pos.y)]);
+        swap(level_cell[id(source.x, source.y)], level_cell[id(current_pos.x, current_pos.y)]);
         current_pos.x = source.x;
         current_pos.y = source.y;
     }
@@ -231,15 +191,15 @@ void Sokoban::play_move(Vector2D &current_pos, int push_dir)
         case WEST: pos_player.x--; break;
     }
     used_step++;
-    cout<<used_step<<endl;
+    cout<<"used step: "<<used_step<<endl;
 }
 
-int Sokoban::get_goals_count()
-{
+int Sokoban::get_goals_count(){
+
     int count=0;
-    for (auto &goals:goals_v)
+    for (auto &goals:goals_cell)
     {
-        if (level_c[id(goals.x, goals.y)].get_repr()=='$'|| level_c[id(goals.x, goals.y)].get_repr()=='+')
+        if (level_cell[id(goals.x, goals.y)].get_repr()=='$'|| level_cell[id(goals.x, goals.y)].get_repr()=='+')
         {
             count++;
         }
@@ -248,16 +208,54 @@ int Sokoban::get_goals_count()
 }
 void Sokoban::listen_game()
 {
-    if (get_goals_count() == goals_v.size())
+    if (get_goals_count() == goals_cell.size())
         {   
             printf("\nNice, you've succeeded lvl %d\n",level);
             level++;
-            if (level==data_level.size()){printf("YOU WIN !!!\n"); exit(1);}
+            if (level == data_level.size()){printf("YOU WIN !!!\n"); exit(1);}
             printf("--> go to lvl %d\n",level);
             load_game();
             original_level.clear();
-            for (auto &c:level_c){original_level.push_back(c);}
+            for (auto &c:level_cell){original_level.push_back(c);}
         }
+}
+
+bool Sokoban::are_box_blocked(){
+
+    vector<int>push_direction={0, 1, 2, 3};
+    int blocked_box = 0;
+
+    cout<<"VOICI LES BOX: "<<get_box_list().size()<<endl;
+    for(size_t i =0; i<get_box_list().size(); i++){
+        int failed_check_move = 0;
+
+        for(int push_index = 0; push_index<= 3; push_index++){
+            cout<<"push index: "<<push_direction[push_index]<<endl;
+            cout<<"Coord: "<<get_box_list()[i].x<<" "<<get_box_list()[i].y<<endl;
+            /*
+            if(check_move(get_box_list()[i], push_direction[push_index]) == false){
+                failed_check_move++;
+                cout<<"Failed check move: \n"<<failed_check_move<<"i: "<<i<<endl;
+            }
+            */
+
+        }
+
+        if(failed_check_move >=2){ blocked_box++; }
+    }
+
+    cout<<"BLOCK: "<<blocked_box<<endl;
+    return blocked_box == get_box_list().size();
+}
+
+bool Sokoban::is_lost(){
+    bool block = are_box_blocked();
+    cout<<"CA DEBUG: \n"<<block<<endl;
+    if(used_step > limited_step or are_box_blocked()){
+        lost_flag = true;
+    }
+
+    return lost_flag;
 }
 
 bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
@@ -265,9 +263,10 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
     int verif=0;
     bool allow_pushing=false;
     bool test=true;
+
     while(test)
     {
-        switch (level_c[id(current_pos.x, current_pos.y)].get_value())
+        switch (level_cell[id(current_pos.x, current_pos.y)].get_value())
         {
         case '$':
             verif++;
@@ -275,19 +274,19 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
             switch (push_dir)
             {
                 case NORTH: 
-                    test = level_c[id(current_pos.x, current_pos.y--)].get_value() == ' ';
+                    test = level_cell[id(current_pos.x, current_pos.y--)].get_value() == ' ';
                     break;
                 case SOUTH: 
-                    test = level_c[id(current_pos.x, current_pos.y++)].get_value() == ' ';
+                    test = level_cell[id(current_pos.x, current_pos.y++)].get_value() == ' ';
                     break;
                 case EAST: 
-                    test = level_c[id(current_pos.x++, current_pos.y)].get_value() == ' ' ;
+                    test = level_cell[id(current_pos.x++, current_pos.y)].get_value() == ' ' ;
                     break;
                 case WEST: 
-                    test = level_c[id(current_pos.x--, current_pos.y)].get_value() == ' ' ;
+                    test = level_cell[id(current_pos.x--, current_pos.y)].get_value() == ' ' ;
                     break;
             }
-            allow_pushing = level_c[id(current_pos.x, current_pos.y)].get_value() == ' ';
+            allow_pushing = level_cell[id(current_pos.x, current_pos.y)].get_value() == ' ';
             test=false;
             break;
         case '#':
@@ -316,14 +315,14 @@ void Sokoban::draw()
 {   
     fl_draw_box(FL_FLAT_BOX, 0, 0, 500, 500, FL_WHITE);
     int i=0;
-    for (auto &c:level_c)
+    for (auto &c:level_cell)
     {
         if (c.get_value()!=' ' ){c.get_image()->draw(reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size());}
         i++;
     }
-    for (auto &goals:goals_v)
+    for (auto &goals:goals_cell)
     {   
-        if (level_c[id(goals.x, goals.y)].get_repr()=='.'||level_c[id(goals.x, goals.y)].get_repr()==' ')
+        if (level_cell[id(goals.x, goals.y)].get_repr()=='.'||level_cell[id(goals.x, goals.y)].get_repr()==' ')
         { 
            Fl_Image *im = Fl_PNG_Image{"pika.png"}.copy(40,40);
 		   im->draw(goals.x*50,goals.y*50);
@@ -334,52 +333,27 @@ void Sokoban::draw()
 
 void Sokoban::reset_level()
 {
-    level_c.clear();
+    level_cell.clear();
     for (auto&c:original_level)
     {
-        level_c.push_back(c);
+        level_cell.push_back(c);
     }
     pos_player.x=original_pos.x;
     pos_player.y=original_pos.y;
     used_step=0;
 }
 
-void Sokoban::update_file(int new_best_score){
-    string linee;
-    ofstream out("tmp.txt");
-    ifstream in("levels.txt");
-    char old [100];
-    char new_line [100];
-    sprintf(new_line, "best_score = %03d\n", new_best_score);
-    int current_line=0;
-    while(getline(in, linee)){
-        current_line++;
-            if (linee[0]=='b' && current_line < line && current_line > line - (8+level_data[4]) ){
-                out<<new_line;
-            }
-            else{
-                out<<linee<<endl;
-            }
-        }
-    in.close();out.close();
-    rename("tmp.txt","levels.txt");
-    remove("tmp.txt");
-}
-
-
 void Sokoban::next_level()
 {   level++;
-    /* cout<<"line= "<<line<<endl; */
-    /* for(int i=0; i<line;i++) */
-        
+
     if(used_step < level_data[1]){
         update_file(used_step);
     } 
-    /* update_file(5); */
+
     used_step=0;
     load_game();
     original_level.clear();
-    for (auto &c:level_c){original_level.push_back(c);}
+    for (auto &c:level_cell){original_level.push_back(c);}
 }
 
 

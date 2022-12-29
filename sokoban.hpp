@@ -22,16 +22,19 @@ const int WEST = 3;
 class Sokoban { 
       
 private:
-    int line = 0;
+    int saved_line = 0;
     int level = 1 ;
     int used_step = 0;
-    int best_score, dimension_x , dimension_y , limited_step;
+    int best_score = 0, dimension_x =0 , dimension_y = 0, limited_step = 0;
+    bool lost_flag = false;
 
     vector<int> level_data={level, best_score, limited_step, dimension_x , dimension_y};
     struct Vector2D pos_player,original_pos,size_level;
     string level_s;
-    vector<Case> original_level,level_c;
-    vector <Vector2D> goals_v;
+
+    vector<Case> original_level,level_cell;
+    vector <Vector2D> goals_cell;
+    vector <Vector2D> box_list;
     vector<string> data_level;
 
     void load_game();
@@ -43,9 +46,11 @@ public:
     void init();
     
     Vector2D get_pos_player(){return pos_player;}
-    vector<Case> get_level_c(){return level_c;};
-    vector<Case> get_original_level_c(){return level_c;};
-    vector <Vector2D> get_goals_v(){return goals_v;}
+    vector<Case> get_level_cell(){return level_cell;};
+    vector<Case> get_original_level_c(){return level_cell;};
+
+    vector <Vector2D> get_goals_cell(){return goals_cell;}
+    vector <Vector2D> get_box_list(){return box_list;}
 
     int get_goals_count();
 
@@ -67,6 +72,8 @@ public:
         limited_step=step;
     }
 
+    bool get_lost_flag(){ return lost_flag; }
+
     void read_level_file(int level_number);
 
     void read_data(ifstream& file ,  int& data);
@@ -78,7 +85,11 @@ public:
     Vector2D reverse_id(int x);
     
     bool check_move(Vector2D &current_pos, int push_dir);
+
+    bool are_box_blocked();
+    bool is_lost();
     void play_move(Vector2D &current_pos, int push_dir);
+
     void reset_level();
     void listen_game();
     void next_level();
