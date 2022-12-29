@@ -22,7 +22,7 @@ const int WEST = 3;
 class Sokoban { 
       
 private:
-    int line = 1;
+    int line = 0;
     int level = 1 ;
     int used_step = 0;
     int best_score, dimension_x , dimension_y , limited_step;
@@ -83,6 +83,7 @@ public:
     void listen_game();
     void next_level();
 
+    void update_file(int new_best_score);
     void draw();
     
 };

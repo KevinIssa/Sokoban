@@ -59,7 +59,15 @@ void Controller::listen_game()
             printf("\nNice, you've succeeded lvl %d\n",soko->get_level());
             if (soko->get_level() ==soko->get_data_level().size()){printf("YOU WIN !!!\n"); exit(1);}
             printf("--> go to lvl %d\n",soko->get_level()+1);
+            
+            try{
             soko->next_level();
+            }
+        catch(...){
+            cout<<"YOU WIN !!!"<<endl;
+            exit(1);
+        }
+
         }
 }
 

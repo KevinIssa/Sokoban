@@ -1,5 +1,14 @@
 #include "game_window.hpp"
 #include "sokoban.hpp"
+#include <cstdio>
+#include <cstring>
+#include <fstream>
+#include <iostream>
+#include <istream>
+#include <ostream>
+#include <stdexcept>
+#include <string>
+#include <type_traits>
 
 int Sokoban::id(int x, int y) //faire une fct lambda
 {
@@ -80,13 +89,16 @@ void Sokoban::init()
 void Sokoban::read_data(ifstream& file , int& data){
     string str_line;
     getline(file , str_line);
-    string buffer = "";
-    int lenght = str_line.size();
+    string buffer;
+    /* string buffer = ""; */
+        /* cout<<"ici= "<<str_line<<endl; */
+    /* int lenght = str_line.size(); */
 
-    for(int i = lenght-3; i < lenght; i++){
-        buffer += str_line[i];
-    }
-
+    /* for(int i = lenght-3; i < lenght; i++){ */
+    /*     buffer += str_line[i]; */
+    /* } */
+    buffer=str_line.substr(str_line.size() - 3);
+    /* cout<<"buffer= "<<buffer<<endl; */
     data = stoi(buffer);
 }
 
@@ -94,26 +106,38 @@ void Sokoban::read_data_level(ifstream& file , string& data){
 
     unsigned int offset = level_data[3];
     string void_line, str_line;
+    level_s.clear();
 
     getline(file , void_line);
     for (int i = 0 ; i<offset; i++){
         getline(file, str_line);
         level_s += str_line;
+/* cout<<str_line<<endl; */
     }
-
 }
-
 void Sokoban::read_level_file(int level_number){
 
     ifstream level_file("levels.txt");
-
+    string void_line;
+    /* cout<<"line= "<<line<<endl; */
+    for (int i=1;i<=line;i++)
+    /* for (int i=1;i<5;i++) */
+        {
+            /* cout<<"test"<<endl; */
+            getline(level_file, void_line);
+            /* cout<<"v="<<void_line<<endl; */
+        }
+    /* level_fil.close(); */
+    /* ifstream level_file("levels.txt"); */
     for(int i = 0; i<level_data.size(); i++){
         read_data(level_file , level_data[i]);
+        /* cout<<level_data[i]; */
         line++;
     }
 
     read_data_level(level_file, level_s);
-    
+    line+=level_data[4];
+    line+=3;
     level_file.close();
 }
 
@@ -320,8 +344,38 @@ void Sokoban::reset_level()
     used_step=0;
 }
 
+void Sokoban::update_file(int new_best_score){
+    string linee;
+    ofstream out("tmp.txt");
+    ifstream in("levels.txt");
+    char old [100];
+    char new_line [100];
+    sprintf(new_line, "best_score = %03d\n", new_best_score);
+    int current_line=0;
+    while(getline(in, linee)){
+        current_line++;
+            if (linee[0]=='b' && current_line < line && current_line > line - (8+level_data[4]) ){
+                out<<new_line;
+            }
+            else{
+                out<<linee<<endl;
+            }
+        }
+    in.close();out.close();
+    rename("tmp.txt","levels.txt");
+    remove("tmp.txt");
+}
+
+
 void Sokoban::next_level()
 {   level++;
+    /* cout<<"line= "<<line<<endl; */
+    /* for(int i=0; i<line;i++) */
+        
+    if(used_step < level_data[1]){
+        update_file(used_step);
+    } 
+    /* update_file(5); */
     used_step=0;
     load_game();
     original_level.clear();
