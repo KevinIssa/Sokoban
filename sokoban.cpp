@@ -231,6 +231,8 @@ bool Sokoban::are_box_blocked(){
     vector<int>push_direction={0, 1, 2, 3};
     vector<Vector2D> box_list;
     int blocked_box = 0;
+    int blocked_direction;
+    bool first=true;
 
     for (int y=0;y<size_level.y;y++)
     {
@@ -261,6 +263,7 @@ bool Sokoban::are_box_blocked(){
     /* for(size_t i =0; i<box_list.size(); i++){ */
     for(auto d: box_list){
         Vector2D c {d.x, d.y};
+        /* Vector2D c= {d.x, d.y}; */
         /* if (i>2){print_game();} */
         int failed_check_move = 0;
 
@@ -276,11 +279,26 @@ bool Sokoban::are_box_blocked(){
             /* cout<<"push index: "<<push_direction[push_index]<<endl; */
             /* cout<<"Coord: "<<box_list[i].x<<" "<<box_list[i].y<<endl; */
             
+            
             /* if(check_move(box_list[i], push_direction[push_index]) == false){ */
+            
+            /* Vector2D r; */
+            
+
+
+
             if(safe_check_move(c, push_direction[push_index]) == false){
-                failed_check_move++;
-                if(failed_check_move >2){ blocked_box++;break;}
-                /* cout<<"Failed check move: \n"<<"case="<<c.x<<" "<<c.y<<"\n"<<failed_check_move<<"dir=: "<<push_index<<endl; */
+                if (first)
+                {
+                    blocked_direction = push_index;
+                    first = false;}
+                else
+                    if (abs(blocked_direction - push_index) % 2 == 1)
+                        blocked_box ++;
+
+                /* failed_check_move++; */
+                /* if(failed_check_move >=2){ blocked_box++;break;} */
+                cout<<"Failed check move: \n"<<"case="<<c.x<<" "<<c.y<<"\n"<<failed_check_move<<"dir=: "<<push_index<<endl;
                 /* cout<<"BOXES2:\nx= "<<c.x<<" y= "<<c.y<<endl; */
             }
             /* c=d; */
