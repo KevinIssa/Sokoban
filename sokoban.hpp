@@ -86,6 +86,7 @@ public:
     
     bool check_move(Vector2D &current_pos, int push_dir);
 
+    bool safe_check_move(Vector2D current_pos, int push_dir);
     bool are_box_blocked();
     bool is_lost();
     void play_move(Vector2D &current_pos, int push_dir);

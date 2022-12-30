@@ -12,6 +12,7 @@ class Displayer
         Displayer(Sokoban *soko) : soko{soko}{}
         ~Displayer()=default;
         void draw(); // cal FREQ/seq
+        void draw_menu();
 
 };
 
