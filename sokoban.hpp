@@ -22,7 +22,10 @@ const int SOUTH = 2;
 const int WEST = 3;
 
 const char player= '@';
-const char normal_objective='.';
+const char normal_objective= '.';
+const char yellow_objective= '/';
+const char purple_objective= '*';
+
 const char normal_box= '$';
 const char wall= '#';
 const char light_box= '+';
@@ -43,9 +46,12 @@ private:
     string level_s;
 
     vector<Case> original_level,level_cell;
+    
     vector <Vector2D> goals_cell;
+    vector <Vector2D> normal_goals_cell;
     vector <Vector2D> yellow_goals_cell;
     vector <Vector2D> purple_goals_cell;
+
     vector <Vector2D> box_list;
     vector<string> data_level;
 
@@ -85,13 +91,16 @@ public:
     }
 
     void create_player(Vector2D current, int x, int y, Vector2D level_size);
-    void create_normal_box(Vector2D current, int x, int y, Vector2D level_size);
     void create_normal_objective(Vector2D current, int x, int y, Vector2D level_size);
+    void create_yellow_objective(Vector2D current, int x, int y, Vector2D level_size);
+    void create_purple_objective(Vector2D current, int x, int y, Vector2D level_size);
 
-    void create_wall(Vector2D current, int x, int y, Vector2D level_size);
+    void create_normal_box(Vector2D current, int x, int y, Vector2D level_size);
     void create_light_box(Vector2D current, int x, int y, Vector2D level_size);
     void create_yellow_box(Vector2D current, int x, int y, Vector2D level_size);
     void create_purple_box(Vector2D current, int x, int y, Vector2D level_size);
+
+    void create_wall(Vector2D current, int x, int y, Vector2D level_size);
 
     bool get_lost_flag(){ return lost_flag; }
 
