@@ -17,11 +17,6 @@ Vector2D Sokoban::reverse_id(int x)
     return Vector2D{x%10, x/10};
 }
 
-Sokoban::Sokoban(){   
-    // init();
-    // 
-}
-
 void Sokoban::init(){   
     
     load_game();
@@ -97,59 +92,108 @@ void Sokoban::update_file(int new_best_score){
     remove("tmp.txt");
 }
 
-void Sokoban::load_game()
-    {
+void Sokoban::create_player(Vector2D current, int x, int y, Vector2D level_size){
+
+    Fl_Image *im =Fl_PNG_Image {"player.png"} .copy(50,50);
+    Case player{"Player",level_s[y * level_size.x + x], current, FL_GREEN, im};
+    level_cell.push_back(player);
+    pos_player = {x,y}; 
+    original_pos = pos_player;
+}
+
+void Sokoban::create_normal_box(Vector2D current, int x, int y, Vector2D size_level){
+
+    Fl_Image *im =Fl_PNG_Image {"pokeball.png"} .copy(50,50);
+    Case box_h{"Heavy Box",level_s[y * level_size.x + x], current, FL_RED, im};
+    level_cell.push_back(box_h);
+    box_list.push_back(Vector2D{x,y});
+}
+
+void Sokoban::create_normal_objective(Vector2D current, int x, int y, Vector2D size_level){
+
+    Fl_Image *im =Fl_PNG_Image {"pika.png"} .copy(50,50);
+    Case obj{"Objective",' ',level_s[y * level_size.x + x], current, FL_WHITE, im};
+    level_cell.push_back(obj);
+    goals_cell.push_back(Vector2D{x,y});
+}
+
+void Sokoban::create_wall(Vector2D current, int x, int y, Vector2D size_level){
+
+    Fl_Image *im =Fl_PNG_Image {"grey_wall.png"} .copy(50,50);
+    Case wall{"Wall",level_s[y * level_size.x + x], current, FL_BLACK,im};
+    level_cell.push_back(wall);
+}
+
+void Sokoban::create_light_box(Vector2D current, int x, int y, Vector2D size_level){
+
+    Fl_Image *im =Fl_PNG_Image {"grey_wall.png"} .copy(50,50);
+    Case light_case{"Light Box",level_s[y * level_size.x + x], current, FL_CYAN,im};
+    level_cell.push_back(light_case);
+    box_list.push_back(Vector2D{x,y});
+}
+
+void Sokoban::create_yellow_box(Vector2D current, int x, int y, Vector2D size_level){
+
+    Fl_Image *im =Fl_PNG_Image {"hyper_ball.png"} .copy(50,50);
+    Case hyper_ball{"Hyper ball",level_s[y * level_size.x + x], current, FL_CYAN,im};
+    level_cell.push_back(hyper_ball);
+    box_list.push_back(Vector2D{x,y});
+}
+
+void Sokoban::create_purple_box(Vector2D current, int x, int y, Vector2D size_level){
+
+    Fl_Image *im =Fl_PNG_Image {"master_ball.png"} .copy(50,50);
+    Case master_ball{"Master ball",level_s[y * level_size.x + x], current, FL_CYAN,im};
+    level_cell.push_back(master_ball);
+    box_list.push_back(Vector2D{x,y});
+}
+
+void Sokoban::load_game(){
+
     goals_cell.clear();
     level_cell.clear();
     //level_s = data_level[level];
     read_level_file(level);
-    size_level={level_data[3] , level_data[4]};
+    level_size={level_data[3] ,level_data[4]};
 
-    for (int y=0;y<size_level.y;y++)
+    for (int y=0;y<level_size.y; y++)
     {
-        for (int x =0; x< size_level.x; x++)
+        for (int x =0; x< level_size.x; x++)
         {
             Vector2D current ={x,y};
-            switch (level_s[y * size_level.x + x])
+            switch (level_s[y * level_size.x + x])
             {
-                case '@':
+                case player:
                 {
-                    Fl_Image *im =Fl_PNG_Image {"player.png"} .copy(50,50);
-                    Case player{"Player",level_s[y * size_level.x + x], current, FL_GREEN, im};
-                    level_cell.push_back(player);
-                    pos_player = {x,y}; 
-                    original_pos = pos_player;
+                    create_player(current, x, y, level_size);
                     break;
                 }
-                case '.':
+                case normal_objective:
                 {   
-                    Fl_Image *im =Fl_PNG_Image {"pika.png"} .copy(50,50);
-                    Case obj{"Objective",' ',level_s[y * size_level.x + x], current, FL_WHITE, im};
-                    level_cell.push_back(obj);
-                    goals_cell.push_back(Vector2D{x,y});
+                    create_normal_objective(current, x ,y ,level_size);
                     break;
                 }
-                case '$':
+                case normal_box:
                 {   
-                    Fl_Image *im =Fl_PNG_Image {"pokeball.png"} .copy(50,50);
-                    Case box_h{"Heavy Box",level_s[y * size_level.x + x], current, FL_RED, im};
-                    level_cell.push_back(box_h);
-                    box_list.push_back(Vector2D{x,y});
+                    create_normal_box(current, x , y ,level_size);
                     break;
                 }
-                case '#':
+                case wall:
                 {   
-                    Fl_Image *im =Fl_PNG_Image {"grey_wall.png"} .copy(50,50);
-                    Case wall{"Wall",level_s[y * size_level.x + x], current, FL_BLACK,im};
-                    level_cell.push_back(wall);
+                    create_wall(current , x, y , level_size);
                     break;
                 }
-                case '+':
+                case light_box:
                 {   
-                    Fl_Image *im =Fl_PNG_Image {"grey_wall.png"} .copy(50,50);
-                    Case light_case{"Light Box",level_s[y * size_level.x + x], current, FL_CYAN,im};
-                    level_cell.push_back(light_case);
-                    box_list.push_back(Vector2D{x,y});
+                    create_light_box(current, x , y , level_size);
+                    break;
+                }
+                case yellow_box:{
+                    create_yellow_box(current, x , y ,level_size);
+                    break;
+                }
+                case purple_box:{
+                    create_purple_box(current, x , y , level_size);
                     break;
                 }
                 default:
@@ -229,11 +273,11 @@ bool Sokoban::are_box_blocked(){
     int blocked_direction;
     bool first=true;
 
-    for (int y=0;y<size_level.y;y++)
+    for (int y=0;y<level_size.y;y++)
     {
-        for (int x =0; x< size_level.x; x++)
+        for (int x =0; x< level_size.x; x++)
         {
-            switch (level_cell[y * size_level.x + x].get_repr())
+            switch (level_cell[y * level_size.x + x].get_repr())
             {
                 case '$':
                 case '+':
@@ -306,18 +350,19 @@ bool Sokoban::are_box_blocked(){
 }
 
 bool Sokoban::is_lost(){
+
     bool block = are_box_blocked();
-    cout<<"CA DEBUG: \n"<<block<<endl;
-    if(used_step > limited_step or are_box_blocked()){
+    int limited_step = level_data[2];
+   
+    if(used_step >= limited_step or are_box_blocked()){
         lost_flag = true;
-        if (lost_flag== false){cout<<"LOST"<<endl;}
     }
 
     return lost_flag;
 }
 
-bool Sokoban::safe_check_move(Vector2D current_pos, int push_dir)
-{   
+bool Sokoban::safe_check_move(Vector2D current_pos, int push_dir){
+
     int verif=0;
     bool allow_pushing=false;
     bool test=true;
@@ -331,8 +376,8 @@ bool Sokoban::safe_check_move(Vector2D current_pos, int push_dir)
         case '$':
             verif++;
             if(verif >1){test=false;break;} //stop condition to not stop pushing a heavy box
-            switch (push_dir)
-            {
+            switch (push_dir){
+
                 case NORTH: 
                     test = level_cell[id(current_pos.x, (current_pos.y)--)].get_value() == ' ';
                     break;
@@ -453,7 +498,6 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
             break;
         }
     }
-    /* cout<<"curr: "<<current_pos.x<<" y: "<<current_pos.y<<endl; */
     return allow_pushing;
 }
 
@@ -504,17 +548,13 @@ void Sokoban::next_level()
 
 
 
- int Sokoban::print_game()
- {
-     printf("\n");printf("SOKOBAN - GAME - level %d\n",level);
-     for (auto &g:goals_cell){if (level_cell[id(g.x, g.y)].get_repr()==' '){level_cell[id(g.x, g.y)].set_repr('.');}}
-     int i=0;string print_lvl="";for (auto &c:level_cell){print_lvl+=c.get_repr();i++;if (i==size_level.x ){print_lvl+="\n";i=0;}}cout <<print_lvl;
-     for (auto &g:goals_cell){if (level_cell[id(g.x, g.y)].get_repr()=='.'){level_cell[id(g.x, g.y)].set_repr(' ');}}
-     int count=0;for (auto &g:goals_cell){if (level_cell[id(g.x, g.y)].get_repr()=='$'|| level_cell[id(g.x, g.y)].get_repr()=='+'){count++;}}printf("%d / %lu\n", count, goals_cell.size());
-     /* fl_draw_box(FL_FLAT_BOX, 0, 0, 500, 500, FL_GRAY); */
-     /* for (auto &c:level_cell) */
-     /* { */
-         /* fl_draw_box(FL_FLAT_BOX, c.get_pos().x*c.get_size(), c.get_pos().y*c.get_size(), c.get_size(), c.get_size(), c.get_color()); */
-     /* } */
-     return count;
- }  
+int Sokoban::print_game()
+{
+    printf("\n");printf("SOKOBAN - GAME - level %d\n",level);
+    for (auto &g:goals_cell){if (level_cell[id(g.x, g.y)].get_repr()==' '){level_cell[id(g.x, g.y)].set_repr('.');}}
+    int i=0;string print_lvl="";for (auto &c:level_cell){print_lvl+=c.get_repr();i++;if (i==level_size.x ){print_lvl+="\n";i=0;}}cout <<print_lvl;
+    for (auto &g:goals_cell){if (level_cell[id(g.x, g.y)].get_repr()=='.'){level_cell[id(g.x, g.y)].set_repr(' ');}}
+    int count=0;for (auto &g:goals_cell){if (level_cell[id(g.x, g.y)].get_repr()=='$'|| level_cell[id(g.x, g.y)].get_repr()=='+'){count++;}}printf("%d / %lu\n", count, goals_cell.size());
+
+    return count;
+}  
