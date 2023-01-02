@@ -113,8 +113,8 @@ void Sokoban::create_normal_objective(Vector2D current, int x, int y, Vector2D s
 void Sokoban::create_yellow_objective(Vector2D current, int x, int y, Vector2D size_level){
 
     Fl_Image *im =Fl_PNG_Image {"elekable.png"} .copy(50,50);
-    Case obj{"Objective",' ',level_s[y * level_size.x + x], current, FL_WHITE, im};
-    level_cell.push_back(obj);
+    Case yellow_obj{"Yellow Objective",' ',level_s[y * level_size.x + x], current, FL_WHITE, im};
+    level_cell.push_back(yellow_obj);
     yellow_goals_cell.push_back(Vector2D{x,y});
     goals_cell.push_back(Vector2D{x,y});
 }
@@ -122,8 +122,8 @@ void Sokoban::create_yellow_objective(Vector2D current, int x, int y, Vector2D s
 void Sokoban::create_purple_objective(Vector2D current, int x, int y, Vector2D size_level){
 
     Fl_Image *im =Fl_PNG_Image {"giratina.png"} .copy(50,50);
-    Case obj{"Objective",' ',level_s[y * level_size.x + x], current, FL_WHITE, im};
-    level_cell.push_back(obj);
+    Case purple_obj{"Purple Objective",' ',level_s[y * level_size.x + x], current, FL_WHITE, im};
+    level_cell.push_back(purple_obj);
     purple_goals_cell.push_back(Vector2D{x,y});
     goals_cell.push_back(Vector2D{x,y});
 }
@@ -138,7 +138,7 @@ void Sokoban::create_normal_box(Vector2D current, int x, int y, Vector2D size_le
 
 void Sokoban::create_light_box(Vector2D current, int x, int y, Vector2D size_level){
 
-    Fl_Image *im =Fl_PNG_Image {"grey_wall.png"} .copy(50,50);
+    Fl_Image *im =Fl_PNG_Image {"superball.png"} .copy(50,50);
     Case light_case{"Light Box",level_s[y * level_size.x + x], current, FL_CYAN,im};
     level_cell.push_back(light_case);
     box_list.push_back(Vector2D{x,y});
@@ -167,6 +167,11 @@ void Sokoban::create_wall(Vector2D current, int x, int y, Vector2D size_level){
     level_cell.push_back(wall);
 }
 
+void Sokoban::create_teleporter(Vector2D current, int x, int y, Vector2D size_level){
+    Fl_Image *im =Fl_PNG_Image {"teleporter.png"} .copy(50,50);
+    Case teleporter{"teleporter",level_s[y * level_size.x + x], current, FL_BLACK,im};
+    level_cell.push_back(teleporter);
+}
 void Sokoban::load_game(){
 
     goals_cell.clear();
@@ -211,7 +216,11 @@ void Sokoban::load_game(){
                     create_wall(current , x, y , level_size);
                     break;
                 }
-
+                case teleporter:{
+                    create_teleporter(current , x, y , level_size);
+                    break;
+                }
+                
                 case light_box:{   
                     create_light_box(current, x , y , level_size);
                     break;

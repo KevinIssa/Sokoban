@@ -22,12 +22,14 @@ const int SOUTH = 2;
 const int WEST = 3;
 
 const char player= '@';
+const char wall= '#';
+const char teleporter= '&';
+
 const char normal_objective= '.';
 const char yellow_objective= '/';
 const char purple_objective= '*';
 
 const char normal_box= '$';
-const char wall= '#';
 const char light_box= '+';
 const char yellow_box= 'H';
 const char purple_box= 'M';
@@ -101,6 +103,7 @@ public:
     void create_purple_box(Vector2D current, int x, int y, Vector2D level_size);
 
     void create_wall(Vector2D current, int x, int y, Vector2D level_size);
+    void create_teleporter(Vector2D current, int x, int y, Vector2D level_size);
 
     bool get_lost_flag(){ return lost_flag; }
 
