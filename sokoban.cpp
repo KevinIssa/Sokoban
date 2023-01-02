@@ -1,15 +1,10 @@
-#include "case.hpp"
-#include "game_window.hpp"
 #include "sokoban.hpp"
-#include <cstdio>
-#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <istream>
 #include <iterator>
 #include <ostream>
 #include <stdexcept>
-#include <string>
 #include <type_traits>
 
 int Sokoban::id(int x, int y) //faire une fct lambda
@@ -119,7 +114,7 @@ void Sokoban::load_game()
             {
                 case '@':
                 {
-                    Fl_Image *im =Fl_PNG_Image {"cap.png"} .copy(50,50);
+                    Fl_Image *im =Fl_PNG_Image {"player.png"} .copy(50,50);
                     Case player{"Player",level_s[y * size_level.x + x], current, FL_GREEN, im};
                     level_cell.push_back(player);
                     pos_player = {x,y}; 
@@ -136,7 +131,7 @@ void Sokoban::load_game()
                 }
                 case '$':
                 {   
-                    Fl_Image *im =Fl_PNG_Image {"Pok1.png"} .copy(50,50);
+                    Fl_Image *im =Fl_PNG_Image {"pokeball.png"} .copy(50,50);
                     Case box_h{"Heavy Box",level_s[y * size_level.x + x], current, FL_RED, im};
                     level_cell.push_back(box_h);
                     box_list.push_back(Vector2D{x,y});
@@ -144,14 +139,14 @@ void Sokoban::load_game()
                 }
                 case '#':
                 {   
-                    Fl_Image *im =Fl_PNG_Image {"wall.png"} .copy(50,50);
+                    Fl_Image *im =Fl_PNG_Image {"grey_wall.png"} .copy(50,50);
                     Case wall{"Wall",level_s[y * size_level.x + x], current, FL_BLACK,im};
                     level_cell.push_back(wall);
                     break;
                 }
                 case '+':
                 {   
-                    Fl_Image *im =Fl_PNG_Image {"wall.png"} .copy(50,50);
+                    Fl_Image *im =Fl_PNG_Image {"grey_wall.png"} .copy(50,50);
                     Case light_case{"Light Box",level_s[y * size_level.x + x], current, FL_CYAN,im};
                     level_cell.push_back(light_case);
                     box_list.push_back(Vector2D{x,y});
@@ -159,7 +154,7 @@ void Sokoban::load_game()
                 }
                 default:
                 {
-                    Fl_Image *im =Fl_PNG_Image {"wall.png"} .copy(50,50);
+                    Fl_Image *im =Fl_PNG_Image {"grey_wall.png"} .copy(50,50);
                     Case free_case{"free",' ', current, FL_WHITE,im};
                     level_cell.push_back(free_case);
                 }   
@@ -238,7 +233,6 @@ bool Sokoban::are_box_blocked(){
     {
         for (int x =0; x< size_level.x; x++)
         {
-            Vector2D current ={x,y};
             switch (level_cell[y * size_level.x + x].get_repr())
             {
                 case '$':
@@ -253,19 +247,13 @@ bool Sokoban::are_box_blocked(){
         }
     }
 
-         
-
-
-
-
-
     /* cout<<"VOICI LES BOX: "<<get_box_list().size()<<endl; */
     /* for(size_t i =0; i<box_list.size(); i++){ */
-    for(auto d: box_list){
-        Vector2D c {d.x, d.y};
+    for(auto list_index: box_list){
+        Vector2D box_pos {list_index.x, list_index.y};
         /* Vector2D c= {d.x, d.y}; */
         /* if (i>2){print_game();} */
-        int failed_check_move = 0;
+        //int failed_check_move = 0;
 
         /* cout<<"BOXES:\nx= "<<c.x<<" y= "<<c.y<<endl; */
         for(int push_index = 0; push_index<= 3; push_index++){
@@ -284,21 +272,18 @@ bool Sokoban::are_box_blocked(){
             
             /* Vector2D r; */
             
+            if(safe_check_move(box_pos, push_direction[push_index]) == false){
+                if (first){
 
-
-
-            if(safe_check_move(c, push_direction[push_index]) == false){
-                if (first)
-                {
                     blocked_direction = push_index;
                     first = false;}
                 else
                     if (abs(blocked_direction - push_index) % 2 == 1)
-                        blocked_box ++;
-
+                        blocked_box ++;//bug provient du calcul
+                        cout<<"blocked_box: "<<blocked_box<<endl;
                 /* failed_check_move++; */
                 /* if(failed_check_move >=2){ blocked_box++;break;} */
-                cout<<"Failed check move: \n"<<"case="<<c.x<<" "<<c.y<<"\n"<<failed_check_move<<"dir=: "<<push_index<<endl;
+                //cout<<"Failed check move: \n"<<"case = "<<box_pos.x<<" "<<box_pos.y<<"\n"<<failed_check_move<<"dir=: "<<push_index<<endl;
                 /* cout<<"BOXES2:\nx= "<<c.x<<" y= "<<c.y<<endl; */
             }
             /* c=d; */
@@ -325,6 +310,7 @@ bool Sokoban::is_lost(){
     cout<<"CA DEBUG: \n"<<block<<endl;
     if(used_step > limited_step or are_box_blocked()){
         lost_flag = true;
+        if (lost_flag== false){cout<<"LOST"<<endl;}
     }
 
     return lost_flag;

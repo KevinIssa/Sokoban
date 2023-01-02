@@ -5,7 +5,7 @@
 #include "controller.hpp"
 #include "displayer.hpp"
 #include <FL/Fl_Double_Window.H>
-#include <bits/types/struct_timespec.h>
+//#include <bits/types/struct_timespec.h>
 #include <ctime>
 #include <iostream>
 
@@ -25,9 +25,8 @@ class Game_window : public Fl_Double_Window
         void draw() override //call FREQ/sec
         {   
             Fl_Window::draw();
-            if(menu)
-                cout<<"MENU"<<endl;
-            {
+            if(menu){
+                
                 time++;
                 displayer.draw_menu();
                 if (time==2*FREQ)

@@ -1,10 +1,10 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-#include<string>
+#include <string>
 #include <iostream>
 #include <vector>
-#include<time.h>
+#include <time.h>
 #include <unistd.h>
 
 using namespace std;
