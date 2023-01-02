@@ -171,7 +171,9 @@ void Sokoban::create_teleporter(Vector2D current, int x, int y, Vector2D size_le
     Fl_Image *im =Fl_PNG_Image {"teleporter.png"} .copy(50,50);
     Case teleporter{"teleporter",level_s[y * level_size.x + x], current, FL_BLACK,im};
     level_cell.push_back(teleporter);
+    teleporter_cell.push_back(Vector2D{x,y});
 }
+
 void Sokoban::load_game(){
 
     goals_cell.clear();
@@ -250,35 +252,6 @@ for (auto&c:level_cell){original_level.push_back(c);}
 
 }
 
-void Sokoban::play_move(Vector2D &current_pos, int push_dir)
-{  
-    while (current_pos.x != pos_player.x || current_pos.y != pos_player.y){
-        Vector2D source = current_pos;
-        switch (push_dir)
-        {
-            case NORTH: source.y++; break;
-            case SOUTH: source.y--; break;
-            case EAST: source.x--; break;
-            case WEST: source.x++; break;
-        }
-        swap(level_cell[id(source.x, source.y)], level_cell[id(current_pos.x, current_pos.y)]);
-        current_pos.x = source.x;
-        current_pos.y = source.y;
-    }
-
-    switch (push_dir){
-        case NORTH: pos_player.y--; break;
-        case SOUTH: pos_player.y++; break;
-        case EAST: pos_player.x++; break;
-        case WEST: pos_player.x--; break;
-    }
-    used_step++;
-    cout<<"used step: "<<used_step<<endl;
-    if (are_box_blocked()){
-        cout<<"BLOKééééééé"<<endl;
-    }
-}
-
 int Sokoban::get_goals_count(){
 
     int count=0;
@@ -302,20 +275,22 @@ int Sokoban::get_goals_count(){
     }
     return count;
 }
-void Sokoban::listen_game()
-{
-    if (get_goals_count() == goals_cell.size())
-        {   
-            printf("\nNice, you've succeeded lvl %d\n",level);
-            level++;
-            if (level == data_level.size()){printf("YOU WIN !!!\n"); exit(1);}
-            printf("--> go to lvl %d\n",level);
-            load_game();
-            original_level.clear();
-            for (auto &c:level_cell){original_level.push_back(c);}
-        }
-}
 
+bool Sokoban::can_tp(){
+
+    bool possible = true;
+
+    for(int i=0 ; i<teleporter_cell.size(); i++ ){
+
+        if (level_cell[id(teleporter_cell[i].x, teleporter_cell[i].y)].get_repr() == '@'){
+            int other_tp = (i-1)%2;
+            if(level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() !=  '&')
+                possible = false;
+        }
+    }
+
+    return possible;
+}
 bool Sokoban::are_box_blocked(){
 
     vector<int>push_direction={0, 1, 2, 3};
@@ -330,8 +305,7 @@ bool Sokoban::are_box_blocked(){
         {
             switch (level_cell[y * level_size.x + x].get_repr())
             {
-                case '$':
-                case '+':
+                case '$': case '+': case 'H': case 'M':
                 /* {box_list.push_back(Vector2D{x,y});break;} */
                 {
                     box_list.push_back(Vector2D{x,y});
@@ -495,7 +469,7 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
     {
         switch (level_cell[id(current_pos.x, current_pos.y)].get_value())
         {
-        case '$':
+        case '$': case 'H': case 'M':
             verif++;
             if(verif >1){test=false;break;} //stop condition to not stop pushing a heavy box
             switch (push_dir)
@@ -551,6 +525,35 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
     return allow_pushing;
 }
 
+void Sokoban::play_move(Vector2D &current_pos, int push_dir)
+{  
+    while (current_pos.x != pos_player.x || current_pos.y != pos_player.y){
+        Vector2D source = current_pos;
+        switch (push_dir)
+        {
+            case NORTH: source.y++; break;
+            case SOUTH: source.y--; break;
+            case EAST: source.x--; break;
+            case WEST: source.x++; break;
+        }
+        swap(level_cell[id(source.x, source.y)], level_cell[id(current_pos.x, current_pos.y)]);
+        current_pos.x = source.x;
+        current_pos.y = source.y;
+    }
+
+    switch (push_dir){
+        case NORTH: pos_player.y--; break;
+        case SOUTH: pos_player.y++; break;
+        case EAST: pos_player.x++; break;
+        case WEST: pos_player.x--; break;
+    }
+    used_step++;
+    cout<<"used step: "<<used_step<<endl;
+    if (are_box_blocked()){
+        cout<<"BLOKééééééé"<<endl;
+    }
+}
+
 void Sokoban::draw()
 {   
     fl_draw_box(FL_FLAT_BOX, 0, 0, 500, 500, FL_WHITE);
@@ -569,6 +572,20 @@ void Sokoban::draw()
         }
     }
     
+}
+
+void Sokoban::listen_game()
+{
+    if (get_goals_count() == goals_cell.size())
+        {   
+            printf("\nNice, you've succeeded lvl %d\n",level);
+            level++;
+            if (level == data_level.size()){printf("YOU WIN !!!\n"); exit(1);}
+            printf("--> go to lvl %d\n",level);
+            load_game();
+            original_level.clear();
+            for (auto &c:level_cell){original_level.push_back(c);}
+        }
 }
 
 void Sokoban::reset_level()

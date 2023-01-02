@@ -1,10 +1,10 @@
 #ifndef _CASE_H
 #define _CASE_H
 
-#include<string>
+#include <string>
 #include <iostream>
 #include <vector>
-#include<time.h>
+#include <time.h>
 #include <unistd.h>
 
 #include <FL/Fl.H>
@@ -47,7 +47,6 @@ class Case
         void set_value(char r){value=r;}
         void set_repr(char r){repr=r;}
         void set_pos(int y,int x){position = Vector2D {x,y};}
-        
         // const char draw(){return repr;}
 };
 

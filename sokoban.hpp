@@ -53,6 +53,7 @@ private:
     vector <Vector2D> normal_goals_cell;
     vector <Vector2D> yellow_goals_cell;
     vector <Vector2D> purple_goals_cell;
+    vector <Vector2D> teleporter_cell;
 
     vector <Vector2D> box_list;
     vector<string> data_level;
@@ -117,6 +118,7 @@ public:
     int id(int x, int y);
     Vector2D reverse_id(int x);
     
+    bool can_tp(); 
     bool check_move(Vector2D &current_pos, int push_dir);
 
     bool safe_check_move(Vector2D current_pos, int push_dir);
