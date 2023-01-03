@@ -21,18 +21,18 @@ const int EAST = 1;
 const int SOUTH = 2;
 const int WEST = 3;
 
-const char player= '@';
-const char wall= '#';
-const char teleporter= '&';
+const char PLAYER= '@';
+const char WALL= '#';
+const char TELEPORTER= '&';
 
-const char normal_objective= '.';
-const char yellow_objective= '/';
-const char purple_objective= '*';
+const char NORMAL_OBJECTIVE= '.';
+const char YELLOW_OBJECTIVE= '/';
+const char PURPLE_OBJECTIVE= '*';
 
-const char normal_box= '$';
-const char light_box= '+';
-const char yellow_box= 'H';
-const char purple_box= 'M';
+const char NORMAL_BOX= '$';
+const char LIGHT_BOX= '+';
+const char YELLOW_BOX= 'H';
+const char PURPLE_BOX= 'M';
 
 class Sokoban { 
       

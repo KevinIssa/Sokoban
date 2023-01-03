@@ -189,51 +189,51 @@ void Sokoban::load_game(){
             Vector2D current ={x,y};
             switch (level_s[y * level_size.x + x])
             {
-                case player:{
+                case PLAYER:{
                     create_player(current, x, y, level_size);
                     break;
                 }
 
-                case normal_objective:{   
+                case NORMAL_OBJECTIVE:{   
                     create_normal_objective(current, x , y ,level_size);
                     break;
                 }
 
-                case yellow_objective:{
+                case YELLOW_OBJECTIVE:{
                     create_yellow_objective(current, x , y, level_size);
                     break;
                 }
 
-                case purple_objective:{
+                case PURPLE_OBJECTIVE:{
                     create_purple_objective(current, x , y , level_size);
                     break;
                 }
 
-                case normal_box:{   
+                case NORMAL_BOX:{   
                     create_normal_box(current, x , y ,level_size);
                     break;
                 }
 
-                case wall:{   
+                case WALL:{   
                     create_wall(current , x, y , level_size);
                     break;
                 }
-                case teleporter:{
+                case TELEPORTER:{
                     create_teleporter(current , x, y , level_size);
                     break;
                 }
                 
-                case light_box:{   
+                case LIGHT_BOX:{   
                     create_light_box(current, x , y , level_size);
                     break;
                 }
 
-                case yellow_box:{
+                case YELLOW_BOX:{
                     create_yellow_box(current, x , y ,level_size);
                     break;
                 }
 
-                case purple_box:{
+                case PURPLE_BOX:{
                     create_purple_box(current, x , y , level_size);
                     break;
                 }
@@ -257,19 +257,19 @@ int Sokoban::get_goals_count(){
     int count=0;
     for (auto &goals:normal_goals_cell)
     {
-        if (level_cell[id(goals.x, goals.y)].get_repr()=='$'|| level_cell[id(goals.x, goals.y)].get_repr()=='+')
+        if (level_cell[id(goals.x, goals.y)].get_repr()== NORMAL_BOX|| level_cell[id(goals.x, goals.y)].get_repr()== LIGHT_BOX)
         {
             count++;
         }
     }
     for (auto &yellow_goals: yellow_goals_cell){
-        if (level_cell[id(yellow_goals.x, yellow_goals.y)].get_repr()=='/'){
+        if (level_cell[id(yellow_goals.x, yellow_goals.y)].get_repr()== YELLOW_BOX){
             count++;
         }
     }
 
     for(auto &purple_goals: purple_goals_cell){
-        if (level_cell[id(purple_goals.x, purple_goals.y)].get_repr()=='*'){
+        if (level_cell[id(purple_goals.x, purple_goals.y)].get_repr()== PURPLE_BOX){
             count++;
         }
     }
@@ -282,15 +282,16 @@ bool Sokoban::can_tp(){
 
     for(int i=0 ; i<teleporter_cell.size(); i++ ){
 
-        if (level_cell[id(teleporter_cell[i].x, teleporter_cell[i].y)].get_repr() == '@'){
+        if (level_cell[id(teleporter_cell[i].x, teleporter_cell[i].y)].get_repr() == PLAYER){
             int other_tp = (i-1)%2;
-            if(level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() !=  '&')
+            if(level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() !=  TELEPORTER)
                 possible = false;
         }
     }
 
     return possible;
 }
+
 bool Sokoban::are_box_blocked(){
 
     vector<int>push_direction={0, 1, 2, 3};
@@ -305,7 +306,7 @@ bool Sokoban::are_box_blocked(){
         {
             switch (level_cell[y * level_size.x + x].get_repr())
             {
-                case '$': case '+': case 'H': case 'M':
+                case NORMAL_BOX: case LIGHT_BOX: case YELLOW_BOX: case PURPLE_BOX:
                 /* {box_list.push_back(Vector2D{x,y});break;} */
                 {
                     box_list.push_back(Vector2D{x,y});
@@ -397,7 +398,7 @@ bool Sokoban::safe_check_move(Vector2D current_pos, int push_dir){
     {
         switch (level_cell[id(current_pos.x, current_pos.y)].get_value())
         {
-        case '$':
+        case NORMAL_BOX: case YELLOW_BOX: case PURPLE_BOX:
             verif++;
             if(verif >1){test=false;break;} //stop condition to not stop pushing a heavy box
             switch (push_dir){
@@ -415,17 +416,17 @@ bool Sokoban::safe_check_move(Vector2D current_pos, int push_dir){
                     test = level_cell[id(current_pos.x--, current_pos.y)].get_value() == ' ';
                     break;
             }
-            repr = level_cell[id(current_pos.x, current_pos.y)].get_repr() == '@';
+            repr = level_cell[id(current_pos.x, current_pos.y)].get_repr() == PLAYER;
             /* cout<<"repre= "<<level_cell[id(current_pos.x, current_pos.y)].get_repr()<<endl; */
             value = level_cell[id(current_pos.x, current_pos.y)].get_value() == ' ';
             allow_pushing =repr||value;
             /* cout<<"allow? "<<allow_pushing<<endl; */
             test=false;
             break;
-        case '#':
+        case WALL:
             test=false;
             break;
-        case '+':
+        case LIGHT_BOX:
             verif++;
             switch (push_dir)
             {
@@ -439,7 +440,7 @@ bool Sokoban::safe_check_move(Vector2D current_pos, int push_dir){
             allow_pushing = true;
             test=false;
             break;
-        case '@':
+        case PLAYER:
             allow_pushing = true;
             test=false;
 
@@ -469,7 +470,7 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
     {
         switch (level_cell[id(current_pos.x, current_pos.y)].get_value())
         {
-        case '$': case 'H': case 'M':
+        case NORMAL_BOX: case YELLOW_BOX: case PURPLE_BOX:
             verif++;
             if(verif >1){test=false;break;} //stop condition to not stop pushing a heavy box
             switch (push_dir)
@@ -490,10 +491,10 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
             allow_pushing = level_cell[id(current_pos.x, current_pos.y)].get_value() == ' ';
             test=false;
             break;
-        case '#':
+        case WALL:
             test=false;
             break;
-        case '+':
+        case LIGHT_BOX:
             verif++;
             switch (push_dir)
             {
@@ -507,7 +508,7 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
             allow_pushing = true;
             test=false;
             break;
-        case '@':
+        case PLAYER:
             allow_pushing = true;
             test=false;
 
@@ -565,7 +566,7 @@ void Sokoban::draw()
     }
     for (auto &goals:goals_cell)
     {   
-        if (level_cell[id(goals.x, goals.y)].get_repr()=='.'||level_cell[id(goals.x, goals.y)].get_repr()==' ')
+        if (level_cell[id(goals.x, goals.y)].get_repr()== NORMAL_OBJECTIVE||level_cell[id(goals.x, goals.y)].get_repr()==' ')
         { 
            Fl_Image *im = Fl_PNG_Image{"pika.png"}.copy(40,40);
 		   im->draw(goals.x*50,goals.y*50);
