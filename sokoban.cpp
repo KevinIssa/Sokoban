@@ -149,7 +149,7 @@ void Sokoban::create_light_box(Vector2D current, int x, int y, Vector2D size_lev
 
 
 void Sokoban::create_yellow_box(Vector2D current, int x, int y, Vector2D size_level){
-
+    
     Fl_Image *im =Fl_PNG_Image {"hyper_ball.png"} .copy(50,50);
     Case hyper_ball{"Hyper ball",level_s[y * level_size.x + x], current, FL_CYAN,im};
     level_cell.push_back(hyper_ball);
