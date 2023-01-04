@@ -42,6 +42,7 @@ private:
     int used_step = 0;
     int best_score = 0, dimension_x =0 , dimension_y = 0, limited_step = 0;
     bool lost_flag = false;
+    int next_tp = -1;
 
     vector<int> level_data={level, best_score, limited_step, dimension_x , dimension_y};
     struct Vector2D pos_player,original_pos,level_size;
@@ -118,12 +119,13 @@ public:
     int id(int x, int y);
     Vector2D reverse_id(int x);
     
-    bool can_tp(); 
+    int can_tp(Vector2D & current_pos); 
     bool check_move(Vector2D &current_pos, int push_dir);
-
     bool safe_check_move(Vector2D current_pos, int push_dir);
+
+    void fill_box_list();
     bool are_box_blocked();
-    bool is_lost();
+    int is_lost();
     void play_move(Vector2D &current_pos, int push_dir);
 
     void reset_level();

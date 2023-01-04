@@ -49,7 +49,8 @@ return 0;
 }
 
 void Controller::listen_game()
-{
+{   
+    int value_type = soko->is_lost();
     if (soko->get_goals_count() == soko->get_goals_cell().size()){   
             printf("\nNice, you've succeeded lvl %d\n",soko->get_level());
             if (soko->get_level() == soko->get_data_level().size()){printf("YOU WIN !!!\n"); exit(1);}
@@ -64,11 +65,13 @@ void Controller::listen_game()
         }
     }
 
-    /*
-    else if(soko->get_lost_flag() == true){
-        cout<<"You lost!"<<endl;
+    else if(value_type == 1){
+        cout<<"You lost! You used too many step!"<<endl;
+    } 
+
+    else if (value_type == 2){
+        cout<<"You lost! All boxes are blocked!"<<endl;
     }
-    */ 
 }
 
 
