@@ -175,7 +175,7 @@ void Sokoban::create_wall(Vector2D current, int x, int y, Vector2D size_level){
 void Sokoban::create_teleporter(Vector2D current, int x, int y, Vector2D size_level){
 
     Fl_Image *im =Fl_PNG_Image {"teleporter.png"} .copy(50,50);
-    Case teleporter{"teleporter",'&',level_s[y * level_size.x + x], current, FL_BLACK,im};
+    Case teleporter{"teleporter",' ',level_s[y * level_size.x + x], current, FL_BLACK,im};
     level_cell.push_back(teleporter);
     teleporter_cell.push_back(Vector2D{x,y});
 }
@@ -185,7 +185,7 @@ void Sokoban::load_game(){
 
     goals_cell.clear();
     level_cell.clear();
-    //level_s = data_level[level];
+
     read_level_file(level);
     level_size={level_data[3] ,level_data[4]};
 
@@ -464,11 +464,9 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
 
     while(test and lost_flag == false)
     {
-        cout<<"get value: "<<level_cell[id(current_pos.x, current_pos.y)].get_value()<<endl;
         switch (level_cell[id(current_pos.x, current_pos.y)].get_value())
         {
         case NORMAL_BOX: case YELLOW_BOX: case PURPLE_BOX:
-        cout<<" c est check"<<endl;
             verif++;
             if(verif >1){test=false;break;} //stop condition to not stop pushing a heavy box
             switch (push_dir)
@@ -530,7 +528,7 @@ void Sokoban::play_move(Vector2D &current_pos, int push_dir)
     if(next_tp > -1){
 
         swap(level_cell[next_tp], level_cell[id(pos_player.x, pos_player.y)]);
-        level_cell[next_tp].set_value(TELEPORTER);
+        //level_cell[next_tp].set_value(TELEPORTER);
         cout<<level_cell[next_tp].get_value();
         pos_player.x = reverse_id(next_tp).x;
         pos_player.y= reverse_id(next_tp).y;
@@ -621,16 +619,24 @@ void Sokoban::reset_level()
     used_step=0;
 }
 
+void Sokoban::clear_vectors(){
+
+    original_level.clear();
+    normal_goals_cell.clear();
+    yellow_goals_cell.clear();
+    purple_goals_cell.clear();
+    teleporter_cell.clear();
+}
 void Sokoban::next_level()
 {   level++;
 
+    clear_vectors();
     if(used_step < level_data[1]){
         update_file(used_step);
     } 
 
     used_step=0;
     load_game();
-    original_level.clear();
     for (auto &c:level_cell){original_level.push_back(c);}
 }
 

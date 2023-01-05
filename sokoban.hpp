@@ -70,7 +70,8 @@ public:
     Vector2D get_pos_player(){return pos_player;}
     vector<Case> get_level_cell(){return level_cell;};
     vector<Case> get_original_level_c(){return level_cell;};
-
+    
+    vector <Vector2D> get_teleporter_cell(){return teleporter_cell;}
     vector <Vector2D> get_goals_cell(){return goals_cell;}
     vector <Vector2D> get_yellow_cell(){return yellow_goals_cell;}
     vector <Vector2D> get_purple_cell(){return purple_goals_cell;}
@@ -131,6 +132,7 @@ public:
     int is_lost();
     void play_move(Vector2D &current_pos, int push_dir);
 
+    void clear_vectors();
     void reset_level();
     void listen_game();
     void next_level();
