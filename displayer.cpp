@@ -9,14 +9,31 @@ void Displayer::draw(){
         i++;
     }
 
-    for (auto &goals:soko->get_goals_cell())
-    {   
-        if (soko->get_level_cell()[soko->id(goals.x, goals.y)].get_repr()=='.'
-        ||soko->get_level_cell()[soko->id(goals.x, goals.y)].get_repr()==' ')
+    for (auto &goal:soko->get_normal_cell()){
+
+        if (soko->get_level_cell()[soko->id(goal.x, goal.y)].get_repr()=='.'
+        ||soko->get_level_cell()[soko->id(goal.x, goal.y)].get_repr()==' ')
         {  
             Fl_Image *im =Fl_PNG_Image {"pika.png"} .copy(50,50);
-            im->draw(goals.x*50, goals.y*50);
+            im->draw(goal.x*50, goal.y*50);
         }
+    }
+
+    for(auto &yellow_goal: soko->get_yellow_cell()){
+        if (soko->get_level_cell()[soko->id(yellow_goal.x, yellow_goal.y)].get_repr() == '/'
+        ||soko->get_level_cell()[soko->id(yellow_goal.x, yellow_goal.y)].get_repr()==' '){
+            Fl_Image *im =Fl_PNG_Image {"elekable.png"} .copy(50,50);
+            im->draw(yellow_goal.x*50, yellow_goal.y*50);
+        }
+    }
+
+    for(auto &purple_cell: soko->get_purple_cell()){
+        //cout<<soko->get_purple_cell().size()<<endl;
+        if (soko->get_level_cell()[soko->id(purple_cell.x, purple_cell.y)].get_repr() == '*'
+        ||soko->get_level_cell()[soko->id(purple_cell.x, purple_cell.y)].get_repr()==' '){
+            Fl_Image *im =Fl_PNG_Image {"giratina.png"} .copy(50,50);
+            im->draw(purple_cell.x*50, purple_cell.y*50);
+        } 
     }
 }
 void Displayer::draw_menu(){

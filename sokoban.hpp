@@ -72,6 +72,9 @@ public:
     vector<Case> get_original_level_c(){return level_cell;};
 
     vector <Vector2D> get_goals_cell(){return goals_cell;}
+    vector <Vector2D> get_yellow_cell(){return yellow_goals_cell;}
+    vector <Vector2D> get_purple_cell(){return purple_goals_cell;}
+    vector <Vector2D> get_normal_cell(){return normal_goals_cell;}
     vector <Vector2D> get_box_list(){return box_list;}
 
     int get_goals_count();

@@ -175,7 +175,7 @@ void Sokoban::create_wall(Vector2D current, int x, int y, Vector2D size_level){
 void Sokoban::create_teleporter(Vector2D current, int x, int y, Vector2D size_level){
 
     Fl_Image *im =Fl_PNG_Image {"teleporter.png"} .copy(50,50);
-    Case teleporter{"teleporter",' ',level_s[y * level_size.x + x], current, FL_BLACK,im};
+    Case teleporter{"teleporter",'&',level_s[y * level_size.x + x], current, FL_BLACK,im};
     level_cell.push_back(teleporter);
     teleporter_cell.push_back(Vector2D{x,y});
 }
@@ -468,6 +468,7 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
         switch (level_cell[id(current_pos.x, current_pos.y)].get_value())
         {
         case NORMAL_BOX: case YELLOW_BOX: case PURPLE_BOX:
+        cout<<" c est check"<<endl;
             verif++;
             if(verif >1){test=false;break;} //stop condition to not stop pushing a heavy box
             switch (push_dir)
