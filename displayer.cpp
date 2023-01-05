@@ -3,9 +3,23 @@
 void Displayer::draw(){
     fl_draw_box(FL_FLAT_BOX, 0, 0, 500, 500, FL_WHITE);
     int i=0;
+    
+    Vector2D pos_player = soko->get_pos_player();
+    Fl_Image *im =Fl_PNG_Image {"player.png"} .copy(50,50);
+    im->draw(pos_player.x*50, pos_player.y*50);
+    
+    for(auto &wall: soko->get_wall_cell()){
+            Fl_Image *im =Fl_PNG_Image {"grey_wall.png"} .copy(50,50);
+            im->draw(wall.x*50, wall.y*50);
+
+        /* if (soko->get_level_cell()[soko->id(wall.x, wall.y)].get_repr() == '/' */
+        /* ||soko->get_level_cell()[soko->id(wall.x, wall.y)].get_repr()==' '){ */
+        /* } */
+    }
+    
     for (auto &c:soko->get_level_cell())
     {
-        if (c.get_value()!=' ' and c.get_value() != TELEPORTER ){
+        if (c.get_repr()=='$'  or c.get_repr() == 'H' or c.get_repr() == 'M' or c.get_repr() =='+'){
             c.get_image()->draw(soko->reverse_id(i).x*c.get_size(), soko->reverse_id(i).y*c.get_size());
         }
         i++;

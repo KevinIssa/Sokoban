@@ -166,8 +166,10 @@ void Sokoban::create_purple_box(Vector2D current, int x, int y, Vector2D size_le
 
 void Sokoban::create_wall(Vector2D current, int x, int y, Vector2D size_level){
 
+
     Fl_Image *im =Fl_PNG_Image {"grey_wall.png"} .copy(50,50);
     Case wall{"Wall",level_s[y * level_size.x + x], current, FL_BLACK,im};
+    wall_cell.push_back(Vector2D{x,y});
     level_cell.push_back(wall);
 }
 
@@ -247,7 +249,7 @@ void Sokoban::load_game(){
 
                 default:
                 {
-                    Fl_Image *im =Fl_PNG_Image {"grey_wall.png"} .copy(50,50);
+                    Fl_Image *im =Fl_PNG_Image {"Solid_white.png"} .copy(50,50);
                     Case free_case{"free",' ', current, FL_WHITE,im};
                     level_cell.push_back(free_case);
                 }   
@@ -449,14 +451,14 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
     if(next_tp > -1){
 
         allow_pushing = true;
-        /*
+        
         switch(push_dir){
             case NORTH: current_pos.y--;break;
             case SOUTH: current_pos.y++;break;
             case EAST: current_pos.x--;break;
             case WEST: current_pos.x++;break;
         }
-        */
+        
 
         return allow_pushing;
     }
@@ -578,15 +580,15 @@ void Sokoban::draw()
     int i=0;
     for (auto &c:level_cell)
     {
-        if (c.get_value()!=' ' ){c.get_image()->draw(reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size());}
+        /* if (c.get_value()!=' '  or c.get_repr() != '&'){c.get_image()->draw(reverse_id(i).x*c.get_size(), reverse_id(i).y*c.get_size());} */
         i++;
     }
     for (auto &goals:goals_cell)
     {   
         if (level_cell[id(goals.x, goals.y)].get_repr()== NORMAL_OBJECTIVE||level_cell[id(goals.x, goals.y)].get_repr()==' ')
         { 
-           Fl_Image *im = Fl_PNG_Image{"pika.png"}.copy(40,40);
-		   im->draw(goals.x*50,goals.y*50);
+           /* Fl_Image *im = Fl_PNG_Image{"pika.png"}.copy(40,40); */
+		   /* im->draw(goals.x*50,goals.y*50); */
         }
     }
     

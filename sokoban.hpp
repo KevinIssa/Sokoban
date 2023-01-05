@@ -49,7 +49,8 @@ private:
     string level_s;
 
     vector<Case> original_level,level_cell;
-    
+   
+    vector <Vector2D> wall_cell;
     vector <Vector2D> goals_cell;
     vector <Vector2D> normal_goals_cell;
     vector <Vector2D> yellow_goals_cell;
@@ -72,6 +73,7 @@ public:
     vector<Case> get_original_level_c(){return level_cell;};
     
     vector <Vector2D> get_teleporter_cell(){return teleporter_cell;}
+    vector <Vector2D> get_wall_cell(){return wall_cell;}
     vector <Vector2D> get_goals_cell(){return goals_cell;}
     vector <Vector2D> get_yellow_cell(){return yellow_goals_cell;}
     vector <Vector2D> get_purple_cell(){return purple_goals_cell;}
