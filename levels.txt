@@ -1,0 +1,88 @@
+level = 001
+best_score = 013
+limited_step = 100
+dimensionx = 010
+dimensiony = 010
+
+##########
+### /    #
+### H    #
+#        #
+#.$ & M* #
+#   .    #
+#   +    #
+#   +&   #
+#  #@#   #
+##########
+
+
+level = 002
+best_score = 004
+limited_step = 50
+dimensionx = 010
+dimensiony = 010
+
+##########
+#&  . # &#
+#   $    #
+#        #
+#        #
+#  .$@   #
+#        #
+#    M   #
+#       *#
+##########
+
+
+level = 003
+best_score = 006
+limited_step = 50
+dimensionx = 010
+dimensiony = 010
+
+##########
+##########
+#####  # #
+### /    #
+# H   .  #
+#    $ $ #
+#        #
+##### @$.#
+###      #
+##########
+
+
+level = 004
+best score = 101
+limited_step = 50
+dimensionx = 010
+dimensiony = 010
+
+##########
+#       ##
+# $    ###
+#. ## . ##
+# ####  ##
+#   #   ##
+#$$ #. ###
+# # # $@##
+# .    ###
+##########
+
+
+level = 005
+best score = 101
+limited_step = 50
+dimensionx = 010
+dimensiony = 010
+
+##########
+#.########
+#  #######
+# $  $@###
+# . . ####
+# # $$ . #
+# #    ###
+# ##### ##
+#        #
+##########

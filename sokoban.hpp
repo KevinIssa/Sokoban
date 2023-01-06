@@ -2,14 +2,17 @@
 #define _SOKOBAN_H
 
 
-#include<string>
+#include <string>
+#include <cstdio>
+#include <cstring>
 #include <iostream>
 #include <vector>
-#include<time.h>
+#include <time.h>
 #include <unistd.h>
 #include "case.hpp"
 #include "player.hpp"
 #include "level.hpp"
+#include <fstream>
 
 using namespace std;
 
@@ -18,39 +21,185 @@ const int EAST = 1;
 const int SOUTH = 2;
 const int WEST = 3;
 
-class Sokoban 
-{   private:
-        int niveau =0 ;
-        struct tup pos_player,original_pos,size_level;
-        string level_s;
-        vector<Case> original_level,level_c;
-        vector <tup> goals_v;
-        vector<string> data_level;
+const char PLAYER= '@';
+const char WALL= '#';
+const char TELEPORTER= '&';
 
-        void load_game();
-        int print_game();
+const char NORMAL_OBJECTIVE= '.';
+const char YELLOW_OBJECTIVE= '/';
+const char PURPLE_OBJECTIVE= '*';
 
-    public:
-        Sokoban();
-        void init();
-        tup get_pos_player(){return pos_player;}
-        vector<Case> get_level_c(){return level_c;};
-        vector<Case> get_original_level_c(){return level_c;};
-        vector <tup> get_goals_v(){return goals_v;};
-        int get_score();
-        int get_level(){return niveau;}
-        vector<string> get_data_level(){return data_level;}
+const char NORMAL_BOX= '$';
+const char LIGHT_BOX= '+';
+const char YELLOW_BOX= 'H';
+const char PURPLE_BOX= 'M';
 
-        int id(int x, int y);
-        tup reverse_id(int x);
-        
-        bool check_move(tup &current_pos, int push_dir);
-        void play_move(tup &current_pos, int push_dir);
-        void reset_level();
-        void listen_game();
-        void next_level();
+class Sokoban { 
+      
+private:
+    int saved_line = 0;
+    int level = 1 ;
+    int used_step = 0;
+    int best_score = 0, dimension_x =0 , dimension_y = 0, limited_step = 0;
+    bool lost_flag = false;
+    int next_tp = -1;
 
-        void draw();
+    vector<int> level_data={level, best_score, limited_step, dimension_x , dimension_y};
+    struct Vector2D pos_player,original_pos,level_size;
+    string level_s;
+
+    vector<Case> original_level,level_cell;
+   
+    vector <Vector2D> wall_cell;
+    vector <Vector2D> goals_cell;
+    vector <Vector2D> normal_goals_cell;
+    vector <Vector2D> yellow_goals_cell;
+    vector <Vector2D> purple_goals_cell;
+    vector <Vector2D> teleporter_cell;
+
+    vector <Vector2D> box_list;
+    vector<string> data_level;
+
+    void load_game();
+
+public:
+    Sokoban() = default;
+    ~Sokoban() = default;
+    void init();
+    //initiate the game
+    
+    Vector2D get_pos_player(){return pos_player;}
+    vector<Case> get_level_cell(){return level_cell;};
+    vector<Case> get_original_level_c(){return level_cell;};
+    
+    vector <Vector2D> get_teleporter_cell(){return teleporter_cell;}
+    vector <Vector2D> get_wall_cell(){return wall_cell;}
+    vector <Vector2D> get_goals_cell(){return goals_cell;}
+    vector <Vector2D> get_yellow_goals(){return yellow_goals_cell;}
+    vector <Vector2D> get_purple_goals(){return purple_goals_cell;}
+    vector <Vector2D> get_normal_goals(){return normal_goals_cell;}
+    vector <Vector2D> get_box_list(){return box_list;}
+
+    int get_goals_count();
+
+    int get_level(){return level;}
+
+    int get_limited_step(){
+        return limited_step;
+    }
+
+    int get_used_step(){
+        return used_step;
+    }
+
+    int get_best_score(){
+        return best_score;
+    }
+
+    void set_limited_step(int step){
+        limited_step=step;
+    }
+
+    //all the create methods create a new object of the specified entity
+    void create_player(Vector2D current, int x, int y, Vector2D level_size);
+    void create_normal_objective(Vector2D current, int x, int y, Vector2D level_size);
+    void create_yellow_objective(Vector2D current, int x, int y, Vector2D level_size);
+    void create_purple_objective(Vector2D current, int x, int y, Vector2D level_size);
+
+    void create_normal_box(Vector2D current, int x, int y, Vector2D level_size);
+    void create_light_box(Vector2D current, int x, int y, Vector2D level_size);
+    void create_yellow_box(Vector2D current, int x, int y, Vector2D level_size);
+    void create_purple_box(Vector2D current, int x, int y, Vector2D level_size);
+
+    void create_wall(Vector2D current, int x, int y, Vector2D level_size);
+    void create_teleporter(Vector2D current, int x, int y, Vector2D level_size);
+
+    bool get_lost_flag(){ return lost_flag; }
+
+    void read_level_file(int level_number);
+    /**
+     * @brief 
+     * 
+     * @param level_number 
+     */
+
+    void read_data(ifstream& file ,  int& data);
+    /**
+     * @brief 
+     * 
+     */
+    void read_data_level(ifstream& file , string& data);
+    /**
+
+     */
+    
+    vector<string> get_data_level(){return data_level;}
+
+    // id gets the position of a cell in the board because the board is stored as a 1 dimension variable
+    //instead of a 2 dimensions and;
+    int id(int x, int y);
+    Vector2D reverse_id(int x);
+    
+    int can_tp(Vector2D & current_pos);
+    /**
+     * @brief 
+     */
+
+    bool check_move(Vector2D &current_pos, int push_dir);
+    /**
+     * @brief 
+     * 
+     */
+    bool safe_check_move(Vector2D current_pos, int push_dir);
+    /**
+     * @brief:
+     * 
+     */
+
+    void fill_box_list();
+    /**
+     * @brief 
+     * 
+     */
+    bool are_box_blocked();
+    /**
+     * @brief 
+     */
+    int is_lost();
+    /**
+     * @brief 
+     * 
+     */
+
+    void play_move(Vector2D &current_pos, int push_dir);
+    /**
+     * @brief 
+     * 
+     */
+
+    void clear_vectors();
+    /**
+     * @brief 
+     * 
+     */
+
+    void reset_level();
+    /**
+     * @brief 
+     * 
+     */
+
+    void next_level();
+    /**
+     * @brief 
+     * 
+     */
+
+    void update_file(int new_best_score);
+    /**
+     * @brief 
+     * 
+     */
         
 };
 
