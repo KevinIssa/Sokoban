@@ -66,6 +66,7 @@ public:
     Sokoban() = default;
     ~Sokoban() = default;
     void init();
+    //initiate the game
     
     Vector2D get_pos_player(){return pos_player;}
     vector<Case> get_level_cell(){return level_cell;};
@@ -99,6 +100,7 @@ public:
         limited_step=step;
     }
 
+    //all the create methods create a new object of the specified entity
     void create_player(Vector2D current, int x, int y, Vector2D level_size);
     void create_normal_objective(Vector2D current, int x, int y, Vector2D level_size);
     void create_yellow_objective(Vector2D current, int x, int y, Vector2D level_size);
@@ -115,29 +117,89 @@ public:
     bool get_lost_flag(){ return lost_flag; }
 
     void read_level_file(int level_number);
+    /**
+     * @brief 
+     * 
+     * @param level_number 
+     */
 
     void read_data(ifstream& file ,  int& data);
+    /**
+     * @brief 
+     * 
+     */
     void read_data_level(ifstream& file , string& data);
+    /**
+
+     */
     
     vector<string> get_data_level(){return data_level;}
 
+    // id gets the position of a cell in the board because the board is stored as a 1 dimension variable
+    //instead of a 2 dimensions and;
     int id(int x, int y);
     Vector2D reverse_id(int x);
     
-    int can_tp(Vector2D & current_pos); 
+    int can_tp(Vector2D & current_pos);
+    /**
+     * @brief 
+     */
+
     bool check_move(Vector2D &current_pos, int push_dir);
+    /**
+     * @brief 
+     * 
+     */
     bool safe_check_move(Vector2D current_pos, int push_dir);
+    /**
+     * @brief:
+     * 
+     */
 
     void fill_box_list();
+    /**
+     * @brief 
+     * 
+     */
     bool are_box_blocked();
+    /**
+     * @brief 
+     */
     int is_lost();
+    /**
+     * @brief 
+     * 
+     */
+
     void play_move(Vector2D &current_pos, int push_dir);
+    /**
+     * @brief 
+     * 
+     */
 
     void clear_vectors();
+    /**
+     * @brief 
+     * 
+     */
+
     void reset_level();
+    /**
+     * @brief 
+     * 
+     */
+
     void next_level();
+    /**
+     * @brief 
+     * 
+     */
 
     void update_file(int new_best_score);
+    /**
+     * @brief 
+     * 
+     */
         
 };
 

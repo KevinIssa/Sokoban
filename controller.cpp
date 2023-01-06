@@ -5,13 +5,13 @@ int Controller::process_key(int event)
 {
     Vector2D position = soko->get_pos_player();
 
-    switch(event) //fleches actives
+    switch(event) //movement asked with arrows or normal keys
     {
         case 'z':
             position.y--;
             if(soko->check_move(position, NORTH)){soko->play_move(position, NORTH);};
             break;
-        case 65362: 
+        case UP_KEY: 
             position.y--;
             if(soko->check_move(position, NORTH)){soko->play_move(position, NORTH);};
             break;
@@ -19,7 +19,7 @@ int Controller::process_key(int event)
             position.y++;
             if(soko->check_move(position, SOUTH)){soko->play_move(position, SOUTH);};
             break;
-        case 65364:
+        case DOWN_KEY:
             position.y++;
             if(soko->check_move(position, SOUTH)){soko->play_move(position, SOUTH);};
             break;
@@ -27,7 +27,7 @@ int Controller::process_key(int event)
             position.x--;
             if(soko->check_move(position, WEST)){soko->play_move(position, WEST);};
             break;
-        case 65361:
+        case LEFT_KEY:
             position.x--;
             if(soko->check_move(position, WEST)){soko->play_move(position, WEST);};
             break;
@@ -35,7 +35,7 @@ int Controller::process_key(int event)
             position.x++;
             if(soko->check_move(position, EAST)){soko->play_move(position, EAST);};
             break;
-        case 65363:
+        case RIGHT_KEY:
             position.x++;
             if(soko->check_move(position, EAST)){soko->play_move(position, EAST);};
             break;

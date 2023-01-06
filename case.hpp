@@ -47,7 +47,6 @@ class Case
         void set_value(char r){value=r;}
         void set_repr(char r){repr=r;}
         void set_pos(int y,int x){position = Vector2D {x,y};}
-        // const char draw(){return repr;}
 };
 
 #endif

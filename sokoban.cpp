@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <type_traits>
 
-int Sokoban::id(int x, int y) //faire une fct lambda
+int Sokoban::id(int x, int y)
 {
     return y * 10 + x;
 }
@@ -29,7 +29,7 @@ void Sokoban::read_data(ifstream& file , int& data){
     string buffer;
     
     buffer=str_line.substr(str_line.size() - 3);
-    /* cout<<"buffer= "<<buffer<<endl; */
+
     data = stoi(buffer);
 }
 
@@ -523,11 +523,11 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
 
 void Sokoban::play_move(Vector2D &current_pos, int push_dir)
 {  
+    
     if(next_tp > -1){
-
+        cout<<"representation: "<<level_cell[next_tp].get_repr()<<" "<<"valeur: "<<level_cell[next_tp].get_value()<<endl;
         swap(level_cell[next_tp], level_cell[id(pos_player.x, pos_player.y)]);
 
-        cout<<level_cell[next_tp].get_value();
         pos_player.x = reverse_id(next_tp).x;
         pos_player.y= reverse_id(next_tp).y;
         
