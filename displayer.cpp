@@ -21,6 +21,7 @@ void Displayer::draw(){
     vector <Vector2D> purple_goals = soko->get_purple_goals();
     vector <Vector2D> yellow_goals = soko->get_yellow_goals();
     vector <Vector2D> teleporter_cells= soko->get_teleporter_cell(); 
+    vector <Vector2D> box_list = soko->get_box_list(); 
     Vector2D player_pos = soko->get_pos_player();
 
     Fl_Image *im =Fl_PNG_Image {"player.png"} .copy(50,50);
@@ -35,7 +36,7 @@ void Displayer::draw(){
     for (auto &c:soko->get_level_cell())
     {
         if (c.get_repr()=='$'  or c.get_repr() == 'H' or c.get_repr() == 'M' or c.get_repr() =='+'){
-            c.get_image()->draw(soko->reverse_id(i).x*c.get_size(), soko->reverse_id(i).y*c.get_size());
+            /* c.get_image()->draw(soko->reverse_id(i).x*c.get_size(), soko->reverse_id(i).y*c.get_size()); */
         }
         i++;
     }
@@ -45,6 +46,10 @@ void Displayer::draw(){
     display_goals('*', purple_goals, "giratina.png" );
     display_goals('&',teleporter_cells, "teleporter.png" );
 
+    display_goals('$', box_list, "pokeball.png" );
+    display_goals('H', box_list, "hyper_ball.png" );
+    display_goals('M', box_list, "master_ball.png" );
+    display_goals('+', box_list, "superball.png" );
 }
 
 void Displayer::draw_menu(){
