@@ -5,7 +5,6 @@
 #include "controller.hpp"
 #include "displayer.hpp"
 #include <FL/Fl_Double_Window.H>
-//#include <bits/types/struct_timespec.h>
 #include <ctime>
 #include <iostream>
 
@@ -49,12 +48,6 @@ class Game_window : public Fl_Double_Window
                     int event = Fl::event_key();
                     controller.process_key(event);
                     break;
-                
-                /*
-                case FL_PUSH:
-                    button.mouseClick(tup{Fl::event_x(), Fl::event_y()});
-                    break; 
-                */
                 
             }
             return 0;

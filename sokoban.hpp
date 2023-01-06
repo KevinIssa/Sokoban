@@ -61,7 +61,6 @@ private:
     vector<string> data_level;
 
     void load_game();
-    int print_game();
 
 public:
     Sokoban() = default;
@@ -75,9 +74,9 @@ public:
     vector <Vector2D> get_teleporter_cell(){return teleporter_cell;}
     vector <Vector2D> get_wall_cell(){return wall_cell;}
     vector <Vector2D> get_goals_cell(){return goals_cell;}
-    vector <Vector2D> get_yellow_cell(){return yellow_goals_cell;}
-    vector <Vector2D> get_purple_cell(){return purple_goals_cell;}
-    vector <Vector2D> get_normal_cell(){return normal_goals_cell;}
+    vector <Vector2D> get_yellow_goals(){return yellow_goals_cell;}
+    vector <Vector2D> get_purple_goals(){return purple_goals_cell;}
+    vector <Vector2D> get_normal_goals(){return normal_goals_cell;}
     vector <Vector2D> get_box_list(){return box_list;}
 
     int get_goals_count();
@@ -136,12 +135,10 @@ public:
 
     void clear_vectors();
     void reset_level();
-    void listen_game();
     void next_level();
 
     void update_file(int new_best_score);
-    void draw();
-    
+        
 };
 
 #endif
