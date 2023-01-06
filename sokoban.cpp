@@ -539,6 +539,7 @@ void Sokoban::play_move(Vector2D &current_pos, int push_dir)
     }    
 
     else{
+        cout<<"test"<<endl;
         while (current_pos.x != pos_player.x || current_pos.y != pos_player.y){
             Vector2D source = current_pos;
             switch (push_dir)
