@@ -5,6 +5,7 @@
 
 /* #include "case.hpp" */
 #include <FL/Enumerations.H>
+#include <cstring>
 #include <iostream>
 #include <iterator>
 class Button  {
@@ -15,7 +16,7 @@ class Button  {
         /* int font_size; */
     
     public:
-    Button(Fl_Color color, int posx, int posy, int sizex, int sizey, int font_size, char texte[20] ) : color{color},posx{posx}, posy{posy}, sizex{sizex}, sizey{sizey}, font_size{font_size},texte{texte[20] }{}
+    Button(Fl_Color color, int posx, int posy, int sizex, int sizey, int font_size, char new_texte[20] ) : color{color},posx{posx}, posy{posy}, sizex{sizex}, sizey{sizey}, font_size{font_size}{std::strcpy(texte, new_texte);}
     ~Button() = default;
         /* void mouseClick(Vector2D mouseLoc); */
         void draw();

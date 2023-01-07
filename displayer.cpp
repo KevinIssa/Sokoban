@@ -79,7 +79,7 @@ void Displayer::draw_end_game(){
 
 void Displayer::draw_button(){//Si tu veux refactor en focntions ici, tu peux remarquer que les arguments de positions sont les meme dans 
     /* for (auto */
-        char level[10]="";
+        char level[20]="";
        
 
 
@@ -91,13 +91,13 @@ void Displayer::draw_button(){//Si tu veux refactor en focntions ici, tu peux re
         button_list.push_back(lvl);
         lvl->foo();
         
-        char reset[10]="";
+        char reset[20]="";
         sprintf(reset,"RESET");
         Button *reset_lvl = new Button(FL_YELLOW, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 35, reset); 
         /* memset(reset, 0, 20); */ 
         button_list.push_back(reset_lvl);
 
-        char quit[10]="";
+        char quit[20]="";
         sprintf(quit,"QUIT");
         Button *quit_but = new Button(FL_GREEN, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 2*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 25, quit); 
         button_list.push_back(quit_but);
@@ -106,26 +106,26 @@ void Displayer::draw_button(){//Si tu veux refactor en focntions ici, tu peux re
 
 
 
-        char b_score[10]="";
+        char b_score[20]="";
         sprintf(b_score,"BEST = %d", soko->get_best_score());
         Button *best_score = new Button(FL_RED,  GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 3*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 15, b_score); 
         button_list.push_back(best_score);
         /* memset(buffer, 0, 20); */ 
 
-        char score_b[10]="";
+        char score_b[20]="";
         sprintf(score_b, "%d/%d", soko->get_used_step(), soko->get_limited_step());
         Button *score = new Button(FL_MAGENTA,  GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE, 25, score_b); 
         button_list.push_back(score);
 
 
-        char chg_lvl_b[15]="";
+        char chg_lvl_b[20]="";
         sprintf(chg_lvl_b,"Change Level");
         Button *chg_lvl = new Button(FL_CYAN,  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20, chg_lvl_b); 
         button_list.push_back(chg_lvl);
         /* memset(buffer, 0, 20); */ 
 
         /* sprintf(buffer,""); */
-        char reset_all_b[10]="";
+        char reset_all_b[20]="";
         Button *reset_all = new Button(FL_CYAN,  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20, reset_all_b); 
         button_list.push_back(reset_all);
         /* memset(buffer, 0, 20); */ 
