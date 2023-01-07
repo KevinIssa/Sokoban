@@ -3,6 +3,7 @@
 #include "case.hpp"
 #include "sokoban.hpp"
 #include "button.hpp"
+#include <FL/Fl_Image.H>
 #include <vector>
 
 const int FREQ=20;
@@ -12,42 +13,45 @@ const int BEGIN_X = 0;
 const int BEGIN_Y = 0;
 const int OFFSET_BUTTON = 10;
 
-
+using namespace std;
 class Displayer 
 {   
     private:
         Sokoban *soko;
         vector<Button> button_list;
 
+        Vector2D player_pos; 
         vector <Vector2D> normal_goals;
         vector <Vector2D> purple_goals;
         vector <Vector2D> yellow_goals;
         vector <Vector2D> teleporter_cells;
-        vector <Vector2D> box_list;
+        std::vector <Vector2D> box_list;
         vector <Vector2D> wall_list;
         /* Case *current_case; */
 
-        Fl_Image * player_img = Fl_PNG_Image {"player.png"} .copy(BOX_SIZE,BOX_SIZE);
-        Fl_Image * normal_goals_img = Fl_PNG_Image {"pika.png"} .copy(BOX_SIZE,BOX_SIZE);
-        Fl_Image * yellow_goals_img = Fl_PNG_Image {"elekable.png"} .copy(BOX_SIZE,BOX_SIZE);
-        Fl_Image * purple_goals_img = Fl_PNG_Image {"giratina.png"} .copy(BOX_SIZE,BOX_SIZE);
-        Fl_Image * teleporter_cells_img = Fl_PNG_Image {"teleporter.png"} .copy(BOX_SIZE,BOX_SIZE);
+        vector< Fl_Image*> image_list; 
+        vector<const char *> filename_list = 
+        /* Fl_Image * player_img = Fl_PNG_Image {"player.png"} .copy(BOX_SIZE,BOX_SIZE); */
+
+        /* Fl_Image * normal_goals_img = Fl_PNG_Image {"pika.png"} .copy(BOX_SIZE,BOX_SIZE); */
+        /* Fl_Image * yellow_goals_img = Fl_PNG_Image {"elekable.png"} .copy(BOX_SIZE,BOX_SIZE); */
+        /* Fl_Image * purple_goals_img = Fl_PNG_Image {"giratina.png"} .copy(BOX_SIZE,BOX_SIZE); */
+        /* Fl_Image * teleporter_cells_img = Fl_PNG_Image {"teleporter.png"} .copy(BOX_SIZE,BOX_SIZE); */
         
-        Fl_Image * normal_box_img = Fl_PNG_Image {"pokeball.png"} .copy(BOX_SIZE,BOX_SIZE);
-        Fl_Image * light_box_img = Fl_PNG_Image {"hyper_ball.png"} .copy(BOX_SIZE,BOX_SIZE);
-        Fl_Image * purple_box_img = Fl_PNG_Image {"master_ball.png"} .copy(BOX_SIZE,BOX_SIZE);
-        Fl_Image * yellow_box_img = Fl_PNG_Image {"superball.png"} .copy(BOX_SIZE,BOX_SIZE);
-        Fl_Image * wall_img = Fl_PNG_Image {"grey_wall.png"} .copy(BOX_SIZE,BOX_SIZE);
-        Vector2D player_pos; 
+        /* Fl_Image * normal_box_img = Fl_PNG_Image {"pokeball.png"} .copy(BOX_SIZE,BOX_SIZE); */
+        /* Fl_Image * light_box_img = Fl_PNG_Image {"hyper_ball.png"} .copy(BOX_SIZE,BOX_SIZE); */
+        /* Fl_Image * purple_box_img = Fl_PNG_Image {"master_ball.png"} .copy(BOX_SIZE,BOX_SIZE); */
+        /* Fl_Image * yellow_box_img = Fl_PNG_Image {"superball.png"} .copy(BOX_SIZE,BOX_SIZE); */
+        /* Fl_Image * wall_img = Fl_PNG_Image {"grey_wall.png"} .copy(BOX_SIZE,BOX_SIZE); */
 
     public:
-        Displayer(Sokoban *soko) : soko{soko}{
-        
+        Displayer(Sokoban *soko) : soko{soko}{init_all();
 
         }
         ~Displayer()=default;
         void draw(); // cal FREQ/seq
         void display_element(const char repr, vector <Vector2D> goal_list, Fl_Image* picture);
+        void init_all();
         void draw_button();
         /**
          * @brief: check goals in goal_list and draw them

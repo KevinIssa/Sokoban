@@ -8,6 +8,7 @@
 #include <FL/Fl_Window.H>
 #include <cstdio>
 #include <iostream>
+#include <string>
 
 
 /* void Displayer::display_element(const char cell_repr, vector <Vector2D> goal_list, Fl_Image* picture){ */
@@ -26,7 +27,7 @@
 
 void Displayer::display_element(const char cell_repr, vector <Vector2D> goal_list, Fl_Image* picture){
     Case *current_case;
-    player_img->draw(player_pos.x*BOX_SIZE, player_pos.y*BOX_SIZE);
+    /* player_img->draw(player_pos.x*BOX_SIZE, player_pos.y*BOX_SIZE); */
     for (auto &goal:goal_list){
         current_case = &soko->get_level_cell()[soko->id(goal.x, goal.y)];
         if (current_case->get_repr() == cell_repr or current_case->get_repr() == ' ')
@@ -37,6 +38,22 @@ void Displayer::display_element(const char cell_repr, vector <Vector2D> goal_lis
             picture->draw(goal.x*BOX_SIZE, goal.y*BOX_SIZE);
         }
     }
+}
+
+
+void Displayer::init_all(){
+    auto image_gen = [](const char * s)  {return Fl_PNG_Image {s} .copy(BOX_SIZE,BOX_SIZE);};
+    image_list.push_back(image_gen("player.png"));
+    image_list.push_back(image_gen("pika.png"));
+    image_list.push_back(image_gen("elekable.png"));
+    image_list.push_back(image_gen("giratina.png"));
+    image_list.push_back(image_gen("teleporter.png"));
+    image_list.push_back(image_gen("pokeball.png"));
+    image_list.push_back(image_gen("hyper_ball.png"));
+    image_list.push_back(image_gen("master_ball.png"));
+    image_list.push_back(image_gen("superball.png"));
+    image_list.push_back(image_gen("grey_wall.png"));
+        
 }
 
 void Displayer::draw(){
@@ -52,17 +69,19 @@ void Displayer::draw(){
     box_list = soko->get_box_list(); 
     player_pos = soko->get_pos_player();
     wall_list = soko ->get_wall_cell();
-    
-    display_element('.', normal_goals, normal_goals_img );
-    display_element('/', yellow_goals, yellow_goals_img );
-    display_element('*', purple_goals, purple_goals_img );
-    display_element('&',teleporter_cells, teleporter_cells_img );
+   
 
-    display_element('$', box_list, normal_box_img );
-    display_element('+', box_list, yellow_box_img );
-    display_element('M', box_list, purple_box_img );
-    display_element('H', box_list, light_box_img );
-    display_element('#', wall_list, wall_img);
+
+    display_element('.', normal_goals, image_list[1]  );
+    display_element('/', yellow_goals, image_list[2] );
+    display_element('*', purple_goals, image_list[3] );
+    display_element('&',teleporter_cells,image_list[4] );
+
+    display_element('$', box_list,  image_list[5] );
+    display_element('+', box_list, image_list[6] );
+    display_element('M', box_list, image_list[7] );
+    display_element('H', box_list, image_list[8]  );
+    display_element('#', wall_list, image_list[9]);
 }
 
 
