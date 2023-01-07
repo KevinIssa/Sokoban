@@ -67,7 +67,7 @@ void Displayer::draw(){
     yellow_goals = soko->get_yellow_goals();
     teleporter_cells= soko->get_teleporter_cell(); 
     box_list = soko->get_box_list(); 
-    player_pos.clear();
+    /* player_pos.clear(); */
     player_pos.push_back(soko->get_pos_player());
     wall_list = soko ->get_wall_cell();
    
