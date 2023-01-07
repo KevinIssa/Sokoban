@@ -14,6 +14,7 @@ class Game_window : public Fl_Double_Window
     Displayer displayer;
     bool menu=true, game=false;
     int time=0;
+    
     public:
         Game_window(Sokoban *soko) : Fl_Double_Window (100,100,650,550,"SOKOBAN MKovel + Kevin"), 
         controller{Controller(soko)}, 
@@ -28,7 +29,7 @@ class Game_window : public Fl_Double_Window
                 
                 time++;
                 displayer.draw_menu();
-                if (time==2*FREQ)
+                if (time==2*FREQ)//show the menu for 2 seconds
                 {
                     menu=false;
                     game=true;

@@ -61,6 +61,10 @@ private:
     vector<string> data_level;
 
     void load_game();
+    /**
+     * @brief browse all the board and create an object for each type of cell
+     * 
+     */
 
 public:
     Sokoban() = default;
@@ -81,6 +85,11 @@ public:
     vector <Vector2D> get_box_list(){return box_list;}
 
     int get_goals_count();
+    /**
+     * @brief: check for all types of boxes if they are on their respective goals
+     * 
+     * @return the number of box that are on their goals point
+     */
 
     int get_level(){return level;}
 
@@ -116,88 +125,96 @@ public:
 
     bool get_lost_flag(){ return lost_flag; }
 
-    void read_level_file(int level_number);
-    /**
-     * @brief 
-     * 
-     * @param level_number 
-     */
-
     void read_data(ifstream& file ,  int& data);
     /**
-     * @brief 
-     * 
+     * @brief: take the digits for each line of information about the level and cast them into int 
+     * and store them in the level_data
      */
+
     void read_data_level(ifstream& file , string& data);
     /**
-
+     * @brief: read the string that represent the level and store it in a string
+     * 
+     * @param data: the string where the level will be stored
      */
     
+
+    void read_level_file(int level_number);
+    /**
+     * @brief: read all the level information and treat them whith the function above
+     * 
+     * @param level_number: the actual level
+     */
+
+    void update_file(int new_best_score);
+    /**
+     * @brief: update the best score for the finished level 
+     * 
+     */
+
     vector<string> get_data_level(){return data_level;}
 
     // id gets the position of a cell in the board because the board is stored as a 1 dimension variable
     //instead of a 2 dimensions and;
     int id(int x, int y);
+
+    //transform an id in x and y coordonates
     Vector2D reverse_id(int x);
     
     int can_tp(Vector2D & current_pos);
     /**
-     * @brief 
+     * @brief: check if a teleporter is available to teleport the player
+     * 
+     * @return the place of the next teleporter in the board
      */
 
     bool check_move(Vector2D &current_pos, int push_dir);
     /**
-     * @brief 
-     * 
+     * @brief: check if a move is possible
      */
+
     bool safe_check_move(Vector2D current_pos, int push_dir);
     /**
-     * @brief:
-     * 
+     * @brief: does the same as check_move but without impacting the current_pos  
      */
 
     void fill_box_list();
     /**
-     * @brief 
-     * 
+     * @brief: browse the board to store the boxes in the box list vector
      */
+
     bool are_box_blocked();
     /**
-     * @brief 
+     * @brief: check if all boxes are blocked
      */
+
     int is_lost();
     /**
-     * @brief 
+     * @brief: check if one of the losing condition is valided (limited stop or are_box_blocked)
      * 
      */
 
     void play_move(Vector2D &current_pos, int push_dir);
     /**
-     * @brief 
+     * @brief: play the move on the board after check move validated it
      * 
      */
 
     void clear_vectors();
     /**
-     * @brief 
+     * @brief: clear all vectors after a level is completed
      * 
      */
 
     void reset_level();
     /**
-     * @brief 
+     * @brief: if the player press r the level is reset
      * 
      */
 
     void next_level();
     /**
-     * @brief 
-     * 
-     */
-
-    void update_file(int new_best_score);
-    /**
-     * @brief 
+     * @brief: load the next level and update the best score
      * 
      */
         

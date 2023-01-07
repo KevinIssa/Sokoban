@@ -18,13 +18,13 @@ class Controller
 
         int process_key(int event);
         /**
-         * @brief 
-         * 
+         * @brief : take the player's input, check it's validity and play it the move is valid
          */
 
         void listen_game();
         /**
-         * @brief 
+         * @brief: check the state of the game, if the player succeded or failed the level, it notify him 
+         * and get to the next level if he succeded
          * 
          */
 };
