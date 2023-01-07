@@ -67,11 +67,13 @@ void Displayer::draw(){
     yellow_goals = soko->get_yellow_goals();
     teleporter_cells= soko->get_teleporter_cell(); 
     box_list = soko->get_box_list(); 
-    player_pos = soko->get_pos_player();
+    player_pos.clear();
+    player_pos.push_back(soko->get_pos_player());
     wall_list = soko ->get_wall_cell();
    
 
 
+    display_element('@', player_pos, image_list[0]  );
     display_element('.', normal_goals, image_list[1]  );
     display_element('/', yellow_goals, image_list[2] );
     display_element('*', purple_goals, image_list[3] );

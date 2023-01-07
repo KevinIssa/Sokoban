@@ -20,7 +20,7 @@ class Displayer
         Sokoban *soko;
         vector<Button> button_list;
 
-        Vector2D player_pos; 
+        vector <Vector2D> player_pos; 
         vector <Vector2D> normal_goals;
         vector <Vector2D> purple_goals;
         vector <Vector2D> yellow_goals;
@@ -30,7 +30,7 @@ class Displayer
         /* Case *current_case; */
 
         vector< Fl_Image*> image_list; 
-        vector<const char *> filename_list = 
+        /* vector<const char *> filename_list = */ 
         /* Fl_Image * player_img = Fl_PNG_Image {"player.png"} .copy(BOX_SIZE,BOX_SIZE); */
 
         /* Fl_Image * normal_goals_img = Fl_PNG_Image {"pika.png"} .copy(BOX_SIZE,BOX_SIZE); */
