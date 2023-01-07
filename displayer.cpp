@@ -72,7 +72,10 @@ void Displayer::draw_end_game(){
 
 }
 
-void Displayer::draw_button(){
+void Displayer::draw_button(){//Si tu veux refactor en focntions ici, tu peux remarquer que les arguments de positions sont les meme dans 
+                              //les box et dans les textes. on peut faire un heritage ici clairement je pense si tu te chauffe.
+                              //pour l'instant ce ne sont que des cases il faut bind une fonction pour certains
+
 
     /* fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE , FL_RED); */
     fl_font(FL_HELVETICA,50);
@@ -111,7 +114,7 @@ void Displayer::draw_button(){
     sprintf(score, "%d/%d", soko->get_used_step(), soko->get_limited_step());
     fl_draw(score, GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);
 
-    fl_draw_box(FL_FLAT_BOX, OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , FL_CYAN);
+    fl_draw_box(FL_FLAT_BOX, OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , FL_CYAN);//ici un changement d'ecran sera afficher si cliquer dessus
     fl_font(FL_HELVETICA,20);
     fl_color(fl_rgb_color(0,0,255));
     fl_draw("Change Level",  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 ,FL_ALIGN_CENTER,nullptr,false);
@@ -119,7 +122,7 @@ void Displayer::draw_button(){
 
 
 
-    fl_draw("reset all data --->", GAME_SIZE-BOX_SIZE/2 ,9*BOX_SIZE, 2*BOX_SIZE, 3*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);
+    fl_draw("reset all data --->", GAME_SIZE-BOX_SIZE/2 ,9*BOX_SIZE, 2*BOX_SIZE, 3*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);//j'ai creer un fichier original_leveles pour ca
     fl_draw_box(FL_FLAT_BOX, GAME_SIZE + 3*BOX_SIZE-BOX_SIZE/2 ,10*BOX_SIZE+BOX_SIZE/2.5, BOX_SIZE/5, BOX_SIZE/5 , FL_BLUE);
     
     /* fl_draw("100/100", GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false); */
