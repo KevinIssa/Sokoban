@@ -5,7 +5,7 @@
 #include "button.hpp"
 #include <vector>
 
-const int FREQ=60;
+const int FREQ=20;
 const int GAME_SIZE = 500 ;
 const int BOX_SIZE = GAME_SIZE / 10;
 const int BEGIN_X = 0;
@@ -17,7 +17,7 @@ class Displayer
 {   
     private:
         Sokoban *soko;
-        vector<Button*> button_list;
+        vector<Button> button_list;
 
         vector <Vector2D> normal_goals;
         vector <Vector2D> purple_goals;
@@ -64,4 +64,4 @@ class Displayer
 /* [ ] */
 
 #endif
-
+/* {} */

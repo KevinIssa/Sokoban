@@ -1,4 +1,5 @@
 #include "displayer.hpp"
+#include "button.hpp"
 /* #include "case.hpp" */
 /* #include "button.hpp" */
 /* #include <FL/Enumerations.H> */
@@ -58,9 +59,9 @@ void Displayer::draw(){
     display_element('&',teleporter_cells, teleporter_cells_img );
 
     display_element('$', box_list, normal_box_img );
-    display_element('H', box_list, yellow_box_img );
+    display_element('+', box_list, yellow_box_img );
     display_element('M', box_list, purple_box_img );
-    display_element('+', box_list, light_box_img );
+    display_element('H', box_list, light_box_img );
     display_element('#', wall_list, wall_img);
 }
 
@@ -87,19 +88,19 @@ void Displayer::draw_button(){//Si tu veux refactor en focntions ici, tu peux re
         /* sleep(5); */
         sprintf(level,"%d", soko->get_level());
         cout<<"avant objet: "<<level<<endl;
-        Button *lvl = new Button(FL_WHITE, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 50, level);
+        Button lvl = Button{FL_WHITE, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 50, level};
         button_list.push_back(lvl);
-        lvl->foo();
+        /* lvl->foo(); */
         
         char reset[20]="";
         sprintf(reset,"RESET");
-        Button *reset_lvl = new Button(FL_YELLOW, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 30, reset); 
+        Button reset_lvl = Button{FL_YELLOW, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 30, reset}; 
         /* memset(reset, 0, 20); */ 
         button_list.push_back(reset_lvl);
 
         char quit[20]="";
         sprintf(quit,"QUIT");
-        Button *quit_but = new Button(FL_GREEN, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 2*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 25, quit); 
+        Button quit_but = Button{FL_GREEN, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 2*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 25, quit}; 
         button_list.push_back(quit_but);
         /* memset(buffer, 0, 20); */ 
         
@@ -108,25 +109,27 @@ void Displayer::draw_button(){//Si tu veux refactor en focntions ici, tu peux re
 
         char b_score[20]="";
         sprintf(b_score,"BEST = %d", soko->get_best_score());
-        Button *best_score = new Button(FL_RED,  GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 3*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 15, b_score); 
+        /* Button *best_score = new Button(FL_RED,  GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 3*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 15, b_score); */ 
+        Button best_score=Button {FL_RED,  GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 3*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 15, b_score}; 
         button_list.push_back(best_score);
         /* memset(buffer, 0, 20); */ 
 
         char score_b[20]="";
         sprintf(score_b, "%d/%d", soko->get_used_step(), soko->get_limited_step());
-        Button *score = new Button(FL_MAGENTA,  GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE, 25, score_b); 
+        /* Button *score = new Button(FL_MAGENTA,  GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE, 25, score_b); */ 
+        Button score = Button{FL_MAGENTA,  GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE, 25, score_b}; 
         button_list.push_back(score);
-
+{}
 
         char chg_lvl_b[20]="";
         sprintf(chg_lvl_b,"Change Level");
-        Button *chg_lvl = new Button(FL_CYAN,  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20, chg_lvl_b); 
+        Button chg_lvl = Button{FL_CYAN,  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20, chg_lvl_b}; 
         button_list.push_back(chg_lvl);
         /* memset(buffer, 0, 20); */ 
 
         /* sprintf(buffer,""); */
         char reset_all_b[20]="";
-        Button *reset_all = new Button(FL_BLUE, GAME_SIZE + 3*BOX_SIZE-BOX_SIZE/2 ,10*BOX_SIZE+BOX_SIZE/2.5, BOX_SIZE/5, BOX_SIZE/5 , 20, reset_all_b); 
+        Button reset_all = Button{FL_BLUE, GAME_SIZE + 3*BOX_SIZE-BOX_SIZE/2 ,10*BOX_SIZE + BOX_SIZE/(5/2) , BOX_SIZE/5, BOX_SIZE/5 , 20, reset_all_b}; 
         button_list.push_back(reset_all);
         /* memset(buffer, 0, 20); */ 
 
@@ -142,8 +145,9 @@ void Displayer::draw_button(){//Si tu veux refactor en focntions ici, tu peux re
 /*     /1* fl_draw("100/100", GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false); *1/ */
 /*     /1* sleep(5); *1/ */
 
-  for (auto &b:button_list) {b->draw();
+  for (auto &b:button_list) {b.draw();
       /* b->foo(); */
+      /* delete b; */
   }
 }
 /* void Displayer::draw_button(){//Si tu veux refactor en focntions ici, tu peux remarquer que les arguments de positions sont les meme dans */ 

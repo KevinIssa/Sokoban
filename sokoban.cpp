@@ -250,6 +250,7 @@ void Sokoban::load_game(){
                 }   
             }
         }       
+    fill_box_list();
     }
 
 for (auto&c:level_cell){original_level.push_back(c);}
@@ -334,6 +335,8 @@ int Sokoban::can_tp(Vector2D & current_pos){
 
 void Sokoban::fill_box_list(){
 
+    box_list.clear();
+
     for (int y=0;y<level_size.y;y++)
     {
         for (int x =0; x< level_size.x; x++)
@@ -391,14 +394,14 @@ int Sokoban::is_lost(){
     limited_step = level_data[2];
     
     if(used_step >= limited_step){
-        lost_flag = true;
+        /* lost_flag = true; */
         lost_type = 1;
     }
 
-    if(are_box_blocked()){
-        lost_flag = true;
-        lost_type = 2;
-    }
+    /* if(are_box_blocked()){ */
+    /*     lost_flag = true; */
+    /*     lost_type = 2; */
+    /* } */
 
     return lost_type;
 }
@@ -683,6 +686,8 @@ void Sokoban::clear_vectors(){
     purple_goals_cell.clear();
     teleporter_cell.clear();
     wall_cell.clear();
+    box_list.clear();
+    
 }
 
 void Sokoban::next_level()

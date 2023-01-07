@@ -54,7 +54,7 @@ dimensiony = 010
 
 level = 004
 best score = 999
-limited_step = 50
+limited_step = 200
 dimensionx = 010
 dimensiony = 010
 
@@ -72,7 +72,7 @@ dimensiony = 010
 
 level = 005
 best score = 999
-limited_step = 50
+limited_step = 200
 dimensionx = 010
 dimensiony = 010
 
@@ -85,4 +85,40 @@ dimensiony = 010
 # #    ###
 # ##### ##
 #        #
+##########
+
+
+level = 006
+best score = 999
+limited_step = 200
+dimensionx = 010
+dimensiony = 010
+
+##########
+##########
+# .   ####
+#  #  #  #
+#  #$.   #
+# ##  $. #
+#  .#$#  #
+# $ #@## #
+#   #### #
+##########
+
+
+level = 007
+best score = 999
+limited_step = 200
+dimensionx = 010
+dimensiony = 010
+
+##########
+######   #
+##### $  #
+###### $ #
+##### $  #
+###### @.#
+######  ##
+#####.$ .#
+###  .   #
 ##########
