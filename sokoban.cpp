@@ -28,14 +28,14 @@ void Sokoban::read_data(ifstream& file , int& data){
     getline(file , str_line);
     string buffer;
     
-    buffer=str_line.substr(str_line.size() - 3);
+    buffer=str_line.substr(str_line.size() - 3);//take the numbers at the end of the line
 
-    data = stoi(buffer);
+    data = stoi(buffer);// string to int
 }
 
 void Sokoban::read_data_level(ifstream& file , string& data){
 
-    unsigned int offset = level_data[3];
+    unsigned int offset = level_data[3];//take the number of line to read
     string void_line, str_line;
     level_s.clear();
 
@@ -51,7 +51,7 @@ void Sokoban::read_level_file(int level_number){
     string void_line;
     
     for (int i=1;i<=saved_line;i++){
-
+        //browse the file to the last line readed
         getline(level_file, void_line);
     }
    
@@ -62,6 +62,7 @@ void Sokoban::read_level_file(int level_number){
     }
 
     read_data_level(level_file, level_s);
+    //get the line readed to the beginning of the next lest
     saved_line += level_data[4];
     saved_line += 3;
     level_file.close();
@@ -179,6 +180,7 @@ void Sokoban::load_game(){
     level_cell.clear();
 
     read_level_file(level);
+    // dimension x and dimension y
     level_size={level_data[3] ,level_data[4]};
 
     for (int y=0;y<level_size.y; y++)
@@ -260,6 +262,7 @@ int Sokoban::get_goals_count(){
             count++;
         }
     }
+    
     for (auto &yellow_goals: yellow_goals_cell){
         if (level_cell[id(yellow_goals.x, yellow_goals.y)].get_repr()== YELLOW_BOX){
             count++;
@@ -278,15 +281,17 @@ int Sokoban::can_tp_end(){
     
 
     for(int i=0 ; i<teleporter_cell.size(); i++ ){
+
         if (id(teleporter_cell[i].x, teleporter_cell[i].y) == id(pos_player.x, pos_player.y)){
+
          int other_tp = abs((i-1))%2;
             cout<<"other= "<<other_tp<<endl;
 
             cout<<"repr= "<<level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr()<<endl; 
-            if(level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() ==  TELEPORTER or level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() == ' '
-                /* and level_cell[id(teleporter_cell[i].x , teleporter_cell[i].y)].get_repr() ==  TELEPORTER or level_cell[id(teleporter_cell[i].x , teleporter_cell[i].y)].get_repr() == ' ') */
-                )
-                next_tp = id(teleporter_cell[other_tp].x, teleporter_cell[other_tp].y);
+            if(level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() ==  TELEPORTER 
+            or level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() == ' ')
+
+            next_tp = id(teleporter_cell[other_tp].x, teleporter_cell[other_tp].y);
         }
     }
 cout<<"dans can tp "<<endl<<"next tp ="<<next_tp<<endl;
@@ -307,14 +312,15 @@ int Sokoban::can_tp(Vector2D & current_pos){
         /* or  id(teleporter_cell[i].x, teleporter_cell[i].y) == id(pos_player.x, pos_player.y)){ */
         /* if (id(teleporter_cell[i].x, teleporter_cell[i].y) == id(pos_player.x, pos_player.y)){ */
             cout<<"in pos"<<endl;
-
+            //take the position of the other teleport in the list
             int other_tp = abs((i-1))%2;
             cout<<"other= "<<other_tp<<endl;
 
             cout<<"repr= "<<level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr()<<endl; 
-            if(level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() ==  TELEPORTER or level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() == ' '
-                /* and level_cell[id(teleporter_cell[i].x , teleporter_cell[i].y)].get_repr() ==  TELEPORTER or level_cell[id(teleporter_cell[i].x , teleporter_cell[i].y)].get_repr() == ' ') */
-                )
+            if(level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() ==  TELEPORTER
+            or level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() == ' ')
+
+                //save the place's value of the next tp on the board
                 next_tp = id(teleporter_cell[other_tp].x, teleporter_cell[other_tp].y);
         }
     }
@@ -363,6 +369,7 @@ bool Sokoban::are_box_blocked(){
                     blocked_direction = push_index;
                     first = false;}
                 else
+                    //if the blocked direction form a right angle
                     if (abs(blocked_direction - push_index) % 2 == 1 and flag == false){
                         blocked_box ++;
                         flag = true;
@@ -468,7 +475,6 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
     
     can_tp(current_pos);
     if(next_tp > -1){
-        cout<<"next= "<<next_tp<<endl;
 
         allow_pushing = true;
         
@@ -567,6 +573,7 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
 }
 
 void Sokoban::end_tp(){
+
      if(next_tp > -1){
 
         cout<<"next= "<<next_tp<<endl;
@@ -578,19 +585,12 @@ void Sokoban::end_tp(){
         
         /* current_pos = pos_player; */
         next_tp = -1;
-    }    
-
-
-
-
+    }
 }
-
-
-
 
 void Sokoban::play_move(Vector2D &current_pos, int push_dir)
 {  
-    
+
     if(next_tp > -1){
 
         cout<<"next= "<<next_tp<<endl;
