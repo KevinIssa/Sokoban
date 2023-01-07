@@ -124,7 +124,7 @@ public:
     void create_teleporter(Vector2D current, int x, int y, Vector2D level_size);
 
     bool get_lost_flag(){ return lost_flag; }
-
+    
     void read_data(ifstream& file ,  int& data);
     /**
      * @brief: take the digits for each line of information about the level and cast them into int 
@@ -167,7 +167,10 @@ public:
      * 
      * @return the place of the next teleporter in the board
      */
+    int can_tp_end();
 
+    void end_tp();
+    
     bool check_move(Vector2D &current_pos, int push_dir);
     /**
      * @brief: check if a move is possible
@@ -221,3 +224,4 @@ public:
 };
 
 #endif
+   

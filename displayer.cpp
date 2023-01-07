@@ -52,6 +52,15 @@ void Displayer::draw(){
     display_goals('+', box_list, "superball.png" );
 }
 
+
+
 void Displayer::draw_menu(){
     fl_draw_box(FL_FLAT_BOX, 0, 0, 500, 500, FL_RED);
 }
+
+
+
+
+
+
+
