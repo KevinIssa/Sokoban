@@ -2,7 +2,6 @@
 #define _MAIN_WINDOW_H
 
 /* #include "buttons.hpp" */
-#include "case.hpp"
 #include "sokoban.hpp"
 #include "controller.hpp"
 #include "displayer.hpp"

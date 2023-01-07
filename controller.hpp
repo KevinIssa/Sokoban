@@ -1,9 +1,7 @@
 #ifndef _CONTROLLER_H
 #define _CONTROLLER_H
 
-#include "case.hpp"
 #include "sokoban.hpp"
-/* #include "buttons.hpp" */
 #include "displayer.hpp"
 #include <FL/Enumerations.H>
 #include <vector>

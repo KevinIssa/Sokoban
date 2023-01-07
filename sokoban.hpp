@@ -60,7 +60,7 @@ private:
     vector <Vector2D> box_list;
     vector<string> data_level;
 
-    void load_game();
+    void load_game(int level);
     /**
      * @brief browse all the board and create an object for each type of cell
      * 
@@ -161,22 +161,35 @@ public:
     //transform an id in x and y coordonates
     Vector2D reverse_id(int x);
     
-    int can_tp(Vector2D & current_pos);
+    int can_tp();
     /**
      * @brief: check if a teleporter is available to teleport the player
      * 
      * @return the place of the next teleporter in the board
      */
-    int can_tp_end();
 
     void end_tp();
+    /**
+     * @brief:  
+     * 
+     */
+    
+    void test_dir(Vector2D& current_pos, int push_dir);
+    /**
+     * @brief: 
+     * 
+     */
+    
+    void test_box_move(int push_dir, bool& test, Vector2D& current_pos);
+    /**
+     * @brief:
+     * 
+     */
     
     bool check_move(Vector2D &current_pos, int push_dir);
     /**
      * @brief: check if a move is possible
      */
-
-    bool safe_check_move2(Vector2D current_pos, int push_dir);
 
     bool safe_check_move(Vector2D current_pos, int push_dir);
     /**

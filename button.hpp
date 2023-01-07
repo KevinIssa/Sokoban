@@ -1,9 +1,6 @@
 #ifndef _BUTTON_H
 #define _BUTTON_H
 
-
-
-/* #include "case.hpp" */
 #include <FL/Enumerations.H>
 #include <cstring>
 #include <iostream>
