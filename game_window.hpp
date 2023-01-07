@@ -28,8 +28,13 @@ class Game_window : public Fl_Double_Window
             Fl_Window::draw();
             if(menu){
                 
+                fl_font(FL_HELVETICA,60);
+                fl_color(fl_rgb_color(0,0,255));
+                fl_draw("MKOVEL + KEVIN",50,50,500,500,FL_ALIGN_CENTER,nullptr,false);
+
+
                 time++;
-                displayer.draw_menu();
+                /* displayer.draw_menu(); */
                 if (time==2*FREQ)//show the menu for 2 seconds
                 {
                     menu=false;

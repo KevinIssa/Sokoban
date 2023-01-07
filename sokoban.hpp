@@ -177,6 +177,7 @@ public:
      */
 
     bool safe_check_move2(Vector2D current_pos, int push_dir);
+
     bool safe_check_move(Vector2D current_pos, int push_dir);
     /**
      * @brief: does the same as check_move but without impacting the current_pos  

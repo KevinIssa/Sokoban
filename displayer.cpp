@@ -1,7 +1,10 @@
 #include "displayer.hpp"
 #include "case.hpp"
 /* #include <FL/Enumerations.H> */
+#include <FL/Enumerations.H>
 #include <FL/Fl_Image.H>
+#include <FL/Fl_Window.H>
+#include <cstdio>
 
 
 /* void Displayer::display_element(const char cell_repr, vector <Vector2D> goal_list, Fl_Image* picture){ */
@@ -70,13 +73,59 @@ void Displayer::draw_end_game(){
 }
 
 void Displayer::draw_button(){
-    fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE , FL_RED);
-    fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE , FL_BLUE);
+
+    /* fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE , FL_RED); */
+    fl_font(FL_HELVETICA,50);
+    fl_color(fl_rgb_color(0,0,255));
+    char level[10]="";
+    sprintf(level,"%d", soko->get_level());
+    fl_draw(level,GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);
+    
+    fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE , FL_YELLOW);
+    fl_font(FL_HELVETICA,25);
+    fl_color(fl_rgb_color(0,0,255));
+    fl_draw("RESET", GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);
+
     fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 2*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , FL_GREEN);
-    fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE , FL_WHITE);
+    fl_font(FL_HELVETICA,35);
+    fl_color(fl_rgb_color(0,0,255));
+    fl_draw("QUIT", GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 2*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);
+
+    fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 3*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , FL_RED);
+    fl_font(FL_HELVETICA,15);
+    fl_color(fl_rgb_color(0,0,255));
+    char best[10]="";
+    sprintf(best,"BEST = %d", soko->get_best_score());
+    fl_draw(best, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 3*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);
+
+
+
+
+
+
+
+    fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE , FL_MAGENTA);
+    fl_font(FL_HELVETICA,25);
+    fl_color(fl_rgb_color(0,0,255));
+    char score[10]="";
+    sprintf(score, "%d/%d", soko->get_used_step(), soko->get_limited_step());
+    fl_draw(score, GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);
+
+    fl_draw_box(FL_FLAT_BOX, OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , FL_CYAN);
+    fl_font(FL_HELVETICA,20);
+    fl_color(fl_rgb_color(0,0,255));
+    fl_draw("Change Level",  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 ,FL_ALIGN_CENTER,nullptr,false);
+
+
+
+
+    fl_draw("reset all data --->", GAME_SIZE-BOX_SIZE/2 ,9*BOX_SIZE, 2*BOX_SIZE, 3*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);
+    fl_draw_box(FL_FLAT_BOX, GAME_SIZE + 3*BOX_SIZE-BOX_SIZE/2 ,10*BOX_SIZE+BOX_SIZE/2.5, BOX_SIZE/5, BOX_SIZE/5 , FL_BLUE);
+    
+    /* fl_draw("100/100", GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false); */
+    /* sleep(5); */
+
 
 }
-
-
 
 

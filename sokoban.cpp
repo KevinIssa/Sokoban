@@ -182,6 +182,9 @@ void Sokoban::load_game(){
 
     read_level_file(level);
     // dimension x and dimension y
+    level=level_data[0];
+    best_score = level_data[1];
+    limited_step = level_data[2];
     level_size={level_data[3] ,level_data[4]};
 
     for (int y=0;y<level_size.y; y++)
@@ -346,7 +349,6 @@ void Sokoban::fill_box_list(){
         }
     }
 }
-
 bool Sokoban::are_box_blocked(){
 
     vector<int>push_direction={0, 1, 2, 3};
@@ -364,7 +366,7 @@ bool Sokoban::are_box_blocked(){
 
         for(int push_index = 0; push_index <= 3; push_index++){
             
-            if(safe_check_move2(box_pos, push_direction[push_index]) == false){
+            if(safe_check_move(box_pos, push_direction[push_index]) == false){
             /* if(check_move(box_pos, push_direction[push_index]) == false){ */
                 if (first){
 
@@ -386,7 +388,7 @@ bool Sokoban::are_box_blocked(){
 int Sokoban::is_lost(){
 
     int lost_type = 0;
-    int limited_step = level_data[2];
+    limited_step = level_data[2];
     
     if(used_step >= limited_step){
         lost_flag = true;
@@ -401,7 +403,7 @@ int Sokoban::is_lost(){
     return lost_type;
 }
 
-bool Sokoban::safe_check_move2(Vector2D current_pos, int push_dir){
+bool Sokoban::safe_check_move(Vector2D current_pos, int push_dir){
     return check_move( current_pos, push_dir);
 
 
