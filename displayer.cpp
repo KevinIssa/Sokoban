@@ -49,9 +49,9 @@ void Displayer::init_all(){
     image_list.push_back(image_gen("giratina.png"));
     image_list.push_back(image_gen("teleporter.png"));
     image_list.push_back(image_gen("pokeball.png"));
-    image_list.push_back(image_gen("hyper_ball.png"));
-    image_list.push_back(image_gen("master_ball.png"));
     image_list.push_back(image_gen("superball.png"));
+    image_list.push_back(image_gen("master_ball.png"));
+    image_list.push_back(image_gen("hyper_ball.png"));
     image_list.push_back(image_gen("grey_wall.png"));
         
 }
@@ -67,7 +67,7 @@ void Displayer::draw(){
     yellow_goals = soko->get_yellow_goals();
     teleporter_cells= soko->get_teleporter_cell(); 
     box_list = soko->get_box_list(); 
-    /* player_pos.clear(); */
+    player_pos.clear();
     player_pos.push_back(soko->get_pos_player());
     wall_list = soko ->get_wall_cell();
    

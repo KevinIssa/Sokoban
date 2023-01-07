@@ -74,6 +74,7 @@ void Controller::listen_game()
     else if (value_type == 2){
         cout<<"You lost! All boxes are blocked!"<<endl;
     }
+    cout <<"vzlue= "<<value_type<<endl;
 }
 
 void Controller::mouseClick(Vector2D mouseLoc) {

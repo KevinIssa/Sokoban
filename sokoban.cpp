@@ -368,6 +368,14 @@ bool Sokoban::are_box_blocked(){
         first = true , flag = false;
 
         for(int push_index = 0; push_index <= 3; push_index++){
+             
+            switch (push_index) 
+            {
+                case NORTH: list_index.y++; break;
+                case SOUTH: list_index.y--; break;
+                case EAST: list_index.x--; break;
+                case WEST: list_index.x++; break;
+            }
             
             if(safe_check_move(box_pos, push_direction[push_index]) == false){
             /* if(check_move(box_pos, push_direction[push_index]) == false){ */
@@ -382,6 +390,15 @@ bool Sokoban::are_box_blocked(){
                         flag = true;
                     }
             }
+
+             switch (push_index) 
+            {
+                case NORTH: list_index.y--; break;
+                case SOUTH: list_index.y++; break;
+                case EAST: list_index.x--; break;
+                case WEST: list_index.x++; break;
+            }
+
         }
     }
 
@@ -394,14 +411,14 @@ int Sokoban::is_lost(){
     limited_step = level_data[2];
     
     if(used_step >= limited_step){
-        /* lost_flag = true; */
+        lost_flag = true;
         lost_type = 1;
     }
 
-    /* if(are_box_blocked()){ */
-    /*     lost_flag = true; */
-    /*     lost_type = 2; */
-    /* } */
+    else if(are_box_blocked()){
+        lost_flag = true;
+        lost_type = 2;
+    }
 
     return lost_type;
 }

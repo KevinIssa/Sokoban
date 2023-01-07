@@ -30,9 +30,9 @@ class Displayer
         /* Case *current_case; */
 
         vector< Fl_Image*> image_list;
-        vector< const char *> filename_list = {"player.png", "pika.png", "elekable.png","giratina.png", "teleporter.png", "pokeball.png", "superball.png", "master_ball.png", "hyper_ball.png", "grey_wall.png" };
+        /* vector< const char *> filename_list = {"player.png", "pika.png", "elekable.png","giratina.png", "teleporter.png", "pokeball.png", "superball.png", "master_ball.png", "hyper_ball.png", "grey_wall.png" }; */
         
-        vector< const char *> char_list = {"@", ".", "/","*", "&", "$", "+", "M", "H", "#" };
+        /* vector< const char > char_list  {'@', '.', '/','*', '&', '$', '+', 'M', 'H', '#' }; */
         /* vector< Fl_Image*> image_list = {"player.png", "pika.png"}; */
         /* vector<const char *> filename_list = */ 
         /* Fl_Image * player_img = Fl_PNG_Image {"player.png"} .copy(BOX_SIZE,BOX_SIZE); */
