@@ -1,4 +1,5 @@
 #include "sokoban.hpp"
+#include "case.hpp"
 #include <fstream>
 #include <iostream>
 #include <istream>
@@ -363,7 +364,8 @@ bool Sokoban::are_box_blocked(){
 
         for(int push_index = 0; push_index <= 3; push_index++){
             
-            if(safe_check_move(box_pos, push_direction[push_index]) == false){
+            if(safe_check_move2(box_pos, push_direction[push_index]) == false){
+            /* if(check_move(box_pos, push_direction[push_index]) == false){ */
                 if (first){
 
                     blocked_direction = push_index;
@@ -399,72 +401,86 @@ int Sokoban::is_lost(){
     return lost_type;
 }
 
-bool Sokoban::safe_check_move(Vector2D current_pos, int push_dir){
+bool Sokoban::safe_check_move2(Vector2D current_pos, int push_dir){
+    return check_move( current_pos, push_dir);
 
-    int verif=0;
-    bool allow_pushing=false;
-    bool test=true;
-    bool repr;
-    bool value;
 
-    while(test)
-    {
-        switch (level_cell[id(current_pos.x, current_pos.y)].get_value())
-        {
-        case NORMAL_BOX: case YELLOW_BOX: case PURPLE_BOX:
-            verif++;
-            if(verif >1){test=false;break;} //stop condition to not stop pushing a heavy box
-            switch (push_dir){
 
-                case NORTH: 
-                    test = level_cell[id(current_pos.x, (current_pos.y)--)].get_value() == ' ';
-                    break;
-                case SOUTH: 
-                    test = level_cell[id(current_pos.x, (current_pos.y)++)].get_value() == ' ';
-                    break;
-                case EAST: 
-                    test = level_cell[id(current_pos.x++, current_pos.y)].get_value() == ' ';
-                    break;
-                case WEST: 
-                    test = level_cell[id(current_pos.x--, current_pos.y)].get_value() == ' ';
-                    break;
-            }
-            repr = level_cell[id(current_pos.x, current_pos.y)].get_repr() == PLAYER;
-
-            value = level_cell[id(current_pos.x, current_pos.y)].get_value() == ' ';
-            allow_pushing =repr||value;
-            test=false;
-            break;
-
-        case WALL:
-            test=false;
-            break;
-
-        case LIGHT_BOX:
-            verif++;
-            switch (push_dir)
-            {
-                case NORTH: current_pos.y--; break;
-                case SOUTH: current_pos.y++; break;
-                case EAST: current_pos.x++; break;
-                case WEST: current_pos.x--; break;
-            }
-            break;
-        /* case ' ': */
-        case ' ': case TELEPORTER:
-            allow_pushing = true;
-            test=false;
-            break;
-            
-        case PLAYER:
-            allow_pushing = true;
-            test=false;
-
-            break;
-        }
-    }
-    return allow_pushing;
 }
+/* bool Sokoban::safe_check_move(Vector2D current_pos, int push_dir){ */
+
+/*     int verif=0; */
+/*     bool allow_pushing=false; */
+/*     bool test=true; */
+/*     bool repr; */
+/*     bool value; */
+
+/*     while(test) */
+/*     { */
+/*         switch (level_cell[id(current_pos.x, current_pos.y)].get_value()) */
+/*         { */
+/*         case NORMAL_BOX: case YELLOW_BOX: case PURPLE_BOX: */
+/*             verif++; */
+/*             if(verif >1){test=false;break;} //stop condition to not stop pushing a heavy box */
+/*             switch (push_dir){ */
+
+/*                 case NORTH: */ 
+/*                     test = level_cell[id(current_pos.x, (current_pos.y)--)].get_value() == ' '; */
+/*                     break; */
+/*                 case SOUTH: */ 
+/*                     test = level_cell[id(current_pos.x, (current_pos.y)++)].get_value() == ' '; */
+/*                     break; */
+/*                 case EAST: */ 
+/*                     test = level_cell[id(current_pos.x++, current_pos.y)].get_value() == ' '; */
+/*                     break; */
+/*                 case WEST: */ 
+/*                     test = level_cell[id(current_pos.x--, current_pos.y)].get_value() == ' '; */
+/*                     break; */
+/*             } */
+/*             repr = level_cell[id(current_pos.x, current_pos.y)].get_repr() == PLAYER; */
+
+/*             value = level_cell[id(current_pos.x, current_pos.y)].get_value() == ' '; */
+/*             allow_pushing =repr||value; */
+/*             test=false; */
+/*             break; */
+
+/*         case WALL: */
+/*             test=false; */
+/*             break; */
+
+/*         case LIGHT_BOX: */
+/*             verif++; */
+/*             switch (push_dir) */
+/*             { */
+/*                 case NORTH: current_pos.y--; break; */
+/*                 case SOUTH: current_pos.y++; break; */
+/*                 case EAST: current_pos.x++; break; */
+/*                 case WEST: current_pos.x--; break; */
+/*             } */
+/*             break; */
+/*         /1* case ' ': *1/ */
+/*         case ' ': case TELEPORTER: */
+/*             allow_pushing = true; */
+/*             test=false; */
+/*             break; */
+            
+/*         case PLAYER: */
+/*             allow_pushing = true; */
+/*             test=false; */
+
+/*             switch(push_dir) */
+/*             { */
+/*                 case NORTH: current_pos.y--;break; */
+/*                 case SOUTH: current_pos.y++;break; */
+/*                 case EAST: current_pos.x--;break; */
+/*                 case WEST: current_pos.x++;break; */
+/*             } */
+
+/*             break; */
+/*         } */
+/*     } */
+/*     return allow_pushing; */
+/* } */
 
 
 bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
@@ -472,7 +488,9 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
     int verif=0;
     bool allow_pushing=false;
     bool test=true;
-    
+    bool repr;
+    bool value;
+
     can_tp(current_pos);
     if(next_tp > -1){
 
@@ -510,7 +528,11 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
                     test = level_cell[id(current_pos.x--, current_pos.y)].get_value() == ' ' ;
                     break;
             }
-            allow_pushing = level_cell[id(current_pos.x, current_pos.y)].get_value() == ' ';
+
+            repr = level_cell[id(current_pos.x, current_pos.y)].get_repr() == PLAYER;
+            value = level_cell[id(current_pos.x, current_pos.y)].get_value() == ' ';
+            allow_pushing =repr||value;
+            /* allow_pushing = level_cell[id(current_pos.x, current_pos.y)].get_value() == ' '; */
             test=false;
             break;
         case WALL:
