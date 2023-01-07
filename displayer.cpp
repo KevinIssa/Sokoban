@@ -93,7 +93,7 @@ void Displayer::draw_button(){//Si tu veux refactor en focntions ici, tu peux re
         
         char reset[20]="";
         sprintf(reset,"RESET");
-        Button *reset_lvl = new Button(FL_YELLOW, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 35, reset); 
+        Button *reset_lvl = new Button(FL_YELLOW, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 30, reset); 
         /* memset(reset, 0, 20); */ 
         button_list.push_back(reset_lvl);
 
@@ -126,11 +126,21 @@ void Displayer::draw_button(){//Si tu veux refactor en focntions ici, tu peux re
 
         /* sprintf(buffer,""); */
         char reset_all_b[20]="";
-        Button *reset_all = new Button(FL_CYAN,  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20, reset_all_b); 
+        Button *reset_all = new Button(FL_BLUE, GAME_SIZE + 3*BOX_SIZE-BOX_SIZE/2 ,10*BOX_SIZE+BOX_SIZE/2.5, BOX_SIZE/5, BOX_SIZE/5 , 20, reset_all_b); 
         button_list.push_back(reset_all);
         /* memset(buffer, 0, 20); */ 
 
 
+/*     fl_draw_box(FL_FLAT_BOX, OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , FL_CYAN);//ici un changement d'ecran sera afficher si cliquer dessus */
+    fl_font(FL_HELVETICA,20);
+    fl_color(fl_rgb_color(0,0,255));
+/*     fl_draw("Change Level",  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 ,FL_ALIGN_CENTER,nullptr,false); */
+
+    fl_draw("reset all data ------>", GAME_SIZE-BOX_SIZE/2 ,9*BOX_SIZE, 2*BOX_SIZE, 3*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);//j'ai creer un fichier original_leveles pour ca
+/*     fl_draw_box(FL_FLAT_BOX, GAME_SIZE + 3*BOX_SIZE-BOX_SIZE/2 ,10*BOX_SIZE+BOX_SIZE/2.5, BOX_SIZE/5, BOX_SIZE/5 , FL_BLUE); */
+    
+/*     /1* fl_draw("100/100", GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false); *1/ */
+/*     /1* sleep(5); *1/ */
 
   for (auto &b:button_list) {b->draw();
       /* b->foo(); */

@@ -493,7 +493,7 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
     bool repr;
     bool value;
 
-    can_tp(current_pos);
+    /* can_tp(current_pos); */
     if(next_tp > -1){
 
         allow_pushing = true;
