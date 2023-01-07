@@ -3,7 +3,7 @@
 
 #include "case.hpp"
 #include "sokoban.hpp"
-#include "buttons.hpp"
+/* #include "buttons.hpp" */
 #include "displayer.hpp"
 #include <FL/Enumerations.H>
 #include <vector>
@@ -16,7 +16,7 @@ class Controller
 {   
 
     Sokoban *soko;
-    vector<Button*> button_list; 
+    /* vector<Button*> button_list; */ 
     public :
     Controller(Sokoban *soko): soko{soko}{
         /* char buffer[20]=""; */

@@ -1,10 +1,12 @@
 #include "displayer.hpp"
-#include "case.hpp"
+/* #include "case.hpp" */
+/* #include "button.hpp" */
 /* #include <FL/Enumerations.H> */
 #include <FL/Enumerations.H>
 #include <FL/Fl_Image.H>
 #include <FL/Fl_Window.H>
 #include <cstdio>
+#include <iostream>
 
 
 /* void Displayer::display_element(const char cell_repr, vector <Vector2D> goal_list, Fl_Image* picture){ */
@@ -37,6 +39,7 @@ void Displayer::display_element(const char cell_repr, vector <Vector2D> goal_lis
 }
 
 void Displayer::draw(){
+    /* draw_button(); */
     /* fl_draw_box(FL_FLAT_BOX, BEGIN_X, BEGIN_Y, GAME_SIZE, GAME_SIZE, FL_WHITE); */
     /* fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE , FL_RED); */
     /* fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE , FL_BLUE); */
@@ -75,8 +78,63 @@ void Displayer::draw_end_game(){
 
 
 void Displayer::draw_button(){//Si tu veux refactor en focntions ici, tu peux remarquer que les arguments de positions sont les meme dans 
-    /* for (auto */ 
-  for (auto &b:button_list) b->draw();
+    /* for (auto */
+        char level[10]="";
+       
+
+
+        cout<<"level= "<<soko->get_level()<<endl;
+        /* sleep(5); */
+        sprintf(level,"%d", soko->get_level());
+        cout<<"avant objet: "<<level<<endl;
+        Button *lvl = new Button(FL_WHITE, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 50, level);
+        button_list.push_back(lvl);
+        lvl->foo();
+        
+        char reset[10]="";
+        sprintf(reset,"RESET");
+        Button *reset_lvl = new Button(FL_YELLOW, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 35, reset); 
+        /* memset(reset, 0, 20); */ 
+        button_list.push_back(reset_lvl);
+
+        char quit[10]="";
+        sprintf(quit,"QUIT");
+        Button *quit_but = new Button(FL_GREEN, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 2*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 25, quit); 
+        button_list.push_back(quit_but);
+        /* memset(buffer, 0, 20); */ 
+        
+
+
+
+        char b_score[10]="";
+        sprintf(b_score,"BEST = %d", soko->get_best_score());
+        Button *best_score = new Button(FL_RED,  GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 3*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 15, b_score); 
+        button_list.push_back(best_score);
+        /* memset(buffer, 0, 20); */ 
+
+        char score_b[10]="";
+        sprintf(score_b, "%d/%d", soko->get_used_step(), soko->get_limited_step());
+        Button *score = new Button(FL_MAGENTA,  GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE, 25, score_b); 
+        button_list.push_back(score);
+
+
+        char chg_lvl_b[15]="";
+        sprintf(chg_lvl_b,"Change Level");
+        Button *chg_lvl = new Button(FL_CYAN,  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20, chg_lvl_b); 
+        button_list.push_back(chg_lvl);
+        /* memset(buffer, 0, 20); */ 
+
+        /* sprintf(buffer,""); */
+        char reset_all_b[10]="";
+        Button *reset_all = new Button(FL_CYAN,  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20, reset_all_b); 
+        button_list.push_back(reset_all);
+        /* memset(buffer, 0, 20); */ 
+
+
+
+  for (auto &b:button_list) {b->draw();
+      /* b->foo(); */
+  }
 }
 /* void Displayer::draw_button(){//Si tu veux refactor en focntions ici, tu peux remarquer que les arguments de positions sont les meme dans */ 
 /*                               //les box et dans les textes. on peut faire un heritage ici clairement je pense si tu te chauffe. */

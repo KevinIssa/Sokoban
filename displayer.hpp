@@ -2,7 +2,7 @@
 #define _DISPLAYER_
 #include "case.hpp"
 #include "sokoban.hpp"
-#include "buttons.hpp"
+#include "button.hpp"
 #include <vector>
 
 const int FREQ=60;
@@ -18,6 +18,7 @@ class Displayer
     private:
         Sokoban *soko;
         vector<Button*> button_list;
+
         vector <Vector2D> normal_goals;
         vector <Vector2D> purple_goals;
         vector <Vector2D> yellow_goals;
@@ -41,49 +42,7 @@ class Displayer
 
     public:
         Displayer(Sokoban *soko) : soko{soko}{
-        char buffer[20]="";
         
-        sprintf(buffer,"%d", soko->get_level());
-        Button *lvl = new Button(FL_WHITE, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 50, buffer); 
-        memset(buffer, 0, 20); 
-        button_list.push_back(lvl);
-        
-        sprintf(buffer,"RESET");
-        Button *reset_lvl = new Button(FL_YELLOW, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 35, buffer); 
-        memset(buffer, 0, 20); 
-        button_list.push_back(reset_lvl);
-
-        sprintf(buffer,"QUIT");
-        Button *quit = new Button(FL_GREEN, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 2*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 25, buffer); 
-        button_list.push_back(quit);
-        memset(buffer, 0, 20); 
-        
-
-
-
-        sprintf(buffer,"BEST = %d", soko->get_best_score());
-        Button *best_score = new Button(FL_RED,  GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 3*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 15, buffer); 
-        button_list.push_back(best_score);
-        memset(buffer, 0, 20); 
-
-        sprintf(buffer, "%d/%d", soko->get_used_step(), soko->get_limited_step());
-        Button *score = new Button(FL_MAGENTA,  GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE, 25, buffer); 
-        button_list.push_back(score);
-        memset(buffer, 0, 20); 
-
-
-        sprintf(buffer,"Change Level");
-        Button *chg_lvl = new Button(FL_CYAN,  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20, buffer); 
-        button_list.push_back(chg_lvl);
-        memset(buffer, 0, 20); 
-
-        sprintf(buffer,"");
-        Button *reset_all = new Button(FL_CYAN,  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20, buffer); 
-        button_list.push_back(reset_all);
-        memset(buffer, 0, 20); 
-
-
-
 
         }
         ~Displayer()=default;

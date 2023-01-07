@@ -289,16 +289,16 @@ int Sokoban::can_tp_end(){
         if (id(teleporter_cell[i].x, teleporter_cell[i].y) == id(pos_player.x, pos_player.y)){
 
          int other_tp = abs((i-1))%2;
-            cout<<"other= "<<other_tp<<endl;
+            /* cout<<"other= "<<other_tp<<endl; */
 
-            cout<<"repr= "<<level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr()<<endl; 
+            /* cout<<"repr= "<<level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr()<<endl; */ 
             if(level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() ==  TELEPORTER 
             or level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() == ' ')
 
             next_tp = id(teleporter_cell[other_tp].x, teleporter_cell[other_tp].y);
         }
     }
-cout<<"dans can tp "<<endl<<"next tp ="<<next_tp<<endl;
+/* cout<<"dans can tp "<<endl<<"next tp ="<<next_tp<<endl; */
     return next_tp;
 
     
@@ -307,20 +307,20 @@ cout<<"dans can tp "<<endl<<"next tp ="<<next_tp<<endl;
 
 
 int Sokoban::can_tp(Vector2D & current_pos){
-    cout<<"pos_player x= "<<pos_player.x<<" y= "<<pos_player.y<<endl;
+    /* cout<<"pos_player x= "<<pos_player.x<<" y= "<<pos_player.y<<endl; */
     if (level_cell[id(current_pos.x, current_pos.y)].get_repr() == ' ') 
     for(int i=0 ; i<teleporter_cell.size(); i++ ){
-    cout<<"teleporter x= "<<teleporter_cell[i].x<<" y= "<<teleporter_cell[i].y<<endl;
+    /* cout<<"teleporter x= "<<teleporter_cell[i].x<<" y= "<<teleporter_cell[i].y<<endl; */
         if (id(teleporter_cell[i].x, teleporter_cell[i].y) == id(current_pos.x, current_pos.y)){
         /* if (id(teleporter_cell[i].x, teleporter_cell[i].y) == id(current_pos.x, current_pos.y) */
         /* or  id(teleporter_cell[i].x, teleporter_cell[i].y) == id(pos_player.x, pos_player.y)){ */
         /* if (id(teleporter_cell[i].x, teleporter_cell[i].y) == id(pos_player.x, pos_player.y)){ */
-            cout<<"in pos"<<endl;
+            /* cout<<"in pos"<<endl; */
             //take the position of the other teleport in the list
             int other_tp = abs((i-1))%2;
-            cout<<"other= "<<other_tp<<endl;
+            /* cout<<"other= "<<other_tp<<endl; */
 
-            cout<<"repr= "<<level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr()<<endl; 
+            /* cout<<"repr= "<<level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr()<<endl; */ 
             if(level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() ==  TELEPORTER
             or level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() == ' ')
 
@@ -328,7 +328,7 @@ int Sokoban::can_tp(Vector2D & current_pos){
                 next_tp = id(teleporter_cell[other_tp].x, teleporter_cell[other_tp].y);
         }
     }
-cout<<"dans can tp "<<endl<<"next tp ="<<next_tp<<endl;
+/* cout<<"dans can tp "<<endl<<"next tp ="<<next_tp<<endl; */
     return next_tp;
 }
 
@@ -600,7 +600,7 @@ void Sokoban::end_tp(){
 
      if(next_tp > -1){
 
-        cout<<"next= "<<next_tp<<endl;
+        /* cout<<"next= "<<next_tp<<endl; */
         /* cout<<"representation: "<<level_cell[next_tp].get_repr()<<" "<<"valeur: "<<level_cell[next_tp].get_value()<<endl; */
         swap(level_cell[next_tp], level_cell[id(pos_player.x, pos_player.y)]);
 
@@ -617,7 +617,7 @@ void Sokoban::play_move(Vector2D &current_pos, int push_dir)
 
     if(next_tp > -1){
 
-        cout<<"next= "<<next_tp<<endl;
+        /* cout<<"next= "<<next_tp<<endl; */
         /* cout<<"representation: "<<level_cell[next_tp].get_repr()<<" "<<"valeur: "<<level_cell[next_tp].get_value()<<endl; */
         swap(level_cell[next_tp], level_cell[id(pos_player.x, pos_player.y)]);
 
@@ -629,7 +629,7 @@ void Sokoban::play_move(Vector2D &current_pos, int push_dir)
     }    
 
     else{
-        cout<<"test"<<endl;
+        /* cout<<"test"<<endl; */
         while (current_pos.x != pos_player.x || current_pos.y != pos_player.y){
             Vector2D source = current_pos;
             switch (push_dir)
