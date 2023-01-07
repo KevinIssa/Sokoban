@@ -3,7 +3,7 @@ COMPILER=g++
 FLAGS += $(shell fltk-config --cxxflags | sed 's/-I/-isystem/g')
 LDFLAGS  += $(shell fltk-config --ldflags)
 
-main: main.cpp sokoban.o controller.o displayer.o
+main: main.cpp sokoban.o controller.o displayer.o buttons.o
 	${COMPILER} -o soko main.cpp sokoban.o controller.o displayer.o ${FLAGS} ${LDFLAGS} -lfltk -lfltk_images
 
 run:

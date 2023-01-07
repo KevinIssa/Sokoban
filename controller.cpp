@@ -71,4 +71,8 @@ void Controller::listen_game()
     }
 }
 
+void Controller::mouseClick(Vector2D mouseLoc) {
+  /* for (auto &b:button_list) b.mouseClick(mouseLoc); */
+}
+
 

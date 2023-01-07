@@ -1,6 +1,7 @@
 #ifndef _MAIN_WINDOW_H
 #define _MAIN_WINDOW_H
 
+#include "case.hpp"
 #include "sokoban.hpp"
 #include "controller.hpp"
 #include "displayer.hpp"
@@ -44,6 +45,7 @@ class Game_window : public Fl_Double_Window
             if (game){
                 displayer.draw();
                 displayer.draw_button();
+                
                 /* fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE , FL_RED); */
                 /* fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE , FL_BLUE); */
                 /* fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 2*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , FL_GREEN); */
@@ -56,11 +58,15 @@ class Game_window : public Fl_Double_Window
         {
             switch (event){
 
-                case FL_KEYDOWN:
+                case FL_KEYDOWN:{
                     int event = Fl::event_key();
                     controller.process_key(event);
-                    break;
+                    break;}
+                /* case FL_PUSH: */
                 
+                case FL_PUSH:
+                    controller.mouseClick(Vector2D{Fl::event_x(), Fl::event_y()});
+                    return 1;
             }
             return 0;
         }
