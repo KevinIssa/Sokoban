@@ -1,4 +1,4 @@
-FLAGS=-std=c++20 -Wall
+FLAGS=-std=c++20 -Wall -Wextra -Wpedantic -D_GNU_SOURCE
 COMPILER=g++
 FLAGS += $(shell fltk-config --cxxflags | sed 's/-I/-isystem/g')
 LDFLAGS  += $(shell fltk-config --ldflags)

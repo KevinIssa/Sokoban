@@ -33,14 +33,14 @@ void Sokoban::read_data(ifstream& file , int& data){
     data = stoi(buffer);// string to int
 }
 
-void Sokoban::read_data_level(ifstream& file , string& data){
+void Sokoban::read_data_level(ifstream& file){
 
     unsigned int offset = level_data[3];//take the number of line to read
     string void_line, str_line;
     level_s.clear();
 
     getline(file , void_line);
-    for (int i = 0 ; i<offset; i++){
+    for (unsigned int i = 0 ; i<offset; i++){
         getline(file, str_line);
         level_s += str_line;
     }
@@ -52,6 +52,12 @@ void Sokoban::read_level_file(int level_number){
 
     ifstream level_file("levels.txt");
     string void_line;
+
+    string max_buffer;
+    getline(level_file, void_line);
+    max_buffer=void_line.substr(void_line.size() - 3);
+    max_level = stoi(max_buffer);
+
     int readed_level=0;
     while ( getline(level_file, void_line)  ){
         if(void_line[0]==';'){
@@ -63,13 +69,13 @@ void Sokoban::read_level_file(int level_number){
     buffer=void_line.substr(void_line.size() - 3);//take the numbers at the end of the line
      level_data[0]= stoi(buffer);
    
-    for(int i = line_nb; i<level_data.size(); i++){
+    for(size_t i = line_nb; i< level_data.size(); i++){
 
         read_data(level_file , level_data[i]);
         saved_line++;
     }
 
-    read_data_level(level_file, level_s);
+    read_data_level(level_file);
     //get the line readed to the beginning of the next lest
     saved_line += level_data[4];
     saved_line += 3;
@@ -121,7 +127,7 @@ void Sokoban::update_file(int new_best_score){
     remove("tmp.txt");
 }
 
-void Sokoban::create_player(Vector2D current, int x, int y, Vector2D level_size){
+void Sokoban::create_player(Vector2D current, int x, int y){
 
     Case player{level_s[y * level_size.x + x], current, FL_GREEN};
     level_cell.push_back(player);
@@ -130,7 +136,7 @@ void Sokoban::create_player(Vector2D current, int x, int y, Vector2D level_size)
 }
 
 
-void Sokoban::create_normal_objective(Vector2D current, int x, int y, Vector2D size_level){
+void Sokoban::create_normal_objective(Vector2D current, int x, int y){
 
     Case obj{' ',level_s[y * level_size.x + x], current, FL_WHITE};
     level_cell.push_back(obj);
@@ -139,7 +145,7 @@ void Sokoban::create_normal_objective(Vector2D current, int x, int y, Vector2D s
 }
 
 
-void Sokoban::create_yellow_objective(Vector2D current, int x, int y, Vector2D size_level){
+void Sokoban::create_yellow_objective(Vector2D current, int x, int y){
 
     Case yellow_obj{' ',level_s[y * level_size.x + x], current, FL_WHITE};
     level_cell.push_back(yellow_obj);
@@ -148,7 +154,7 @@ void Sokoban::create_yellow_objective(Vector2D current, int x, int y, Vector2D s
 }
 
 
-void Sokoban::create_purple_objective(Vector2D current, int x, int y, Vector2D size_level){
+void Sokoban::create_purple_objective(Vector2D current, int x, int y){
 
     Case purple_obj{' ' ,level_s[y * level_size.x + x], current, FL_WHITE};
     level_cell.push_back(purple_obj);
@@ -157,35 +163,35 @@ void Sokoban::create_purple_objective(Vector2D current, int x, int y, Vector2D s
 }
 
 
-void Sokoban::create_normal_box(Vector2D current, int x, int y, Vector2D size_level){
+void Sokoban::create_normal_box(Vector2D current, int x, int y){
 
     Case box_h{level_s[y * level_size.x + x], current, FL_RED};
     level_cell.push_back(box_h);
 }
 
 
-void Sokoban::create_light_box(Vector2D current, int x, int y, Vector2D size_level){
+void Sokoban::create_light_box(Vector2D current, int x, int y){
 
     Case light_case{level_s[y * level_size.x + x], current, FL_CYAN};
     level_cell.push_back(light_case);
 }
 
 
-void Sokoban::create_yellow_box(Vector2D current, int x, int y, Vector2D size_level){
+void Sokoban::create_yellow_box(Vector2D current, int x, int y){
     
     Case hyper_ball{level_s[y * level_size.x + x], current, FL_CYAN};
     level_cell.push_back(hyper_ball);
 }
 
 
-void Sokoban::create_purple_box(Vector2D current, int x, int y, Vector2D size_level){
+void Sokoban::create_purple_box(Vector2D current, int x, int y){
 
     Case master_ball{level_s[y * level_size.x + x], current, FL_CYAN};
     level_cell.push_back(master_ball);
 }
 
 
-void Sokoban::create_wall(Vector2D current, int x, int y, Vector2D size_level){
+void Sokoban::create_wall(Vector2D current, int x, int y){
 
 
     Case wall{level_s[y * level_size.x + x], current, FL_BLACK};
@@ -194,7 +200,7 @@ void Sokoban::create_wall(Vector2D current, int x, int y, Vector2D size_level){
 }
 
 
-void Sokoban::create_teleporter(Vector2D current, int x, int y, Vector2D size_level){
+void Sokoban::create_teleporter(Vector2D current, int x, int y){
 
     Case teleporter{' ',level_s[y * level_size.x + x], current, FL_BLACK};
     level_cell.push_back(teleporter);
@@ -222,51 +228,51 @@ void Sokoban::load_game(){
             switch (level_s[y * level_size.x + x])
             {
                 case PLAYER:{
-                    create_player(current, x, y, level_size);
+                    create_player(current, x, y);
                     break;
                 }
 
                 case NORMAL_OBJECTIVE:{   
-                    create_normal_objective(current, x , y ,level_size);
+                    create_normal_objective(current, x , y);
                     break;
                 }
 
                 case YELLOW_OBJECTIVE:{
-                    create_yellow_objective(current, x , y, level_size);
+                    create_yellow_objective(current, x , y);
                     break;
                 }
 
                 case PURPLE_OBJECTIVE:{
-                    create_purple_objective(current, x , y , level_size);
+                    create_purple_objective(current, x , y);
                     break;
                 }
 
                 case NORMAL_BOX:{   
-                    create_normal_box(current, x , y ,level_size);
+                    create_normal_box(current, x , y);
                     break;
                 }
 
                 case WALL:{   
-                    create_wall(current , x, y , level_size);
+                    create_wall(current , x, y);
                     break;
                 }
                 case TELEPORTER:{
-                    create_teleporter(current , x, y , level_size);
+                    create_teleporter(current , x, y);
                     break;
                 }
                 
                 case LIGHT_BOX:{   
-                    create_light_box(current, x , y , level_size);
+                    create_light_box(current, x , y);
                     break;
                 }
 
                 case YELLOW_BOX:{
-                    create_yellow_box(current, x , y ,level_size);
+                    create_yellow_box(current, x , y);
                     break;
                 }
 
                 case PURPLE_BOX:{
-                    create_purple_box(current, x , y , level_size);
+                    create_purple_box(current, x , y);
                     break;
                 }
 
@@ -312,7 +318,7 @@ int Sokoban::get_goals_count(){
 int Sokoban::can_tp(){
     
 
-    for(int i=0 ; i<teleporter_cell.size(); i++ ){
+    for(int i=0 ; i< (int)teleporter_cell.size(); i++ ){
 
         if (id(teleporter_cell[i].x, teleporter_cell[i].y) == id(pos_player.x, pos_player.y)){
 
@@ -416,17 +422,17 @@ bool Sokoban::are_box_blocked(){
                     }
             }
 
-            test_dir(list_index, push_index);
+            change_dir(list_index, push_index);
 
         }
     }
 
-    return blocked_box == box_list.size();
+    return blocked_box == (int)box_list.size();
 }
 
 int Sokoban::is_lost(){
 
-    int lost_type = 0;
+    lost_type = 0;
     limited_step = level_data[2];
     
     if(used_step >= limited_step){
@@ -459,7 +465,7 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
 
         allow_pushing = true;
 
-        test_dir(current_pos, push_dir);
+        change_dir(current_pos, push_dir);
         
         return allow_pushing;
     }
@@ -503,7 +509,7 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
             allow_pushing = true;
             test=false;
 
-            test_dir(current_pos, push_dir);
+            change_dir(current_pos, push_dir);
 
             break;
         }

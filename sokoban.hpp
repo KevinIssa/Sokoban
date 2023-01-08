@@ -40,10 +40,9 @@ private:
     int saved_line = 0;
     int level = 1 ;
     int used_step = 0;
-    int best_score, max_level, dimension_x =0 , dimension_y = 0, limited_step = 0;
+    int best_score = 999, max_level, dimension_x =0 , dimension_y = 0, limited_step = 0, lost_type = 0;
     bool lost_flag = false;
     int next_tp = -1;
-    int max_level;
 
     bool save_falg=false;
     vector<int> level_data={level, best_score, limited_step, dimension_x , dimension_y};
@@ -93,6 +92,8 @@ public:
      * @return the number of box that are on their goals point
      */
 
+    int get_lost_type(){return lost_type;}
+    
     int get_level(){return level;}
 
     int get_limited_step(){
@@ -119,18 +120,18 @@ public:
 
 
     //all the create methods create a new object of the specified entity
-    void create_player(Vector2D current, int x, int y, Vector2D level_size);
-    void create_normal_objective(Vector2D current, int x, int y, Vector2D level_size);
-    void create_yellow_objective(Vector2D current, int x, int y, Vector2D level_size);
-    void create_purple_objective(Vector2D current, int x, int y, Vector2D level_size);
+    void create_player(Vector2D current, int x, int y);
+    void create_normal_objective(Vector2D current, int x, int y);
+    void create_yellow_objective(Vector2D current, int x, int y);
+    void create_purple_objective(Vector2D current, int x, int y);
 
-    void create_normal_box(Vector2D current, int x, int y, Vector2D level_size);
-    void create_light_box(Vector2D current, int x, int y, Vector2D level_size);
-    void create_yellow_box(Vector2D current, int x, int y, Vector2D level_size);
-    void create_purple_box(Vector2D current, int x, int y, Vector2D level_size);
+    void create_normal_box(Vector2D current, int x, int y);
+    void create_light_box(Vector2D current, int x, int y);
+    void create_yellow_box(Vector2D current, int x, int y);
+    void create_purple_box(Vector2D current, int x, int y);
 
-    void create_wall(Vector2D current, int x, int y, Vector2D level_size);
-    void create_teleporter(Vector2D current, int x, int y, Vector2D level_size);
+    void create_wall(Vector2D current, int x, int y);
+    void create_teleporter(Vector2D current, int x, int y);
     //
 
     bool get_lost_flag(){ return lost_flag; }
@@ -141,7 +142,7 @@ public:
      * and store them in the level_data
      */
 
-    void read_data_level(ifstream& file , string& data);
+    void read_data_level(ifstream& file);
     /**
      * @brief: read the string that represent the level and store it in a string
      * 

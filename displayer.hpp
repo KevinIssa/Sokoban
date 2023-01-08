@@ -50,7 +50,7 @@ class Displayer
         void draw_menu();
         void draw_end_game();
 
-        void create_button(Fl_Color color, int pos_x, int pos_y, int size_x, int size_y, int font_size, char txt[20]);
+        void create_button(Fl_Color color, int pos_x, int pos_y, int size_x, int size_y, int font_size, string txt);
 
         void draw_button();
         /**

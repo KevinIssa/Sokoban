@@ -37,8 +37,8 @@ class Case
         Case(char value,Vector2D pos, Fl_Color col): value{value},repr{value}, position{pos}, color{col}{}
         Case(char value, char repr, Vector2D pos, Fl_Color col): value{value},repr{repr}, position{pos}, color{col}{}
         string get_name(){return name;}
-        const char get_value(){return value;}
-        const char get_repr(){return repr;}
+        char get_value(){return value;}
+        char get_repr(){return repr;}
         Vector2D get_pos(){return position;}
         Fl_Color get_color(){return color;}
         Fl_Image * get_image(){return image;}

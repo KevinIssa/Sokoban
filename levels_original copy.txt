@@ -1,3 +1,4 @@
+007
 ;level = 001
 best_score = 999
 limited_step = 100

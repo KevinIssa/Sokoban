@@ -72,11 +72,11 @@ void Displayer::draw_end_game(){
 
 }
 
-void Displayer::create_button(Fl_Color color, int pos_x, int pos_y, int size_x, int size_y, int font_size, char txt[20]){
+void Displayer::create_button(Fl_Color color, int pos_x, int pos_y, int size_x, int size_y, int font_size, string txt){
     
     char buffer[20] = "";
 
-    snprintf(buffer,sizeof(buffer),txt);
+    snprintf(buffer,sizeof(buffer),"%s",txt.c_str());
     ButtonUI button = ButtonUI{color, pos_x , pos_y , size_x, size_y, font_size, buffer}; 
 
     button_list.push_back(button);
@@ -86,23 +86,23 @@ void Displayer::draw_button(){
 
     char level[20] = "";
     
-    sprintf(level,"%d", soko->get_level());
+    snprintf(level, sizeof(level) ,"%d", soko->get_level());
 
     create_button(FL_WHITE, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 50, level);
     create_button(FL_YELLOW, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 30, "RESET");
     create_button(FL_GREEN, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 2*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 25, "QUIT");
 
     char b_score[20] = "";
-    sprintf(b_score,"BEST = %d", soko->get_best_score());
+    snprintf(b_score, sizeof(b_score) , "BEST = %d", soko->get_best_score());
 
     create_button(FL_RED,  GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 3*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 15, b_score);
 
     char score_b[20] = "";
-    sprintf(score_b, "%d/%d", soko->get_used_step(), soko->get_limited_step());
+    snprintf(score_b, sizeof(score_b), "%d/%d", soko->get_used_step(), soko->get_limited_step());
     
     Fl_Color col = FL_MAGENTA;
 
-    if(soko->is_lost() == 1){
+    if(soko->get_lost_type() == 1){
         col = FL_RED;
     }
 
@@ -111,7 +111,7 @@ void Displayer::draw_button(){
     fl_font(FL_HELVETICA,30);
     fl_color(fl_rgb_color(0,0,255));
 
-    if(soko->is_lost() == 2){ 
+    if(soko->get_lost_type() == 2){ 
 
         fl_draw("BLOCKED", GAME_SIZE - 2*BOX_SIZE ,5*BOX_SIZE, 7*BOX_SIZE, 2*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);
     }

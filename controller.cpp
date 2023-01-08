@@ -47,11 +47,11 @@ return 0;
 
 void Controller::listen_game()
 {   
-    int value_type = soko->is_lost();
-    if (soko->get_goals_count() == soko->get_goals_cell().size()){ 
+    soko->is_lost();
+    if (soko->get_goals_count() == (int)soko->get_goals_cell().size()){ 
 
         printf("\nNice, you've succeeded lvl %d\n",soko->get_level());
-        if (soko->get_level() == soko->get_data_level().size()){
+        if (soko->get_level() == (int)soko->get_data_level().size()){
             printf("YOU WIN !!!\n"); 
             exit(1);
         }
