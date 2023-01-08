@@ -24,16 +24,16 @@ void Displayer::display_element(const char cell_repr, vector <Vector2D> goal_lis
 void Displayer::init_all(){
     
     auto image_gen = [](const char * s)  {return Fl_PNG_Image {s} .copy(BOX_SIZE,BOX_SIZE);};
-    image_list.push_back(image_gen("player.png"));
-    image_list.push_back(image_gen("normal_obj.png"));
-    image_list.push_back(image_gen("yellow_obj.png"));
-    image_list.push_back(image_gen("purple_obj.png"));
-    image_list.push_back(image_gen("teleporter.png"));
-    image_list.push_back(image_gen("normal_box.png"));
-    image_list.push_back(image_gen("light_box.png"));
-    image_list.push_back(image_gen("purple_box.png"));
-    image_list.push_back(image_gen("yellow_box.png"));
-    image_list.push_back(image_gen("wall.png"));
+    image_list.push_back(image_gen("../to_display/player.png"));
+    image_list.push_back(image_gen("../to_display/normal_obj.png"));
+    image_list.push_back(image_gen("../to_display/yellow_obj.png"));
+    image_list.push_back(image_gen("../to_display/purple_obj.png"));
+    image_list.push_back(image_gen("../to_display/teleporter.png"));
+    image_list.push_back(image_gen("../to_display/normal_box.png"));
+    image_list.push_back(image_gen("../to_display/light_box.png"));
+    image_list.push_back(image_gen("../to_display/purple_box.png"));
+    image_list.push_back(image_gen("../to_display/yellow_box.png"));
+    image_list.push_back(image_gen("../to_display/wall.png"));
 
        
 }

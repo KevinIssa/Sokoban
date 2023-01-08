@@ -50,7 +50,7 @@ void Sokoban::read_level_file(int level_number){
    saved_line = (level_number-1) * (level_size.y + 8);
     int line_nb=1;//18
 
-    ifstream level_file("levels.txt");
+    ifstream level_file("../levels/levels.txt");
     string void_line;
 
     string max_buffer;
@@ -85,8 +85,8 @@ void Sokoban::read_level_file(int level_number){
 void Sokoban::reset_data(){
 
     string line;
-    ofstream out("tmp.txt");
-    ifstream in("levels_original.txt");
+    ofstream out("../levels/tmp.txt");
+    ifstream in("../levels/levels_original.txt");
 
     while(getline(in, line)){
 
@@ -95,8 +95,8 @@ void Sokoban::reset_data(){
     
 
     in.close();out.close();
-    rename("tmp.txt","levels.txt");
-    remove("tmp.txt");
+    rename("../levels/tmp.txt","../levels/levels.txt");
+    remove("../levels/tmp.txt");
    
     next_level(0);
 
@@ -105,8 +105,8 @@ void Sokoban::reset_data(){
 void Sokoban::update_file(int new_best_score){
 
     string line;
-    ofstream out("tmp.txt");
-    ifstream in("levels.txt");
+    ofstream out("../levels/tmp.txt");
+    ifstream in("../levels/levels.txt");
     
     char new_line [100];
     snprintf(new_line, sizeof("best_score = %03d\n"), "best_score = %03d\n", new_best_score);
@@ -123,8 +123,8 @@ void Sokoban::update_file(int new_best_score){
     }
 
     in.close();out.close();
-    rename("tmp.txt","levels.txt");
-    remove("tmp.txt");
+    rename("../levels/tmp.txt","../levels/levels.txt");
+    remove("../levels/tmp.txt");
 }
 
 void Sokoban::create_player(Vector2D current, int x, int y){
