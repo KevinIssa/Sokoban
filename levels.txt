@@ -17,7 +17,7 @@ dimensiony = 010
 
 
 level = 002
-best_score = 015
+best_score = 999
 limited_step = 50
 dimensionx = 010
 dimensiony = 010
