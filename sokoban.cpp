@@ -54,17 +54,54 @@ void Sokoban::read_level_file(int level_number){
     ifstream level_file("levels.txt");
     string void_line;
     cout<<"sava ?? "<<saved_line<<endl;
-    
-    for (int i=line_nb;i<=saved_line;i++){
-        //browse the file to the last line readed
-        getline(level_file, void_line);
+
+
+
+
+
+
+    int readed_level=0;
+    while ( getline(level_file, void_line)  ){
+        if(void_line[0]==';'){
+            readed_level++;
+        }
+        if (readed_level==level_number){break;}
     }
+    string buffer;
+    buffer=void_line.substr(void_line.size() - 3);//take the numbers at the end of the line
+     level_data[0]= stoi(buffer);
+    /* for (int i=line_nb;i<=saved_line;i++){ */
+    /*     //browse the file to the last line readed */
+    /*     getline(level_file, void_line); */
+    /* } */
    
-    for(int i = 0; i<level_data.size(); i++){
+    for(int i = line_nb; i<level_data.size(); i++){
 
         read_data(level_file , level_data[i]);
         saved_line++;
     }
+
+
+
+
+
+/*     for (int i=line_nb;i<=saved_line;i++){ */
+/*         //browse the file to the last line readed */
+/*         getline(level_file, void_line); */
+/*     } */
+   
+/*     for(int i = 0; i<level_data.size(); i++){ */
+
+/*         read_data(level_file , level_data[i]); */
+/*         saved_line++; */
+/*     } */
+
+
+
+
+
+
+
 
     read_data_level(level_file, level_s);
     //get the line readed to the beginning of the next lest
