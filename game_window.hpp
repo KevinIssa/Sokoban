@@ -1,9 +1,12 @@
 #ifndef _MAIN_WINDOW_H
 #define _MAIN_WINDOW_H
 
+/* #include "buttons.hpp" */
+#include "case.hpp"
 #include "sokoban.hpp"
 #include "controller.hpp"
 #include "displayer.hpp"
+#include <FL/Enumerations.H>
 #include <FL/Fl_Double_Window.H>
 #include <ctime>
 #include <iostream>
@@ -14,6 +17,7 @@ class Game_window : public Fl_Double_Window
     Displayer displayer;
     bool menu=true, game=false;
     int time=0;
+    
     public:
         Game_window(Sokoban *soko) : Fl_Double_Window (100,100,650,550,"SOKOBAN MKovel + Kevin"), 
         controller{Controller(soko)}, 
@@ -26,9 +30,14 @@ class Game_window : public Fl_Double_Window
             Fl_Window::draw();
             if(menu){
                 
+                fl_font(FL_HELVETICA,60);
+                fl_color(fl_rgb_color(0,0,255));
+                fl_draw("MKOVEL + KEVIN",50,50,500,500,FL_ALIGN_CENTER,nullptr,false);
+
+
                 time++;
-                displayer.draw_menu();
-                if (time==2*FREQ)
+                /* displayer.draw_menu(); */
+                if (time==2*FREQ)//show the menu for 2 seconds
                 {
                     menu=false;
                     game=true;
@@ -36,6 +45,12 @@ class Game_window : public Fl_Double_Window
             } 
             if (game){
                 displayer.draw();
+                displayer.draw_button();
+                
+                /* fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE , FL_RED); */
+                /* fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE , FL_BLUE); */
+                /* fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 2*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , FL_GREEN); */
+                /* fl_draw_box(FL_FLAT_BOX, GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE , FL_WHITE); */
                 controller.listen_game();
             }
         }
@@ -44,11 +59,15 @@ class Game_window : public Fl_Double_Window
         {
             switch (event){
 
-                case FL_KEYDOWN:
+                case FL_KEYDOWN:{
                     int event = Fl::event_key();
                     controller.process_key(event);
-                    break;
+                    break;}
+                /* case FL_PUSH: */
                 
+                case FL_PUSH:
+                    controller.mouseClick(Vector2D{Fl::event_x(), Fl::event_y()});
+                    return 1;
             }
             return 0;
         }

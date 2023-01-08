@@ -1,4 +1,5 @@
 #include "sokoban.hpp"
+#include "case.hpp"
 #include <fstream>
 #include <iostream>
 #include <istream>
@@ -28,14 +29,14 @@ void Sokoban::read_data(ifstream& file , int& data){
     getline(file , str_line);
     string buffer;
     
-    buffer=str_line.substr(str_line.size() - 3);
+    buffer=str_line.substr(str_line.size() - 3);//take the numbers at the end of the line
 
-    data = stoi(buffer);
+    data = stoi(buffer);// string to int
 }
 
 void Sokoban::read_data_level(ifstream& file , string& data){
 
-    unsigned int offset = level_data[3];
+    unsigned int offset = level_data[3];//take the number of line to read
     string void_line, str_line;
     level_s.clear();
 
@@ -46,12 +47,16 @@ void Sokoban::read_data_level(ifstream& file , string& data){
     }
 }
 void Sokoban::read_level_file(int level_number){
+   saved_line = (level_number-1) * 18;
+    /* if (saved_line) */ 
+    int line_nb=1;//18
 
     ifstream level_file("levels.txt");
     string void_line;
+    cout<<"sava ?? "<<saved_line<<endl;
     
-    for (int i=1;i<=saved_line;i++){
-
+    for (int i=line_nb;i<=saved_line;i++){
+        //browse the file to the last line readed
         getline(level_file, void_line);
     }
    
@@ -62,9 +67,39 @@ void Sokoban::read_level_file(int level_number){
     }
 
     read_data_level(level_file, level_s);
+    //get the line readed to the beginning of the next lest
     saved_line += level_data[4];
     saved_line += 3;
     level_file.close();
+}
+void Sokoban::reset_data(){
+
+    string line;
+    ofstream out("tmp.txt");
+    ifstream in("levels_original.txt");
+
+    while(getline(in, line)){
+
+        /* current_line++; */
+        /* if (line[0]=='b' && current_line < saved_line && current_line > saved_line - (8+level_data[4]) ){ */
+            /* out<<new_line; */
+        /* } */
+        /* else{ */
+            out<<line<<endl;
+        }
+    /* } */
+
+    in.close();out.close();
+    rename("tmp.txt","levels.txt");
+    remove("tmp.txt");
+    /* save_falg=false; */
+        /* chg_save_flag(); */
+    next_level(0);
+    /* save_falg=true; */
+        /* chg_save_flag(); */
+    cout<<"oko"<<endl;
+
+
 }
 
 void Sokoban::update_file(int new_best_score){
@@ -94,8 +129,7 @@ void Sokoban::update_file(int new_best_score){
 
 void Sokoban::create_player(Vector2D current, int x, int y, Vector2D level_size){
 
-    Fl_Image *im =Fl_PNG_Image {"player.png"} .copy(50,50);
-    Case player{"Player",level_s[y * level_size.x + x], current, FL_GREEN, im};
+    Case player{level_s[y * level_size.x + x], current, FL_GREEN};
     level_cell.push_back(player);
     pos_player = {x,y}; 
     original_pos = pos_player;
@@ -104,8 +138,7 @@ void Sokoban::create_player(Vector2D current, int x, int y, Vector2D level_size)
 
 void Sokoban::create_normal_objective(Vector2D current, int x, int y, Vector2D size_level){
 
-    Fl_Image *im =Fl_PNG_Image {"pika.png"} .copy(50,50);
-    Case obj{"Objective",' ',level_s[y * level_size.x + x], current, FL_WHITE, im};
+    Case obj{' ',level_s[y * level_size.x + x], current, FL_WHITE};
     level_cell.push_back(obj);
     normal_goals_cell.push_back(Vector2D{x,y});
     goals_cell.push_back(Vector2D{x,y});
@@ -114,8 +147,7 @@ void Sokoban::create_normal_objective(Vector2D current, int x, int y, Vector2D s
 
 void Sokoban::create_yellow_objective(Vector2D current, int x, int y, Vector2D size_level){
 
-    Fl_Image *im =Fl_PNG_Image {"elekable.png"} .copy(50,50);
-    Case yellow_obj{"Yellow Objective",' ',level_s[y * level_size.x + x], current, FL_WHITE, im};
+    Case yellow_obj{' ',level_s[y * level_size.x + x], current, FL_WHITE};
     level_cell.push_back(yellow_obj);
     yellow_goals_cell.push_back(Vector2D{x,y});
     goals_cell.push_back(Vector2D{x,y});
@@ -124,8 +156,7 @@ void Sokoban::create_yellow_objective(Vector2D current, int x, int y, Vector2D s
 
 void Sokoban::create_purple_objective(Vector2D current, int x, int y, Vector2D size_level){
 
-    Fl_Image *im =Fl_PNG_Image {"giratina.png"} .copy(50,50);
-    Case purple_obj{"Purple Objective",' ',level_s[y * level_size.x + x], current, FL_WHITE, im};
+    Case purple_obj{' ' ,level_s[y * level_size.x + x], current, FL_WHITE};
     level_cell.push_back(purple_obj);
     purple_goals_cell.push_back(Vector2D{x,y});
     goals_cell.push_back(Vector2D{x,y});
@@ -134,32 +165,28 @@ void Sokoban::create_purple_objective(Vector2D current, int x, int y, Vector2D s
 
 void Sokoban::create_normal_box(Vector2D current, int x, int y, Vector2D size_level){
 
-    Fl_Image *im =Fl_PNG_Image {"pokeball.png"} .copy(50,50);
-    Case box_h{"Heavy Box",level_s[y * level_size.x + x], current, FL_RED, im};
+    Case box_h{level_s[y * level_size.x + x], current, FL_RED};
     level_cell.push_back(box_h);
 }
 
 
 void Sokoban::create_light_box(Vector2D current, int x, int y, Vector2D size_level){
 
-    Fl_Image *im =Fl_PNG_Image {"superball.png"} .copy(50,50);
-    Case light_case{"Light Box",level_s[y * level_size.x + x], current, FL_CYAN,im};
+    Case light_case{level_s[y * level_size.x + x], current, FL_CYAN};
     level_cell.push_back(light_case);
 }
 
 
 void Sokoban::create_yellow_box(Vector2D current, int x, int y, Vector2D size_level){
     
-    Fl_Image *im =Fl_PNG_Image {"hyper_ball.png"} .copy(50,50);
-    Case hyper_ball{"Hyper ball",level_s[y * level_size.x + x], current, FL_CYAN,im};
+    Case hyper_ball{level_s[y * level_size.x + x], current, FL_CYAN};
     level_cell.push_back(hyper_ball);
 }
 
 
 void Sokoban::create_purple_box(Vector2D current, int x, int y, Vector2D size_level){
 
-    Fl_Image *im =Fl_PNG_Image {"master_ball.png"} .copy(50,50);
-    Case master_ball{"Master ball",level_s[y * level_size.x + x], current, FL_CYAN,im};
+    Case master_ball{level_s[y * level_size.x + x], current, FL_CYAN};
     level_cell.push_back(master_ball);
 }
 
@@ -167,8 +194,7 @@ void Sokoban::create_purple_box(Vector2D current, int x, int y, Vector2D size_le
 void Sokoban::create_wall(Vector2D current, int x, int y, Vector2D size_level){
 
 
-    Fl_Image *im =Fl_PNG_Image {"grey_wall.png"} .copy(50,50);
-    Case wall{"Wall",level_s[y * level_size.x + x], current, FL_BLACK,im};
+    Case wall{level_s[y * level_size.x + x], current, FL_BLACK};
     wall_cell.push_back(Vector2D{x,y});
     level_cell.push_back(wall);
 }
@@ -176,8 +202,7 @@ void Sokoban::create_wall(Vector2D current, int x, int y, Vector2D size_level){
 
 void Sokoban::create_teleporter(Vector2D current, int x, int y, Vector2D size_level){
 
-    Fl_Image *im =Fl_PNG_Image {"teleporter.png"} .copy(50,50);
-    Case teleporter{"teleporter",' ',level_s[y * level_size.x + x], current, FL_BLACK,im};
+    Case teleporter{' ',level_s[y * level_size.x + x], current, FL_BLACK};
     level_cell.push_back(teleporter);
     teleporter_cell.push_back(Vector2D{x,y});
 }
@@ -189,6 +214,10 @@ void Sokoban::load_game(){
     level_cell.clear();
 
     read_level_file(level);
+    // dimension x and dimension y
+    level=level_data[0];
+    best_score = level_data[1];
+    limited_step = level_data[2];
     level_size={level_data[3] ,level_data[4]};
 
     for (int y=0;y<level_size.y; y++)
@@ -249,12 +278,12 @@ void Sokoban::load_game(){
 
                 default:
                 {
-                    Fl_Image *im =Fl_PNG_Image {"Solid_white.png"} .copy(50,50);
-                    Case free_case{"free",' ', current, FL_WHITE,im};
+                    Case free_case{' ', current, FL_WHITE};
                     level_cell.push_back(free_case);
                 }   
             }
         }       
+    fill_box_list();
     }
 
 for (auto&c:level_cell){original_level.push_back(c);}
@@ -271,6 +300,7 @@ int Sokoban::get_goals_count(){
             count++;
         }
     }
+    
     for (auto &yellow_goals: yellow_goals_cell){
         if (level_cell[id(yellow_goals.x, yellow_goals.y)].get_repr()== YELLOW_BOX){
             count++;
@@ -285,24 +315,60 @@ int Sokoban::get_goals_count(){
     return count;
 }
 
-int Sokoban::can_tp(Vector2D & current_pos){
+int Sokoban::can_tp_end(){
+    
 
     for(int i=0 ; i<teleporter_cell.size(); i++ ){
-        
+
+        if (id(teleporter_cell[i].x, teleporter_cell[i].y) == id(pos_player.x, pos_player.y)){
+
+         int other_tp = abs((i-1))%2;
+            /* cout<<"other= "<<other_tp<<endl; */
+
+            /* cout<<"repr= "<<level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr()<<endl; */ 
+            if(level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() ==  TELEPORTER 
+            or level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() == ' ')
+
+            next_tp = id(teleporter_cell[other_tp].x, teleporter_cell[other_tp].y);
+        }
+    }
+/* cout<<"dans can tp "<<endl<<"next tp ="<<next_tp<<endl; */
+    return next_tp;
+
+    
+}
+
+
+
+int Sokoban::can_tp(Vector2D & current_pos){
+    /* cout<<"pos_player x= "<<pos_player.x<<" y= "<<pos_player.y<<endl; */
+    if (level_cell[id(current_pos.x, current_pos.y)].get_repr() == ' ') 
+    for(int i=0 ; i<teleporter_cell.size(); i++ ){
+    /* cout<<"teleporter x= "<<teleporter_cell[i].x<<" y= "<<teleporter_cell[i].y<<endl; */
         if (id(teleporter_cell[i].x, teleporter_cell[i].y) == id(current_pos.x, current_pos.y)){
-
+        /* if (id(teleporter_cell[i].x, teleporter_cell[i].y) == id(current_pos.x, current_pos.y) */
+        /* or  id(teleporter_cell[i].x, teleporter_cell[i].y) == id(pos_player.x, pos_player.y)){ */
+        /* if (id(teleporter_cell[i].x, teleporter_cell[i].y) == id(pos_player.x, pos_player.y)){ */
+            /* cout<<"in pos"<<endl; */
+            //take the position of the other teleport in the list
             int other_tp = abs((i-1))%2;
+            /* cout<<"other= "<<other_tp<<endl; */
 
-            if(level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() ==  TELEPORTER)
+            /* cout<<"repr= "<<level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr()<<endl; */ 
+            if(level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() ==  TELEPORTER
+            or level_cell[id(teleporter_cell[other_tp].x , teleporter_cell[other_tp].y)].get_repr() == ' ')
 
+                //save the place's value of the next tp on the board
                 next_tp = id(teleporter_cell[other_tp].x, teleporter_cell[other_tp].y);
         }
     }
-
+/* cout<<"dans can tp "<<endl<<"next tp ="<<next_tp<<endl; */
     return next_tp;
 }
 
 void Sokoban::fill_box_list(){
+
+    box_list.clear();
 
     for (int y=0;y<level_size.y;y++)
     {
@@ -319,7 +385,6 @@ void Sokoban::fill_box_list(){
         }
     }
 }
-
 bool Sokoban::are_box_blocked(){
 
     vector<int>push_direction={0, 1, 2, 3};
@@ -336,18 +401,37 @@ bool Sokoban::are_box_blocked(){
         first = true , flag = false;
 
         for(int push_index = 0; push_index <= 3; push_index++){
+             
+            switch (push_index) 
+            {
+                case NORTH: list_index.y++; break;
+                case SOUTH: list_index.y--; break;
+                case EAST: list_index.x--; break;
+                case WEST: list_index.x++; break;
+            }
             
             if(safe_check_move(box_pos, push_direction[push_index]) == false){
+            /* if(check_move(box_pos, push_direction[push_index]) == false){ */
                 if (first){
 
                     blocked_direction = push_index;
                     first = false;}
                 else
+                    //if the blocked direction form a right angle
                     if (abs(blocked_direction - push_index) % 2 == 1 and flag == false){
                         blocked_box ++;
                         flag = true;
                     }
             }
+
+             switch (push_index) 
+            {
+                case NORTH: list_index.y--; break;
+                case SOUTH: list_index.y++; break;
+                case EAST: list_index.x--; break;
+                case WEST: list_index.x++; break;
+            }
+
         }
     }
 
@@ -357,14 +441,14 @@ bool Sokoban::are_box_blocked(){
 int Sokoban::is_lost(){
 
     int lost_type = 0;
-    int limited_step = level_data[2];
+    limited_step = level_data[2];
     
     if(used_step >= limited_step){
         lost_flag = true;
         lost_type = 1;
     }
 
-    if(are_box_blocked()){
+    else if(are_box_blocked()){
         lost_flag = true;
         lost_type = 2;
     }
@@ -373,70 +457,85 @@ int Sokoban::is_lost(){
 }
 
 bool Sokoban::safe_check_move(Vector2D current_pos, int push_dir){
+    return check_move( current_pos, push_dir);
 
-    int verif=0;
-    bool allow_pushing=false;
-    bool test=true;
-    bool repr;
-    bool value;
 
-    while(test)
-    {
-        switch (level_cell[id(current_pos.x, current_pos.y)].get_value())
-        {
-        case NORMAL_BOX: case YELLOW_BOX: case PURPLE_BOX:
-            verif++;
-            if(verif >1){test=false;break;} //stop condition to not stop pushing a heavy box
-            switch (push_dir){
 
-                case NORTH: 
-                    test = level_cell[id(current_pos.x, (current_pos.y)--)].get_value() == ' ';
-                    break;
-                case SOUTH: 
-                    test = level_cell[id(current_pos.x, (current_pos.y)++)].get_value() == ' ';
-                    break;
-                case EAST: 
-                    test = level_cell[id(current_pos.x++, current_pos.y)].get_value() == ' ';
-                    break;
-                case WEST: 
-                    test = level_cell[id(current_pos.x--, current_pos.y)].get_value() == ' ';
-                    break;
-            }
-            repr = level_cell[id(current_pos.x, current_pos.y)].get_repr() == PLAYER;
-
-            value = level_cell[id(current_pos.x, current_pos.y)].get_value() == ' ';
-            allow_pushing =repr||value;
-            test=false;
-            break;
-
-        case WALL:
-            test=false;
-            break;
-
-        case LIGHT_BOX:
-            verif++;
-            switch (push_dir)
-            {
-                case NORTH: current_pos.y--; break;
-                case SOUTH: current_pos.y++; break;
-                case EAST: current_pos.x++; break;
-                case WEST: current_pos.x--; break;
-            }
-            break;
-        case ' ': case TELEPORTER:
-            allow_pushing = true;
-            test=false;
-            break;
-            
-        case PLAYER:
-            allow_pushing = true;
-            test=false;
-
-            break;
-        }
-    }
-    return allow_pushing;
 }
+/* bool Sokoban::safe_check_move(Vector2D current_pos, int push_dir){ */
+
+/*     int verif=0; */
+/*     bool allow_pushing=false; */
+/*     bool test=true; */
+/*     bool repr; */
+/*     bool value; */
+
+/*     while(test) */
+/*     { */
+/*         switch (level_cell[id(current_pos.x, current_pos.y)].get_value()) */
+/*         { */
+/*         case NORMAL_BOX: case YELLOW_BOX: case PURPLE_BOX: */
+/*             verif++; */
+/*             if(verif >1){test=false;break;} //stop condition to not stop pushing a heavy box */
+/*             switch (push_dir){ */
+
+/*                 case NORTH: */ 
+/*                     test = level_cell[id(current_pos.x, (current_pos.y)--)].get_value() == ' '; */
+/*                     break; */
+/*                 case SOUTH: */ 
+/*                     test = level_cell[id(current_pos.x, (current_pos.y)++)].get_value() == ' '; */
+/*                     break; */
+/*                 case EAST: */ 
+/*                     test = level_cell[id(current_pos.x++, current_pos.y)].get_value() == ' '; */
+/*                     break; */
+/*                 case WEST: */ 
+/*                     test = level_cell[id(current_pos.x--, current_pos.y)].get_value() == ' '; */
+/*                     break; */
+/*             } */
+/*             repr = level_cell[id(current_pos.x, current_pos.y)].get_repr() == PLAYER; */
+
+/*             value = level_cell[id(current_pos.x, current_pos.y)].get_value() == ' '; */
+/*             allow_pushing =repr||value; */
+/*             test=false; */
+/*             break; */
+
+/*         case WALL: */
+/*             test=false; */
+/*             break; */
+
+/*         case LIGHT_BOX: */
+/*             verif++; */
+/*             switch (push_dir) */
+/*             { */
+/*                 case NORTH: current_pos.y--; break; */
+/*                 case SOUTH: current_pos.y++; break; */
+/*                 case EAST: current_pos.x++; break; */
+/*                 case WEST: current_pos.x--; break; */
+/*             } */
+/*             break; */
+/*         /1* case ' ': *1/ */
+/*         case ' ': case TELEPORTER: */
+/*             allow_pushing = true; */
+/*             test=false; */
+/*             break; */
+            
+/*         case PLAYER: */
+/*             allow_pushing = true; */
+/*             test=false; */
+
+/*             switch(push_dir) */
+/*             { */
+/*                 case NORTH: current_pos.y--;break; */
+/*                 case SOUTH: current_pos.y++;break; */
+/*                 case EAST: current_pos.x--;break; */
+/*                 case WEST: current_pos.x++;break; */
+/*             } */
+
+/*             break; */
+/*         } */
+/*     } */
+/*     return allow_pushing; */
+/* } */
 
 
 bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
@@ -444,8 +543,10 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
     int verif=0;
     bool allow_pushing=false;
     bool test=true;
-    
-    can_tp(current_pos);
+    bool repr;
+    bool value;
+
+    /* can_tp(current_pos); */
     if(next_tp > -1){
 
         allow_pushing = true;
@@ -482,7 +583,11 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
                     test = level_cell[id(current_pos.x--, current_pos.y)].get_value() == ' ' ;
                     break;
             }
-            allow_pushing = level_cell[id(current_pos.x, current_pos.y)].get_value() == ' ';
+
+            repr = level_cell[id(current_pos.x, current_pos.y)].get_repr() == PLAYER;
+            value = level_cell[id(current_pos.x, current_pos.y)].get_value() == ' ';
+            allow_pushing =repr||value;
+            /* allow_pushing = level_cell[id(current_pos.x, current_pos.y)].get_value() == ' '; */
             test=false;
             break;
         case WALL:
@@ -502,7 +607,30 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
             allow_pushing = true;
             test=false;
             break;
+        /* case TELEPORTER: */
+ 
+        /*     can_tp(current_pos); */
+        /*     if(next_tp > -1){ */
+        /*         cout<<"next= "<<next_tp<<endl; */
+
+        /*         allow_pushing = true; */
+        
+        /*         switch(push_dir){ */
+        /*             case NORTH: current_pos.y--;break; */
+        /*             case SOUTH: current_pos.y++;break; */
+        /*             case EAST: current_pos.x--;break; */
+        /*             case WEST: current_pos.x++;break; */
+        /*             } */  
+
+        /*         test=false; */
+        /*         allow_pushing = true; */
+        /*         /1* return allow_pushing; *1/ */
+        /*     } */
+        /*     /1* else { *1/ */
+        /*     /1* allow_pushing=false *1/ */
+        /*     /1* } *1/ */
             
+        /*     break; */
         case PLAYER:
             allow_pushing = true;
             test=false;
@@ -521,11 +649,29 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
     return allow_pushing;
 }
 
+void Sokoban::end_tp(){
+
+     if(next_tp > -1){
+
+        /* cout<<"next= "<<next_tp<<endl; */
+        /* cout<<"representation: "<<level_cell[next_tp].get_repr()<<" "<<"valeur: "<<level_cell[next_tp].get_value()<<endl; */
+        swap(level_cell[next_tp], level_cell[id(pos_player.x, pos_player.y)]);
+
+        pos_player.x = reverse_id(next_tp).x;
+        pos_player.y= reverse_id(next_tp).y;
+        
+        /* current_pos = pos_player; */
+        next_tp = -1;
+    }
+}
+
 void Sokoban::play_move(Vector2D &current_pos, int push_dir)
 {  
-    
+
     if(next_tp > -1){
-        cout<<"representation: "<<level_cell[next_tp].get_repr()<<" "<<"valeur: "<<level_cell[next_tp].get_value()<<endl;
+
+        /* cout<<"next= "<<next_tp<<endl; */
+        /* cout<<"representation: "<<level_cell[next_tp].get_repr()<<" "<<"valeur: "<<level_cell[next_tp].get_value()<<endl; */
         swap(level_cell[next_tp], level_cell[id(pos_player.x, pos_player.y)]);
 
         pos_player.x = reverse_id(next_tp).x;
@@ -536,6 +682,7 @@ void Sokoban::play_move(Vector2D &current_pos, int push_dir)
     }    
 
     else{
+        /* cout<<"test"<<endl; */
         while (current_pos.x != pos_player.x || current_pos.y != pos_player.y){
             Vector2D source = current_pos;
             switch (push_dir)
@@ -558,12 +705,12 @@ void Sokoban::play_move(Vector2D &current_pos, int push_dir)
         }
     }
     
-    for(auto teleporter: teleporter_cell){
-        if(level_cell[id(teleporter.x, teleporter.y)].get_value() != TELEPORTER){
-            level_cell[id(teleporter.x, teleporter.y)].set_value(TELEPORTER);
-        }
+    /* for(auto teleporter: teleporter_cell){ */
+    /*     if(level_cell[id(teleporter.x, teleporter.y)].get_value() != TELEPORTER){ */
+    /*         level_cell[id(teleporter.x, teleporter.y)].set_value(TELEPORTER); */
+    /*     } */
 
-    }
+    /* } */
     used_step++;
     
 }
@@ -589,16 +736,26 @@ void Sokoban::clear_vectors(){
     purple_goals_cell.clear();
     teleporter_cell.clear();
     wall_cell.clear();
+    box_list.clear();
+    
 }
 
-void Sokoban::next_level()
-{   level++;
-
+void Sokoban::next_level(int offset_level )
+{ 
+    cout<<"off= "<<offset_level<<endl; 
+    int MAX_LEVEL = 7;  
+    level = level + offset_level;
+    /* if(level<1 or level>MAX_LEVEL) level=1; */
+    if(level<1) level=MAX_LEVEL;
+    if(level>MAX_LEVEL) level=1;
+    cout<<level<<endl;
     clear_vectors();
-    if(used_step < level_data[1]){
+    if(used_step < best_score and save_falg){
+        cout<<"update"<<endl;
         update_file(used_step);
     } 
 
+    /* if (reload) reload=false; */
     used_step=0;
     load_game();
     for (auto &c:level_cell){original_level.push_back(c);}

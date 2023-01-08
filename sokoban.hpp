@@ -40,10 +40,12 @@ private:
     int saved_line = 0;
     int level = 1 ;
     int used_step = 0;
-    int best_score = 0, dimension_x =0 , dimension_y = 0, limited_step = 0;
+    int best_score, dimension_x =0 , dimension_y = 0, limited_step = 0;
     bool lost_flag = false;
     int next_tp = -1;
+    /* bool reload=true; */
 
+    bool save_falg=false;
     vector<int> level_data={level, best_score, limited_step, dimension_x , dimension_y};
     struct Vector2D pos_player,original_pos,level_size;
     string level_s;
@@ -61,6 +63,10 @@ private:
     vector<string> data_level;
 
     void load_game();
+    /**
+     * @brief browse all the board and create an object for each type of cell
+     * 
+     */
 
 public:
     Sokoban() = default;
@@ -81,6 +87,11 @@ public:
     vector <Vector2D> get_box_list(){return box_list;}
 
     int get_goals_count();
+    /**
+     * @brief: check for all types of boxes if they are on their respective goals
+     * 
+     * @return the number of box that are on their goals point
+     */
 
     int get_level(){return level;}
 
@@ -99,7 +110,11 @@ public:
     void set_limited_step(int step){
         limited_step=step;
     }
-
+    void chg_save_flag(){
+        if (save_falg) save_falg=false;
+        else save_falg=true;
+        /* reload=true */
+}
     //all the create methods create a new object of the specified entity
     void create_player(Vector2D current, int x, int y, Vector2D level_size);
     void create_normal_objective(Vector2D current, int x, int y, Vector2D level_size);
@@ -115,92 +130,107 @@ public:
     void create_teleporter(Vector2D current, int x, int y, Vector2D level_size);
 
     bool get_lost_flag(){ return lost_flag; }
+    
+    void read_data(ifstream& file ,  int& data);
+    /**
+     * @brief: take the digits for each line of information about the level and cast them into int 
+     * and store them in the level_data
+     */
+
+    void read_data_level(ifstream& file , string& data);
+    /**
+     * @brief: read the string that represent the level and store it in a string
+     * 
+     * @param data: the string where the level will be stored
+     */
+    
 
     void read_level_file(int level_number);
     /**
-     * @brief 
+     * @brief: read all the level information and treat them whith the function above
      * 
-     * @param level_number 
+     * @param level_number: the actual level
+     */
+    void reset_data();
+
+    void update_file(int new_best_score);
+    /**
+     * @brief: update the best score for the finished level 
+     * 
      */
 
-    void read_data(ifstream& file ,  int& data);
-    /**
-     * @brief 
-     * 
-     */
-    void read_data_level(ifstream& file , string& data);
-    /**
-
-     */
-    
     vector<string> get_data_level(){return data_level;}
 
     // id gets the position of a cell in the board because the board is stored as a 1 dimension variable
     //instead of a 2 dimensions and;
     int id(int x, int y);
+
+    //transform an id in x and y coordonates
     Vector2D reverse_id(int x);
     
     int can_tp(Vector2D & current_pos);
     /**
-     * @brief 
+     * @brief: check if a teleporter is available to teleport the player
+     * 
+     * @return the place of the next teleporter in the board
      */
+    int can_tp_end();
 
+    void end_tp();
+    
     bool check_move(Vector2D &current_pos, int push_dir);
     /**
-     * @brief 
-     * 
+     * @brief: check if a move is possible
      */
+
+    bool safe_check_move2(Vector2D current_pos, int push_dir);
+
     bool safe_check_move(Vector2D current_pos, int push_dir);
     /**
-     * @brief:
-     * 
+     * @brief: does the same as check_move but without impacting the current_pos  
      */
 
     void fill_box_list();
     /**
-     * @brief 
-     * 
+     * @brief: browse the board to store the boxes in the box list vector
      */
+
     bool are_box_blocked();
     /**
-     * @brief 
+     * @brief: check if all boxes are blocked
      */
+
     int is_lost();
     /**
-     * @brief 
+     * @brief: check if one of the losing condition is valided (limited stop or are_box_blocked)
      * 
      */
 
     void play_move(Vector2D &current_pos, int push_dir);
     /**
-     * @brief 
+     * @brief: play the move on the board after check move validated it
      * 
      */
 
     void clear_vectors();
     /**
-     * @brief 
+     * @brief: clear all vectors after a level is completed
      * 
      */
 
     void reset_level();
     /**
-     * @brief 
+     * @brief: if the player press r the level is reset
      * 
      */
 
-    void next_level();
+    void next_level(int offset_level);
     /**
-     * @brief 
-     * 
-     */
-
-    void update_file(int new_best_score);
-    /**
-     * @brief 
+     * @brief: load the next level and update the best score
      * 
      */
         
 };
 
 #endif
+   

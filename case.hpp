@@ -33,9 +33,11 @@ class Case
         int size=50;
 
     public:
-        Case(string name, char value,Vector2D pos, Fl_Color col, Fl_Image *im): name{name},value{value},repr{value}, position{pos}, color{col}, image{im}{}
-        Case(string name, char value, char repr, Vector2D pos, Fl_Color col, Fl_Image *im): name{name},value{value},repr{repr}, position{pos}, color{col},image{im}{}
+        /* Case(string name, char value,Vector2D pos, Fl_Color col, Fl_Image *im): name{name},value{value},repr{value}, position{pos}, color{col}, image{im}{} */
+        /* Case(string name, char value, char repr, Vector2D pos, Fl_Color col, Fl_Image *im): name{name},value{value},repr{repr}, position{pos}, color{col},image{im}{} */
 
+        Case(char value,Vector2D pos, Fl_Color col): value{value},repr{value}, position{pos}, color{col}{}
+        Case(char value, char repr, Vector2D pos, Fl_Color col): value{value},repr{repr}, position{pos}, color{col}{}
         string get_name(){return name;}
         const char get_value(){return value;}
         const char get_repr(){return repr;}
