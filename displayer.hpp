@@ -36,10 +36,11 @@ class Displayer
         ~Displayer()=default;
         void draw();
         /**
-         * @brief 
+         * @brief: draw all images on board
          */
 
         void display_element(const char repr, vector <Vector2D> goal_list, Fl_Image* picture);
+        
         void init_all();
         /**
          * @brief: initiate all images

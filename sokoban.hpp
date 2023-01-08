@@ -34,8 +34,6 @@ const char LIGHT_BOX= '+';
 const char YELLOW_BOX= 'H';
 const char PURPLE_BOX= 'M';
 
-const int MAX_LEVEL = 7;
-
 class Sokoban { 
       
 private:
@@ -45,6 +43,7 @@ private:
     int best_score, dimension_x =0 , dimension_y = 0, limited_step = 0;
     bool lost_flag = false;
     int next_tp = -1;
+    int max_level;
 
     bool save_falg=false;
     vector<int> level_data={level, best_score, limited_step, dimension_x , dimension_y};
@@ -157,6 +156,10 @@ public:
      * @param level_number: the actual level
      */
     void reset_data();
+    /**
+     * @brief: reset all level data
+     * 
+     */
 
     void update_file(int new_best_score);
     /**
@@ -182,16 +185,16 @@ public:
 
     void end_tp();
 
-    void test_dir(Vector2D& current_pos, int push_dir);
+    void change_dir(Vector2D& current_pos, int push_dir);
     /**
-     * @brief: 
+     * @brief: change current_pos's position on board
      * 
      */
     
 
     void test_box_move(int push_dir, bool& test, Vector2D& current_pos);
     /**
-     * @brief:
+     * @brief: check if an heavy box can move
      * 
      */
     

@@ -52,6 +52,12 @@ void Sokoban::read_level_file(int level_number){
 
     ifstream level_file("levels.txt");
     string void_line;
+
+    string max_buffer;
+    getline(level_file, void_line);
+    max_buffer=void_line.substr(void_line.size() - 3);
+    max_level = stoi(max_buffer);
+
     int readed_level=0;
     while ( getline(level_file, void_line)  ){
         if(void_line[0]==';'){
@@ -348,7 +354,7 @@ void Sokoban::fill_box_list(){
     }
 }
 
-void Sokoban:: test_dir(Vector2D& current_pos, int push_dir){
+void Sokoban:: change_dir(Vector2D& current_pos, int push_dir){
 
     switch(push_dir){
 
@@ -596,8 +602,8 @@ void Sokoban::next_level(int offset_level )
 {   
     level = level + offset_level;
 
-    if(level<1) level=MAX_LEVEL;
-    if(level>MAX_LEVEL) level=1;
+    if(level<1) level=max_level;
+    if(level>max_level) level=1;
 
     clear_vectors();
     if(used_step < best_score and save_falg){
