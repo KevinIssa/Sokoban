@@ -11,37 +11,36 @@ int Controller::process_key(int event)
         case 'z': case UP_KEY: 
             position.y--;
             if(soko->check_move(position, NORTH)){soko->play_move(position, NORTH);};
-            if(soko->can_tp_end()){soko->end_tp();};
+            if(soko->can_tp()){soko->end_tp();};
             soko->fill_box_list();
             break;
         
         case 's': case DOWN_KEY:
             position.y++;
             if(soko->check_move(position, SOUTH)){soko->play_move(position, SOUTH);};
-            if(soko->can_tp_end()){soko->end_tp();};
+            if(soko->can_tp()){soko->end_tp();};
             soko->fill_box_list();
             break;
         
         case 'q': case LEFT_KEY:
             position.x--;
             if(soko->check_move(position, WEST)){soko->play_move(position, WEST);};
-            if(soko->can_tp_end()){soko->end_tp();};
+            if(soko->can_tp()){soko->end_tp();};
             soko->fill_box_list();
             break;
         
         case 'd': case RIGHT_KEY:
             position.x++;
             if(soko->check_move(position, EAST)){soko->play_move(position, EAST);};
-            if(soko->can_tp_end()){soko->end_tp();};
+            if(soko->can_tp()){soko->end_tp();};
             soko->fill_box_list();
             break;
        
         case 'r':
-            soko->reset_level();
-            soko->fill_box_list();
+            reset_game();
             break;
         case 'p':
-            printf("GAME OVER !!!\n");exit(0);
+            quit_game();
     }
 return 0;
 }
@@ -69,58 +68,35 @@ void Controller::listen_game()
             exit(1);
         }
     }
-
-    else if(value_type == 1){
-        cout<<"You lost! You used too many step!"<<endl;
-    } 
-
-    else if (value_type == 2){
-        cout<<"You lost! All boxes are blocked!"<<endl;
-    }
-    /* cout <<"vzlue= "<<value_type<<endl; */
+    
 }
+
 void Controller::quit_game() {
-    printf("GAME OVER !!!\n");exit(0);
 
-    /* cout<<"aaaaaaaaaaaaaa"<<endl; */
-  /* for (auto &b:button_list) b->mouseClick(mouseLoc); */
+    printf("BYE BYE !!!\n");exit(0);
+
 }
+
 void Controller::reset_all_data() {
-    /* soko->reset_level(); */
-    /* soko->fill_box_list(); */
-soko->reset_data();
-    /* cout<<"aaaaaaaaaaaaaa"<<endl; */
-  /* for (auto &b:button_list) b->mouseClick(mouseLoc); */
+   
+    soko->reset_data();
 }
+
 void Controller::change_lvl(int offset_level) {
-    try{
-        /* soko->chg_save_flag(); */
-        soko->next_level(offset_level);
-        /* soko->chg_save_flag(); */
-        }
-            
-    catch(...){
-        cout<<"Bye Bye !!!"<<endl;
-        exit(1);
-        }
-
-    /* soko->reset_level(); */
-    /* soko->fill_box_list(); */
-
-    /* cout<<"aaaaaaaaaaaaaa"<<endl; */
-  /* for (auto &b:button_list) b->mouseClick(mouseLoc); */
+    
+    soko->next_level(offset_level);
+        
 }
+
 void Controller::reset_game() {
+
     soko->reset_level();
     soko->fill_box_list();
-
-    /* cout<<"aaaaaaaaaaaaaa"<<endl; */
-  /* for (auto &b:button_list) b->mouseClick(mouseLoc); */
+    
 }
 
-/* void Controller::quit_game() */
 void Controller::mouseClick(Vector2D mouseLoc) {
-    /* cout<<"CLICK"<<endl; */
+
   for (auto &b:button_list) b->mouseClick(mouseLoc);
 }
 
