@@ -40,7 +40,7 @@ private:
     int saved_line = 0;
     int level = 1 ;
     int used_step = 0;
-    int best_score, dimension_x =0 , dimension_y = 0, limited_step = 0;
+    int best_score, dimension_x =0 , dimension_y = 0, limited_step = 0, max_level;
     bool lost_flag = false;
     int next_tp = -1;
     /* bool reload=true; */
