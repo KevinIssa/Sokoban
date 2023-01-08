@@ -1,6 +1,6 @@
 level = 001
-best_score = 999
-limited_step = 100
+best_score = 018
+limited_step = 010
 dimensionx = 010
 dimensiony = 010
 
@@ -23,14 +23,14 @@ dimensionx = 010
 dimensiony = 010
 
 ##########
-#&  . # &#
+#&  .## &#
 #   $    #
 #        #
-#        #
+##       #
 #  .$@   #
 #        #
 #    M   #
-#       *#
+#     # *#
 ##########
 
 
@@ -53,7 +53,7 @@ dimensiony = 010
 
 
 level = 004
-best score = 999
+best_score = 071
 limited_step = 200
 dimensionx = 010
 dimensiony = 010

@@ -138,9 +138,24 @@ void Displayer::draw_button(){//Si tu veux refactor en focntions ici, tu peux re
         char score_b[20]="";
         sprintf(score_b, "%d/%d", soko->get_used_step(), soko->get_limited_step());
         /* ButtonUI *score = new ButtonUI(FL_MAGENTA,  GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE, 25, score_b); */ 
-        ButtonUI score = ButtonUI{FL_MAGENTA,  GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE, 25, score_b}; 
+        /* ButtonUI score = ButtonUI{FL_MAGENTA,  GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE, 25, score_b}; */
+        /* Fl_Color col = FL_RED; */
+        Fl_Color col = FL_MAGENTA;
+        /* if(soko->is_lost()==0){ col = FL_MAGENTA; } */
+        if(soko->is_lost()==1){
+            /* cout<<"yaa"<<endl; */    
+            /* ButtonUI score = ButtonUI{FL_RED,  GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE, 25, score_b}; */ 
+        col = FL_RED;
+        }
+        ButtonUI score = ButtonUI{col,  GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE, 25, score_b}; 
         button_list.push_back(score);
 {}
+        fl_font(FL_HELVETICA,30);
+        fl_color(fl_rgb_color(0,0,255));
+        if(soko->is_lost()==2){ 
+
+            fl_draw("BLOCKED", GAME_SIZE - 2*BOX_SIZE ,5*BOX_SIZE, 7*BOX_SIZE, 2*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);//j'ai creer un fichier original_leveles pour ca
+        }
 
         char chg_lvl_p[20]="";
         sprintf(chg_lvl_p,"Previous Level");
@@ -162,7 +177,7 @@ void Displayer::draw_button(){//Si tu veux refactor en focntions ici, tu peux re
 
 /*     fl_draw_box(FL_FLAT_BOX, OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , FL_CYAN);//ici un changement d'ecran sera afficher si cliquer dessus */
     fl_font(FL_HELVETICA,20);
-    fl_color(fl_rgb_color(0,0,255));
+    /* fl_color(fl_rgb_color(0,0,255)); */
 /*     fl_draw("Change Level",  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 ,FL_ALIGN_CENTER,nullptr,false); */
 
     fl_draw("reset all data ------>", GAME_SIZE-BOX_SIZE/2 ,9*BOX_SIZE, 2*BOX_SIZE, 3*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);//j'ai creer un fichier original_leveles pour ca
