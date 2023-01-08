@@ -25,16 +25,17 @@ void Displayer::init_all(){
     
     auto image_gen = [](const char * s)  {return Fl_PNG_Image {s} .copy(BOX_SIZE,BOX_SIZE);};
     image_list.push_back(image_gen("player.png"));
-    image_list.push_back(image_gen("pika.png"));
-    image_list.push_back(image_gen("elekable.png"));
-    image_list.push_back(image_gen("giratina.png"));
+    image_list.push_back(image_gen("normal_obj.png"));
+    image_list.push_back(image_gen("yellow_obj.png"));
+    image_list.push_back(image_gen("purple_obj.png"));
     image_list.push_back(image_gen("teleporter.png"));
-    image_list.push_back(image_gen("pokeball.png"));
-    image_list.push_back(image_gen("superball.png"));
-    image_list.push_back(image_gen("master_ball.png"));
-    image_list.push_back(image_gen("hyper_ball.png"));
-    image_list.push_back(image_gen("grey_wall.png"));
-        
+    image_list.push_back(image_gen("normal_box.png"));
+    image_list.push_back(image_gen("light_box.png"));
+    image_list.push_back(image_gen("purple_box.png"));
+    image_list.push_back(image_gen("yellow_box.png"));
+    image_list.push_back(image_gen("wall.png"));
+
+       
 }
 
 void Displayer::draw(){
