@@ -43,7 +43,6 @@ private:
     int best_score, dimension_x =0 , dimension_y = 0, limited_step = 0;
     bool lost_flag = false;
     int next_tp = -1;
-    /* bool reload=true; */
 
     bool save_falg=false;
     vector<int> level_data={level, best_score, limited_step, dimension_x , dimension_y};
@@ -111,10 +110,13 @@ public:
         limited_step=step;
     }
     void chg_save_flag(){
+
         if (save_falg) save_falg=false;
         else save_falg=true;
-        /* reload=true */
-}
+
+    }
+
+
     //all the create methods create a new object of the specified entity
     void create_player(Vector2D current, int x, int y, Vector2D level_size);
     void create_normal_objective(Vector2D current, int x, int y, Vector2D level_size);
@@ -128,6 +130,7 @@ public:
 
     void create_wall(Vector2D current, int x, int y, Vector2D level_size);
     void create_teleporter(Vector2D current, int x, int y, Vector2D level_size);
+    //
 
     bool get_lost_flag(){ return lost_flag; }
     

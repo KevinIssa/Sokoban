@@ -1,5 +1,4 @@
 #include "sokoban.hpp"
-#include "case.hpp"
 #include <fstream>
 #include <iostream>
 #include <istream>
@@ -398,7 +397,7 @@ bool Sokoban::are_box_blocked(){
             }
             
             if(safe_check_move(box_pos, push_direction[push_index]) == false){
-            /* if(check_move(box_pos, push_direction[push_index]) == false){ */
+
                 if (first){
 
                     blocked_direction = push_index;
@@ -411,13 +410,7 @@ bool Sokoban::are_box_blocked(){
                     }
             }
 
-             switch (push_index) 
-            {
-                case NORTH: list_index.y--; break;
-                case SOUTH: list_index.y++; break;
-                case EAST: list_index.x--; break;
-                case WEST: list_index.x++; break;
-            }
+            test_dir(list_index, push_index);
 
         }
     }
@@ -459,14 +452,9 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
     if(next_tp > -1){
 
         allow_pushing = true;
-        
-        switch(push_dir){
-            case NORTH: current_pos.y--;break;
-            case SOUTH: current_pos.y++;break;
-            case EAST: current_pos.x--;break;
-            case WEST: current_pos.x++;break;
-        }  
 
+        test_dir(current_pos, push_dir);
+        
         return allow_pushing;
     }
 
@@ -477,21 +465,9 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
         case NORMAL_BOX: case YELLOW_BOX: case PURPLE_BOX:
             verif++;
             if(verif >1){test=false;break;} //stop condition to not stop pushing a heavy box
-            switch (push_dir)
-            {
-                case NORTH: 
-                    test = level_cell[id(current_pos.x, (current_pos.y)--)].get_value() == ' ';
-                    break;
-                case SOUTH: 
-                    test = level_cell[id(current_pos.x, (current_pos.y)++)].get_value() == ' ';
-                    break;
-                case EAST: 
-                    test = level_cell[id(current_pos.x++, current_pos.y)].get_value() == ' ' ;
-                    break;
-                case WEST: 
-                    test = level_cell[id(current_pos.x--, current_pos.y)].get_value() == ' ' ;
-                    break;
-            }   
+            
+            test_box_move(push_dir, test, current_pos);
+
 
             repr = level_cell[id(current_pos.x, current_pos.y)].get_repr() == PLAYER;
             value = level_cell[id(current_pos.x, current_pos.y)].get_value() == ' ';
@@ -521,13 +497,7 @@ bool Sokoban::check_move(Vector2D &current_pos, int push_dir)
             allow_pushing = true;
             test=false;
 
-            switch(push_dir)
-            {
-                case NORTH: current_pos.y--;break;
-                case SOUTH: current_pos.y++;break;
-                case EAST: current_pos.x--;break;
-                case WEST: current_pos.x++;break;
-            }
+            test_dir(current_pos, push_dir);
 
             break;
         }
@@ -565,6 +535,7 @@ void Sokoban::play_move(Vector2D &current_pos, int push_dir)
     else{
         while (current_pos.x != pos_player.x || current_pos.y != pos_player.y){
             Vector2D source = current_pos;
+
             switch (push_dir)
             {
                 case NORTH: source.y++; break;
@@ -572,6 +543,7 @@ void Sokoban::play_move(Vector2D &current_pos, int push_dir)
                 case EAST: source.x--; break;
                 case WEST: source.x++; break;
             }
+
             swap(level_cell[id(source.x, source.y)], level_cell[id(current_pos.x, current_pos.y)]);
             current_pos.x = source.x;
             current_pos.y = source.y;
@@ -616,20 +588,18 @@ void Sokoban::clear_vectors(){
 
 void Sokoban::next_level(int offset_level )
 { 
-    cout<<"off= "<<offset_level<<endl; 
     int MAX_LEVEL = 7;  
     level = level + offset_level;
-    /* if(level<1 or level>MAX_LEVEL) level=1; */
+
     if(level<1) level=MAX_LEVEL;
     if(level>MAX_LEVEL) level=1;
-    cout<<level<<endl;
+
     clear_vectors();
     if(used_step < best_score and save_falg){
-        cout<<"update"<<endl;
+
         update_file(used_step);
     } 
 
-    /* if (reload) reload=false; */
     used_step=0;
     load_game();
     for (auto &c:level_cell){original_level.push_back(c);}

@@ -50,18 +50,18 @@ void Controller::listen_game()
     int value_type = soko->is_lost();
     if (soko->get_goals_count() == soko->get_goals_cell().size()){ 
 
-            printf("\nNice, you've succeeded lvl %d\n",soko->get_level());
-            if (soko->get_level() == soko->get_data_level().size()){
-                printf("YOU WIN !!!\n"); 
-                exit(1);
-            }
-            printf("--> go to lvl %d\n",soko->get_level()+1);
-            
-            try{
-            soko->chg_save_flag();
-            soko->next_level(1);
-            soko->chg_save_flag();
-            }
+        printf("\nNice, you've succeeded lvl %d\n",soko->get_level());
+        if (soko->get_level() == soko->get_data_level().size()){
+            printf("YOU WIN !!!\n"); 
+            exit(1);
+        }
+        printf("--> go to lvl %d\n",soko->get_level()+1);
+        
+        try{
+        soko->chg_save_flag();
+        soko->next_level(1);
+        soko->chg_save_flag();
+        }
             
         catch(...){
             cout<<"YOU WIN !!!"<<endl;

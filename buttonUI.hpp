@@ -28,8 +28,6 @@ class ButtonUI  {
         int getposy(){return posy;}
         int getsizex(){return sizex;}
         int getsizey(){return sizey;}
-        
-
 };
 
 

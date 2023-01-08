@@ -1,6 +1,5 @@
 #ifndef _DISPLAYER_
 #define _DISPLAYER_
-#include "case.hpp"
 #include "sokoban.hpp"
 #include "buttonUI.hpp"
 #include <FL/Fl_Image.H>
@@ -27,27 +26,9 @@ class Displayer
         vector <Vector2D> teleporter_cells;
         std::vector <Vector2D> box_list;
         vector <Vector2D> wall_list;
-        /* Case *current_case; */
 
         vector< Fl_Image*> image_list;
-        /* vector< const char *> filename_list = {"player.png", "pika.png", "elekable.png","giratina.png", "teleporter.png", "pokeball.png", "superball.png", "master_ball.png", "hyper_ball.png", "grey_wall.png" }; */
-        
-        /* vector< const char > char_list  {'@', '.', '/','*', '&', '$', '+', 'M', 'H', '#' }; */
-        /* vector< Fl_Image*> image_list = {"player.png", "pika.png"}; */
-        /* vector<const char *> filename_list = */ 
-        /* Fl_Image * player_img = Fl_PNG_Image {"player.png"} .copy(BOX_SIZE,BOX_SIZE); */
-
-        /* Fl_Image * normal_goals_img = Fl_PNG_Image {"pika.png"} .copy(BOX_SIZE,BOX_SIZE); */
-        /* Fl_Image * yellow_goals_img = Fl_PNG_Image {"elekable.png"} .copy(BOX_SIZE,BOX_SIZE); */
-        /* Fl_Image * purple_goals_img = Fl_PNG_Image {"giratina.png"} .copy(BOX_SIZE,BOX_SIZE); */
-        /* Fl_Image * teleporter_cells_img = Fl_PNG_Image {"teleporter.png"} .copy(BOX_SIZE,BOX_SIZE); */
-        
-        /* Fl_Image * normal_box_img = Fl_PNG_Image {"pokeball.png"} .copy(BOX_SIZE,BOX_SIZE); */
-        /* Fl_Image * light_box_img = Fl_PNG_Image {"hyper_ball.png"} .copy(BOX_SIZE,BOX_SIZE); */
-        /* Fl_Image * purple_box_img = Fl_PNG_Image {"master_ball.png"} .copy(BOX_SIZE,BOX_SIZE); */
-        /* Fl_Image * yellow_box_img = Fl_PNG_Image {"superball.png"} .copy(BOX_SIZE,BOX_SIZE); */
-        /* Fl_Image * wall_img = Fl_PNG_Image {"grey_wall.png"} .copy(BOX_SIZE,BOX_SIZE); */
-
+    
     public:
         Displayer(Sokoban *soko) : soko{soko}{init_all();
 
@@ -69,7 +50,5 @@ class Displayer
         void draw_end_game();
 
 };
-/* [ ] */
 
 #endif
-/* {} */
