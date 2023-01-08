@@ -100,11 +100,14 @@ void Controller::mouseClick(Vector2D mouseLoc) {
   for (auto &b:button_list) b->mouseClick(mouseLoc);
 }
 
-void Controller::init() {
+void Controller::button_init() {
     
     char buffer[20]="";
     for (auto &b:button_list) delete b;
     button_list.clear();
+
+    //construct the different button on the HUD
+
     Clickable_ButtonUI *reset = new Reset_ButtonUI { FL_YELLOW, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 30, buffer, this };
     button_list.push_back(reset);
     Clickable_ButtonUI *quit = new Quit_ButtonUI { FL_GREEN, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 2*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 25,buffer, this };
@@ -115,7 +118,5 @@ void Controller::init() {
     button_list.push_back(prev_lvl);
     Clickable_ButtonUI *reset_all = new Reset_all_ButtonUI { FL_BLUE, GAME_SIZE + 3*BOX_SIZE-BOX_SIZE/2 ,10*BOX_SIZE + BOX_SIZE/(5/2) , BOX_SIZE/5, BOX_SIZE/5 , 20,buffer, this  };
     button_list.push_back(reset_all);
-
-
 
 }

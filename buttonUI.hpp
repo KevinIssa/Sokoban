@@ -1,9 +1,6 @@
 #ifndef _BUTTONUI_H
 #define _BUTTONUI_H
 
-
-/* #include "controller.hpp" */
-/* #include "sokoban.hpp" */
 #include "case.hpp"
 #include <cstring>
 #include <iostream>

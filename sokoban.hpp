@@ -34,6 +34,8 @@ const char LIGHT_BOX= '+';
 const char YELLOW_BOX= 'H';
 const char PURPLE_BOX= 'M';
 
+const int MAX_LEVEL = 7;
+
 class Sokoban { 
       
 private:

@@ -72,30 +72,30 @@ void Displayer::draw_end_game(){
 
 }
 
+void Displayer::create_button(Fl_Color color, int pos_x, int pos_y, int size_x, int size_y, int font_size, char txt[20]){
+    
+    char buffer[20] = "";
+
+    snprintf(buffer,sizeof(buffer),txt);
+    ButtonUI button = ButtonUI{color, pos_x , pos_y , size_x, size_y, font_size, buffer}; 
+
+    button_list.push_back(button);
+}
+
 void Displayer::draw_button(){
+
     char level[20] = "";
     
     sprintf(level,"%d", soko->get_level());
 
-    ButtonUI lvl = ButtonUI{FL_WHITE, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 50, level};
-    button_list.push_back(lvl);
-    
-    char reset[20] = "";
-    sprintf(reset,"RESET");
-    ButtonUI reset_lvl = ButtonUI{FL_YELLOW, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 30, reset}; 
+    create_button(FL_WHITE, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 50, level);
+    create_button(FL_YELLOW, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 30, "RESET");
+    create_button(FL_GREEN, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 2*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 25, "QUIT");
 
-    button_list.push_back(reset_lvl);
-
-    char quit[20] = "";
-    sprintf(quit,"QUIT");
-    ButtonUI quit_but = ButtonUI{FL_GREEN, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 2*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 25, quit}; 
-    button_list.push_back(quit_but);
-    
     char b_score[20] = "";
     sprintf(b_score,"BEST = %d", soko->get_best_score());
 
-    ButtonUI best_score=ButtonUI {FL_RED,  GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 3*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 15, b_score}; 
-    button_list.push_back(best_score);
+    create_button(FL_RED,  GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 3*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 15, b_score);
 
     char score_b[20] = "";
     sprintf(score_b, "%d/%d", soko->get_used_step(), soko->get_limited_step());
@@ -106,37 +106,26 @@ void Displayer::draw_button(){
         col = FL_RED;
     }
 
-    ButtonUI score = ButtonUI{col,  GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE, 25, score_b}; 
-    button_list.push_back(score);
+    create_button(col,  GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE, 25, score_b);
 
     fl_font(FL_HELVETICA,30);
     fl_color(fl_rgb_color(0,0,255));
 
     if(soko->is_lost() == 2){ 
 
-        fl_draw("BLOCKED", GAME_SIZE - 2*BOX_SIZE ,5*BOX_SIZE, 7*BOX_SIZE, 2*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);//j'ai creer un fichier original_leveles pour ca
+        fl_draw("BLOCKED", GAME_SIZE - 2*BOX_SIZE ,5*BOX_SIZE, 7*BOX_SIZE, 2*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);
     }
 
-    char chg_lvl_p[20] = "";
-    sprintf(chg_lvl_p,"Previous Level");
-    ButtonUI chg_lvl_prev = ButtonUI{FL_CYAN,  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20, chg_lvl_p}; 
-    button_list.push_back(chg_lvl_prev);
-
-    char chg_lvl_n[20] = "";
-    sprintf(chg_lvl_n,"Next Level");
-    ButtonUI chg_lvl = ButtonUI{FL_CYAN,  2*OFFSET_BUTTON + 3*BOX_SIZE ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20, chg_lvl_n}; 
-    button_list.push_back(chg_lvl);
-    
-    char reset_all_b[20] = "";
-    ButtonUI reset_all = ButtonUI{FL_BLUE, GAME_SIZE + 3*BOX_SIZE-BOX_SIZE/2 ,10*BOX_SIZE + BOX_SIZE/(5/2) , BOX_SIZE/5, BOX_SIZE/5 , 20, reset_all_b}; 
-    button_list.push_back(reset_all);
+    create_button(FL_CYAN,  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20, "Previous Level");
+    create_button(FL_CYAN,  2*OFFSET_BUTTON + 3*BOX_SIZE ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20 ,"Next Level");
+    create_button(FL_BLUE, GAME_SIZE + 3*BOX_SIZE-BOX_SIZE/2 ,10*BOX_SIZE + BOX_SIZE/(5/2) , BOX_SIZE/5, BOX_SIZE/5 , 20, "");
     
 
     fl_font(FL_HELVETICA,20);
 
     fl_draw("reset all data ------>", GAME_SIZE-BOX_SIZE/2 ,9*BOX_SIZE, 2*BOX_SIZE, 3*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);
 
-  for (auto &b:button_list) {
-    b.draw();
+  for (auto &button:button_list) {
+    button.draw();
   }
 }

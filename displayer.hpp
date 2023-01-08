@@ -5,7 +5,7 @@
 #include <FL/Fl_Image.H>
 #include <vector>
 
-const int FREQ=20;
+const int FREQ=60;
 const int GAME_SIZE = 500 ;
 const int BOX_SIZE = GAME_SIZE / 10;
 const int BEGIN_X = 0;
@@ -34,9 +34,23 @@ class Displayer
 
         }
         ~Displayer()=default;
-        void draw(); // cal FREQ/seq
+        void draw();
+        /**
+         * @brief 
+         */
+
         void display_element(const char repr, vector <Vector2D> goal_list, Fl_Image* picture);
         void init_all();
+        /**
+         * @brief: initiate all images
+         * 
+         */
+
+        void draw_menu();
+        void draw_end_game();
+
+        void create_button(Fl_Color color, int pos_x, int pos_y, int size_x, int size_y, int font_size, char txt[20]);
+
         void draw_button();
         /**
          * @brief: check goals in goal_list and draw them
@@ -46,8 +60,6 @@ class Displayer
          * @param picture: the goal's .png
          */
 
-        void draw_menu();
-        void draw_end_game();
 
 };
 

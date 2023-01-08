@@ -593,8 +593,7 @@ void Sokoban::clear_vectors(){
 }
 
 void Sokoban::next_level(int offset_level )
-{ 
-    int MAX_LEVEL = 7;  
+{   
     level = level + offset_level;
 
     if(level<1) level=MAX_LEVEL;

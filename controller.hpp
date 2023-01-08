@@ -17,7 +17,7 @@ class Controller
     vector<Clickable_ButtonUI*> button_list; 
 
     public :
-    Controller(Sokoban *soko): soko{soko}{init();
+    Controller(Sokoban *soko): soko{soko}{button_init();
     };
         ~Controller()=default;
 
@@ -27,8 +27,13 @@ class Controller
          */
 
         void mouseClick(Vector2D mouseLoc);
-        void init();
-        void quit_game() ;
+        void button_init();
+        /**
+         * @brief: construct all the buttons
+         * 
+         */
+
+        void quit_game();
         void change_lvl(int offset_level);
         void reset_game();
         void reset_all_data();
