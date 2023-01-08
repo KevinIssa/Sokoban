@@ -52,6 +52,16 @@ void Sokoban::read_level_file(int level_number){
 
     ifstream level_file("levels.txt");
     string void_line;
+
+
+    string max_buffer;
+    getline(level_file, void_line);
+    max_buffer=void_line.substr(void_line.size() - 3);//take the numbers at the end of the line
+    max_level = stoi(max_buffer);
+
+
+
+
     int readed_level=0;
     while ( getline(level_file, void_line)  ){
         if(void_line[0]==';'){
