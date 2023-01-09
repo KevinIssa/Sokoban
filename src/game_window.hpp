@@ -43,9 +43,9 @@ class Game_window : public Fl_Double_Window
             } 
             if (game){
                 displayer.draw();
-                displayer.draw_button();
+                /* displayer.draw_button(); */
                 
-                controller.listen_game();
+                /* controller.listen_game(); */
             }
         }
 

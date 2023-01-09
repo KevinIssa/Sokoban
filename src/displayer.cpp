@@ -61,6 +61,7 @@ void Displayer::draw(){
     display_element('M', box_list, image_list[7] );
     display_element('H', box_list, image_list[8]  );
     display_element('#', wall_list, image_list[9]);
+    draw_button();
 }
 
 

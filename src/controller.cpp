@@ -4,34 +4,36 @@
 
 int Controller::process_key(int event)
 {
-    Vector2D position = soko->get_pos_player();
 
+    listen_game();
+    Vector2D position = soko->get_pos_player();
+    bool move_flag = false;
     switch(event) //movement asked with arrows or normal keys
     {
         case 'z': case UP_KEY: 
             position.y--;
-            if(soko->check_move(position, NORTH)){soko->play_move(position, NORTH);};
+            if(soko->check_move(position, NORTH)){soko->play_move(position, NORTH);move_flag=true;};
             if(soko->can_tp()){soko->end_tp();};
             soko->fill_box_list();
             break;
         
         case 's': case DOWN_KEY:
             position.y++;
-            if(soko->check_move(position, SOUTH)){soko->play_move(position, SOUTH);};
+            if(soko->check_move(position, SOUTH)){soko->play_move(position, SOUTH);move_flag=true;};
             if(soko->can_tp()){soko->end_tp();};
             soko->fill_box_list();
             break;
         
         case 'q': case LEFT_KEY:
             position.x--;
-            if(soko->check_move(position, WEST)){soko->play_move(position, WEST);};
+            if(soko->check_move(position, WEST)){soko->play_move(position, WEST);move_flag=true;};
             if(soko->can_tp()){soko->end_tp();};
             soko->fill_box_list();
             break;
         
         case 'd': case RIGHT_KEY:
             position.x++;
-            if(soko->check_move(position, EAST)){soko->play_move(position, EAST);};
+            if(soko->check_move(position, EAST)){soko->play_move(position, EAST);move_flag=true;};
             if(soko->can_tp()){soko->end_tp();};
             soko->fill_box_list();
             break;
@@ -42,6 +44,13 @@ int Controller::process_key(int event)
         case 'p':
             quit_game();
     }
+    if(move_flag and soko->can_tp()){
+        soko->end_tp();
+        soko->fill_box_list();
+        listen_game();
+        move_flag=false;
+    };
+    
 return 0;
 }
 
