@@ -1,5 +1,6 @@
 #include "displayer.hpp"
 #include "buttonUI.hpp"
+#include "sokoban.hpp"
 #include <FL/Enumerations.H>
 #include <FL/Fl_Image.H>
 #include <FL/Fl_Window.H>
@@ -12,7 +13,8 @@ void Displayer::display_element(const char cell_repr, vector <Vector2D> goal_lis
 
     for (auto &goal:goal_list){
         current_case = &soko->get_level_cell()[soko->id(goal.x, goal.y)];
-        if (current_case->get_repr() == cell_repr or current_case->get_repr() == ' ')
+        /* if (current_case->get_repr() == cell_repr or current_case->get_value() == ' ' or current_case->get_repr() == ' ') */
+        if (current_case->get_repr() == cell_repr or current_case->get_value() == EMPTY)
 
         {  
             picture->draw(goal.x*BOX_SIZE, goal.y*BOX_SIZE);
@@ -50,17 +52,17 @@ void Displayer::draw(){
     wall_list = soko ->get_wall_cell();
    
 
-    display_element('@', player_pos, image_list[0]  );
-    display_element('.', normal_goals, image_list[1]  );
-    display_element('/', yellow_goals, image_list[2] );
-    display_element('*', purple_goals, image_list[3] );
-    display_element('&',teleporter_cells,image_list[4] );
+    display_element(PLAYER, player_pos, image_list[0]  );
+    display_element(NORMAL_OBJECTIVE, normal_goals, image_list[1]  );
+    display_element(YELLOW_OBJECTIVE, yellow_goals, image_list[2] );
+    display_element(PURPLE_OBJECTIVE, purple_goals, image_list[3] );
+    display_element(TELEPORTER,teleporter_cells,image_list[4] );
 
-    display_element('$', box_list,  image_list[5] );
-    display_element('+', box_list, image_list[6] );
-    display_element('M', box_list, image_list[7] );
-    display_element('H', box_list, image_list[8]  );
-    display_element('#', wall_list, image_list[9]);
+    display_element(NORMAL_BOX, box_list,  image_list[5] );
+    display_element(LIGHT_BOX, box_list, image_list[6] );
+    display_element(PURPLE_BOX, box_list, image_list[7] );
+    display_element(YELLOW_BOX, box_list, image_list[8]  );
+    display_element(WALL, wall_list, image_list[9]);
     draw_button();
 }
 

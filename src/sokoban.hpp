@@ -33,6 +33,7 @@ const char NORMAL_BOX= '$';
 const char LIGHT_BOX= '+';
 const char YELLOW_BOX= 'H';
 const char PURPLE_BOX= 'M';
+const char EMPTY= ' ';
 
 class Sokoban { 
       

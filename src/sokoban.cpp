@@ -9,12 +9,12 @@
 
 int Sokoban::id(int x, int y)
 {
-    return y * level_size.y + x;
+    return y * level_size.x + x;
 }
 
 Vector2D Sokoban::reverse_id(int x)
 {
-    return Vector2D{x%level_size.y, x/level_size.y};
+    return Vector2D{x%level_size.x, x/level_size.x};
 }
 
 void Sokoban::init(){   
@@ -35,7 +35,7 @@ void Sokoban::read_data(ifstream& file , int& data){
 
 void Sokoban::read_data_level(ifstream& file){
 
-    unsigned int offset = level_data[3];//take the number of line to read
+    unsigned int offset = level_data[4];//take the number of line to read
     string void_line, str_line;
     level_s.clear();
 
@@ -316,8 +316,6 @@ int Sokoban::get_goals_count(){
 }
 
 int Sokoban::can_tp(){
-    
-
     for(int i=0 ; i< (int)teleporter_cell.size(); i++ ){
 
         if (id(teleporter_cell[i].x, teleporter_cell[i].y) == id(pos_player.x, pos_player.y)){
@@ -330,6 +328,7 @@ int Sokoban::can_tp(){
             next_tp = id(teleporter_cell[other_tp].x, teleporter_cell[other_tp].y);
         }
     }
+
     return next_tp;
 
 }
@@ -526,6 +525,7 @@ void Sokoban::end_tp(){
     pos_player.x = reverse_id(next_tp).x;
     pos_player.y= reverse_id(next_tp).y;
     
+cout<<"check "<< pos_player.x<<" "<<pos_player.y<<endl;
     next_tp = -1;
     }
 }
