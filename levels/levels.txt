@@ -1,6 +1,6 @@
 007
 ;level = 001
-best_score = 013
+best_score = 016
 limited_step = 100
 dimensionx = 010
 dimensiony = 010
@@ -8,16 +8,17 @@ dimensiony = 010
 ##########
 ### /    #
 ### H    #
+#        #
 #.$ & M* #
 #   .    #
-#        #
 #   +    #
 #   +&   #
 #  #@#   #
 ##########
 
+
 ;level = 002
-best_score = 014
+best_score = 015
 limited_step = 50
 dimensionx = 010
 dimensiony = 010
@@ -26,8 +27,8 @@ dimensiony = 010
 #&  . # &#
 #   $    #
 #        #
-#  .$@   #
 #        #
+#  .$@   #
 #        #
 #    M   #
 #       *#
@@ -35,7 +36,7 @@ dimensiony = 010
 
 
 ;level = 003
-best_score = 029
+best_score = 021
 limited_step = 50
 dimensionx = 010
 dimensiony = 010
@@ -53,7 +54,7 @@ dimensiony = 010
 
 
 ;level = 004
-best_score = 073
+best_score = 075
 limited_step = 200
 dimensionx = 010
 dimensiony = 010
@@ -71,7 +72,7 @@ dimensiony = 010
 
 
 ;level = 005
-best_score = 034
+best_score = 046
 limited_step = 200
 dimensionx = 010
 dimensiony = 010
@@ -89,7 +90,7 @@ dimensiony = 010
 
 
 ;level = 006
-best_score = 064
+best_score = 062
 limited_step = 200
 dimensionx = 010
 dimensiony = 010
@@ -107,7 +108,7 @@ dimensiony = 010
 
 
 ;level = 007
-best_score = 042
+best_score = 050
 limited_step = 200
 dimensionx = 010
 dimensiony = 010

@@ -577,6 +577,7 @@ void Sokoban::reset_level()
 {
     level_cell.clear();
     lost_flag = false;
+    lost_type=0;
     for (auto&c:original_level)
     {
         level_cell.push_back(c);

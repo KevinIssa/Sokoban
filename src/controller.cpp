@@ -51,7 +51,7 @@ int Controller::process_key(int event)
         listen_game();
         move_flag=false;
     };
-    
+  displayer->init_button();  
 return 0;
 }
 
@@ -71,7 +71,6 @@ void Controller::listen_game()
         soko->chg_save_flag();
         soko->next_level(1);
         soko->chg_save_flag();
-        displayer->init_button();
         }
             
         catch(...){
@@ -91,11 +90,13 @@ void Controller::quit_game() {
 void Controller::reset_all_data() {
    
     soko->reset_data();
+    displayer->init_button();
 }
 
 void Controller::change_lvl(int offset_level) {
     
     soko->next_level(offset_level);
+    displayer->init_button();
         
 }
 
@@ -103,6 +104,7 @@ void Controller::reset_game() {
 
     soko->reset_level();
     soko->fill_box_list();
+    displayer->init_button();
     
 }
 
