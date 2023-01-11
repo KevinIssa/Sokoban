@@ -1,28 +1,6 @@
-FLAGS=-std=c++20 -Wall
-COMPILER=g++
-FLAGS += $(shell fltk-config --cxxflags | sed 's/-I/-isystem/g')
-LDFLAGS  += $(shell fltk-config --ldflags)
-
-main: main.cpp sokoban.o controller.o displayer.o
-	${COMPILER} -o soko main.cpp sokoban.o controller.o displayer.o ${FLAGS} ${LDFLAGS} -lfltk -lfltk_images
-
+main: 
+	cd src; make; cd ..
 run:
-	make main && ./soko
-
-sokoban.o: sokoban.cpp sokoban.hpp controller.o
-	${COMPILER} -c sokoban.cpp ${FLAGS} ${LDFLAGS}
-
-controller.o: controller.cpp controller.hpp
-	${COMPILER} -c controller.cpp ${FLAGS} ${LDFLAGS}
-
-displayer.o: displayer.cpp displayer.hpp
-	${COMPILER} -c displayer.cpp ${FLAGS} ${LDFLAGS}
-
-.PHONY: clean
+	cd src; make run; cd ..
 clean:
-	-rm *.o
-
-
-
-
-
+	cd src; make clean; cd ..

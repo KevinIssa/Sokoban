@@ -1,6 +1,7 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
+#include "case.hpp"
 #include <string>
 #include <iostream>
 #include <vector>
@@ -12,7 +13,7 @@ using namespace std;
 class Player : public Case
 {
     public:
-        Player(string name, char value, Vector2D pos, Fl_Color col, Fl_Image *im): Case(name,value, pos, col, im){}
+        Player(char value, Vector2D pos, Fl_Color col): Case(value, pos, col){}
         
 };
 
