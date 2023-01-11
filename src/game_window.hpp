@@ -11,8 +11,8 @@
 
 class Game_window : public Fl_Double_Window 
 {   
-    Controller controller;
     Displayer displayer;
+    Controller controller;
     bool menu=true, game=false;
     int time=0;
     

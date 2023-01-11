@@ -525,7 +525,6 @@ void Sokoban::end_tp(){
     pos_player.x = reverse_id(next_tp).x;
     pos_player.y= reverse_id(next_tp).y;
     
-cout<<"check "<< pos_player.x<<" "<<pos_player.y<<endl;
     next_tp = -1;
     }
 }

@@ -13,7 +13,7 @@ void Displayer::display_element(const char cell_repr, vector <Vector2D> goal_lis
 
     for (auto &goal:goal_list){
         current_case = &soko->get_level_cell()[soko->id(goal.x, goal.y)];
-        /* if (current_case->get_repr() == cell_repr or current_case->get_value() == ' ' or current_case->get_repr() == ' ') */
+
         if (current_case->get_repr() == cell_repr or current_case->get_value() == EMPTY)
 
         {  
