@@ -71,6 +71,7 @@ void Controller::listen_game()
         soko->chg_save_flag();
         soko->next_level(1);
         soko->chg_save_flag();
+        displayer->init_button();
         }
             
         catch(...){

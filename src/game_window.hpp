@@ -18,8 +18,8 @@ class Game_window : public Fl_Double_Window
     
     public:
         Game_window(Sokoban *soko) : Fl_Double_Window (100,100,650,550,"SOKOBAN MKovel + Kevin"), 
-        controller{Controller(soko)}, 
-        displayer{Displayer{soko}}
+        displayer{Displayer{soko}}, 
+        controller{Controller(soko, &displayer)}
         {
             Fl::add_timeout(1.0/FREQ, Timer_CB, this);
         }   
@@ -43,9 +43,6 @@ class Game_window : public Fl_Double_Window
             } 
             if (game){
                 displayer.draw();
-                /* displayer.draw_button(); */
-                
-                /* controller.listen_game(); */
             }
         }
 

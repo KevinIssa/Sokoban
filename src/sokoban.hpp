@@ -11,7 +11,6 @@
 #include <unistd.h>
 #include "case.hpp"
 #include "player.hpp"
-#include "level.hpp"
 #include <fstream>
 
 using namespace std;

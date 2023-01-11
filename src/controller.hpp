@@ -14,10 +14,11 @@ class Controller
 {   
 
     Sokoban *soko;
+    Displayer *displayer;
     vector<Clickable_ButtonUI*> button_list; 
 
     public :
-    Controller(Sokoban *soko): soko{soko}{button_init();
+    Controller(Sokoban *soko, Displayer *displayer): soko{soko}, displayer{displayer}{button_init();
     };
         ~Controller()=default;
 

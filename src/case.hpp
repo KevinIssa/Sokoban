@@ -25,8 +25,8 @@ class Case
 {
     private:
         string name;
-        char value; // for the algorithm
-        char repr; //to draw
+        char value; 
+        char repr; 
         Vector2D position;
         Fl_Color color;
         Fl_Image *image;

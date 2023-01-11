@@ -30,7 +30,7 @@ class Displayer
         vector< Fl_Image*> image_list;
     
     public:
-        Displayer(Sokoban *soko) : soko{soko}{init_all();
+        Displayer(Sokoban *soko) : soko{soko}{init_all();init_button();
 
         }
         ~Displayer()=default;
@@ -61,7 +61,7 @@ class Displayer
          * @param picture: the goal's .png
          */
 
-
+        void init_button();
 };
 
 #endif

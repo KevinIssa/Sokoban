@@ -88,6 +88,69 @@ void Displayer::create_button(Fl_Color color, int pos_x, int pos_y, int size_x, 
 
 void Displayer::draw_button(){
 
+    /* char level[20] = ""; */
+    
+    /* snprintf(level, sizeof(level) ,"%d", soko->get_level()); */
+
+    /* create_button(FL_WHITE, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 50, level); */
+    /* create_button(FL_YELLOW, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON  + BOX_SIZE + OFFSET_BUTTON , 2*BOX_SIZE, BOX_SIZE, 30, "RESET"); */
+    /* create_button(FL_GREEN, GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 2*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 25, "QUIT"); */
+
+    /* char b_score[20] = ""; */
+    /* snprintf(b_score, sizeof(b_score) , "BEST = %d", soko->get_best_score()); */
+
+    /* create_button(FL_RED,  GAME_SIZE + OFFSET_BUTTON , BEGIN_Y + OFFSET_BUTTON + 3*(BOX_SIZE+OFFSET_BUTTON), 2*BOX_SIZE, BOX_SIZE , 15, b_score); */
+
+    /* char score_b[20] = ""; */
+    /* snprintf(score_b, sizeof(score_b), "%d/%d", soko->get_used_step(), soko->get_limited_step()); */
+    
+    /* Fl_Color col = FL_MAGENTA; */
+
+    /* if(soko->get_lost_type() == 1){ */
+    /*     col = FL_RED; */
+    /* } */
+
+    /* create_button(col,  GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE, 25, score_b); */
+
+    /* fl_font(FL_HELVETICA,30); */
+    /* fl_color(fl_rgb_color(0,0,255)); */
+
+    /* if(soko->get_lost_type() == 2){ */ 
+
+    /*     fl_draw("BLOCKED", GAME_SIZE - 2*BOX_SIZE ,5*BOX_SIZE, 7*BOX_SIZE, 2*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false); */
+    /* } */
+
+    /* create_button(FL_CYAN,  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20, "Previous Level"); */
+    /* create_button(FL_CYAN,  2*OFFSET_BUTTON + 3*BOX_SIZE ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20 ,"Next Level"); */
+    /* create_button(FL_BLUE, GAME_SIZE + 3*BOX_SIZE-BOX_SIZE/2 ,10*BOX_SIZE + BOX_SIZE/(5/2) , BOX_SIZE/5, BOX_SIZE/5 , 20, ""); */
+    
+
+    /* fl_font(FL_HELVETICA,20); */
+
+    /* fl_draw("reset all data ------>", GAME_SIZE-BOX_SIZE/2 ,9*BOX_SIZE, 2*BOX_SIZE, 3*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false); */
+    
+
+
+    fl_font(FL_HELVETICA,30);
+    fl_color(fl_rgb_color(0,0,255));
+    if(soko->get_lost_type() == 2){ 
+
+        fl_draw("BLOCKED", GAME_SIZE - 2*BOX_SIZE ,5*BOX_SIZE, 7*BOX_SIZE, 2*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);
+    }
+
+    fl_font(FL_HELVETICA,20);
+
+    fl_draw("reset all data ------>", GAME_SIZE-BOX_SIZE/2 ,9*BOX_SIZE, 2*BOX_SIZE, 3*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);
+ 
+
+  for (auto &button:button_list) {
+    button.draw();
+  }
+}
+
+void Displayer::init_button(){
+    
+    button_list.clear();
     char level[20] = "";
     
     snprintf(level, sizeof(level) ,"%d", soko->get_level());
@@ -111,25 +174,20 @@ void Displayer::draw_button(){
     }
 
     create_button(col,  GAME_SIZE + OFFSET_BUTTON ,8*BOX_SIZE, 2*BOX_SIZE, 2*BOX_SIZE, 25, score_b);
-
-    fl_font(FL_HELVETICA,30);
-    fl_color(fl_rgb_color(0,0,255));
-
-    if(soko->get_lost_type() == 2){ 
-
-        fl_draw("BLOCKED", GAME_SIZE - 2*BOX_SIZE ,5*BOX_SIZE, 7*BOX_SIZE, 2*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);
-    }
-
     create_button(FL_CYAN,  OFFSET_BUTTON ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20, "Previous Level");
     create_button(FL_CYAN,  2*OFFSET_BUTTON + 3*BOX_SIZE ,GAME_SIZE + OFFSET_BUTTON, 3*BOX_SIZE, BOX_SIZE/2 , 20 ,"Next Level");
     create_button(FL_BLUE, GAME_SIZE + 3*BOX_SIZE-BOX_SIZE/2 ,10*BOX_SIZE + BOX_SIZE/(5/2) , BOX_SIZE/5, BOX_SIZE/5 , 20, "");
     
 
-    fl_font(FL_HELVETICA,20);
+    /* fl_font(FL_HELVETICA,20); */
 
-    fl_draw("reset all data ------>", GAME_SIZE-BOX_SIZE/2 ,9*BOX_SIZE, 2*BOX_SIZE, 3*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false);
+    /* fl_draw("reset all data ------>", GAME_SIZE-BOX_SIZE/2 ,9*BOX_SIZE, 2*BOX_SIZE, 3*BOX_SIZE ,FL_ALIGN_CENTER,nullptr,false); */
 
-  for (auto &button:button_list) {
-    button.draw();
-  }
+
+
+
+
+
+
+
 }
